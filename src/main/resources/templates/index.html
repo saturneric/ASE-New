@@ -8,7 +8,7 @@
 <div th:fragment="content">
 	<div class="wrapper">
 		<div th:include="layout::main-header"></div>
-		<div th:include="layout::side-bar"></div>
+		<div th:include="layout::side-bar(username=${username})"></div>
 
 		<div class="main-panel">
 			<div class="content">
@@ -529,7 +529,6 @@
 			</div>
 			<div th:include="layout::footer"></div>
 		</div>
-
 		<div th:include="layout::custom-template"></div>
 	</div>
 </div>
