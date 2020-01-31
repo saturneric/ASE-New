@@ -1,5 +1,35 @@
 package com.codesdream.ase.service;
 
-public interface UserService {
+import com.codesdream.ase.model.User;
+import com.codesdream.ase.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Optional;
+
+public class UserService implements IUserService {
+    @Autowired
+    UserRepository userRepository;
+
+    @Override
+    public List<User> findAll() {
+        return (List<User>) userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> findUserById(long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
 
 }
