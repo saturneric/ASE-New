@@ -1,14 +1,16 @@
 package com.codesdream.ase.service;
 
-import com.codesdream.ase.model.User;
+import com.codesdream.ase.model.pernission.User;
 import com.codesdream.ase.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UserService implements IUserService {
-    @Autowired
+    @Resource
     UserRepository userRepository;
 
     @Override

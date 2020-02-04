@@ -8,13 +8,12 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Spring 框架全局配置类
+ * 主要用于注册或者管理Bean
+ */
 @Configuration
 public class GlobalConfigure {
-    @Resource
-    AppConfigure appConfigure;
 
-    public AppConfigure getAppConfigure() {
-        return appConfigure;
-    }
 
 }

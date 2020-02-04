@@ -1,6 +1,6 @@
 package com.codesdream.ase.repository;
 
-import com.codesdream.ase.model.User;
+import com.codesdream.ase.model.pernission.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

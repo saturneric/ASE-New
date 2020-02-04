@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import java.security.Principal;
 
+/**
+ * 管理界面主页控制器类
+ * 现阶段主要用于管理界面主页
+ */
 @Controller
 public class ASEController {
     @Resource
