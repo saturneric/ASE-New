@@ -43,7 +43,7 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(aseUserDetailService).passwordEncoder(asePasswordEncoder);
+        auth.inMemoryAuthentication().withUser("user").password("password").roles("普通用户");
     }
 
     @Override

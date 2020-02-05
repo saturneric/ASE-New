@@ -13,6 +13,6 @@ public class ASEPasswordEncoder implements PasswordEncoder {
 
     @Override
     public boolean matches(CharSequence charSequence, String s) {
-        return s.equals(DigestUtils.sha256Hex(charSequence.toString()));
+        return s.equals(charSequence.toString());
     }
 }
