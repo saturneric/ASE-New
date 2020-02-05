@@ -1,7 +1,7 @@
-package com.codesdream.ase.model.pernission;
+package com.codesdream.ase.model.permission;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "scope_permit_container")
@@ -15,14 +15,14 @@ public class ScopePermissionContainer {
 
     private String description;
 
+    @OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY,mappedBy="scopePermissionContainer")
+    private Set<FunctionalPermissionContainer> functionalPermissionContainers;
+
     @Column(nullable = false)
     private boolean enabled;
 
     @Column(nullable = false)
     private boolean deleted;
-
-    @ElementCollection
-    private List<Tag> tags;
 
     public int getId() {
         return id;
@@ -62,13 +62,5 @@ public class ScopePermissionContainer {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
     }
 }

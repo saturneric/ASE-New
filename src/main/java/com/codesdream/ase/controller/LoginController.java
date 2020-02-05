@@ -1,6 +1,5 @@
 package com.codesdream.ase.controller;
 
-import com.codesdream.ase.model.pernission.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,6 +1,5 @@
 package com.codesdream.ase.service;
 
-import com.codesdream.ase.model.pernission.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
