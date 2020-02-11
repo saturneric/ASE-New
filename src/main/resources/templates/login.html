@@ -14,7 +14,7 @@
                     <div class="card-header">
                         <h4 class="card-title">登录</h4>
                     </div>
-                    <form th:action="@{/login}" method="post">
+                    <form action="/login" method="post">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="username">用户名</label>
@@ -28,10 +28,9 @@
                         <div class="card-action">
                             <button type="submit" class="btn btn-primary btn-block"><b>登录</b></button>
                         </div>
+                        <button type="submit" class="btn-link"><b>忘记密码</b></button>
+                        <button type="submit" class="btn-link"><b>注册账号</b></button>
                     </form>
-                    <div th:if="${param.error}">
-                        用户名或密码错误
-                    </div>
                 </div>
             </div>
         </div>
