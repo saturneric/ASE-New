@@ -1,6 +1,7 @@
 package com.codesdream.ase.model.permission;
 
 import com.codesdream.ase.component.UserRolesListGenerator;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,6 +10,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {
@@ -27,101 +29,56 @@ public class User implements UserDetails {
     @Column(nullable = true)
     private String phone_number;
 
-    // 用户关联标签
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "user_tag",
-            joinColumns = {
-                @JoinColumn(name = "user_id", referencedColumnName = "id")
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "tag_id", referencedColumnName = "id")
-            })
-    private Set<Tag> tags;
+    // 账号是否过期
+    private boolean accountNonExpired;
 
-    // 是否启用
-    @Column(nullable =  false)
-    private boolean enabled;
+    // 账号是否被封禁
+    private boolean accountNonLocked;
+
+    // 证书是否过期
+    private boolean credentialsNonExpired;
+
+    // 账号是否激活
+    private  boolean enabled;
+
     // 是否删除
     @Column(nullable = false)
     private boolean deleted;
 
+    // 用户关联标签
+    @ManyToMany(cascade = CascadeType.ALL, fetch =  FetchType.LAZY)
+    private Set<Tag> tags;
+
+
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.enabled = true;
-        this.deleted = false;
-        this.tags = new HashSet<Tag>();
+
+        initUserDefault();
     }
 
     public User() {
         this.username = null;
         this.password = null;
-        this.enabled = true;
         this.deleted = false;
-        this.tags = new HashSet<Tag>();
+
+        initUserDefault();
     }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return isEnabled();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return isEnabled();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return isEnabled();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    // 用默认的方式初始化User对象的值
+    private void initUserDefault(){
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
+        this.deleted = false;
+        this.tags = new HashSet<>();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         UserRolesListGenerator userRolesListGenerator = new UserRolesListGenerator();
-        return userRolesListGenerator.GenerateRoles(this);
+        return userRolesListGenerator.generateRoles(this);
     }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
 }
