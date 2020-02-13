@@ -1,34 +1,41 @@
 package com.codesdream.ase.component;
 
-import com.codesdream.ase.model.permission.FunctionalPermissionContainer;
-import com.codesdream.ase.model.permission.PermissionContainersCollection;
-import com.codesdream.ase.model.permission.Tag;
-import com.codesdream.ase.model.permission.User;
-import com.codesdream.ase.repository.UserRepository;
+import com.codesdream.ase.model.permission.*;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
+/**
+ * 生成功能性权限容器列表
+ */
+@Component
 public class UserFunctionalPermissionContainersListGenerator {
     @Resource
-    UserTagsListGenerator userTagsListGenerator;
+    UserFunctionalScopeRelationsListGenerator functionalScopeRelationsListGenerator;
 
-    @Resource
-    UserRepository userRepository;
+    public Collection<FunctionalPermissionContainer> generateFunctionalContainers(
+            Collection<FunctionalScopeRelation> functionalScopeRelations){
+        Collection<FunctionalPermissionContainer> functionalPermissionContainers
+                = new ArrayList<>();
 
-    public Collection<FunctionalPermissionContainer> generateFunctionalContainers(User user){
-        Collection<Tag> tags = userTagsListGenerator.generateTags(user);
-        Collection<FunctionalPermissionContainer> functionalPermissionContainers = new ArrayList<>();
-        // 等待添加
+        for (FunctionalScopeRelation functionalScopeRelation : functionalScopeRelations){
+            functionalPermissionContainers.add(functionalScopeRelation.getFunctionalPermissionContainer());
+        }
+
         return functionalPermissionContainers;
     }
 
-    public Collection<FunctionalPermissionContainer> generateFunctionalContainers(String username){
-        Optional<User> user = userRepository.findByUsername(username);
-        if(!user.isPresent()) throw new RuntimeException("User Not Found");
-        return generateFunctionalContainers(user.get());
+    public Collection<FunctionalPermissionContainer> generateFunctionalPermissionContainers(User user){
+        return generateFunctionalContainers(
+                functionalScopeRelationsListGenerator.generateFunctionalScopeRelations(user)
+        );
+    }
+
+    public Collection<FunctionalPermissionContainer> generateFunctionalPermissionContainers(String username){
+        return generateFunctionalContainers(
+                functionalScopeRelationsListGenerator.generateFunctionalScopeRelations(username)
+        );
     }
 }

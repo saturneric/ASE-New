@@ -49,6 +49,8 @@ public class User implements UserDetails {
     @ManyToMany(cascade = CascadeType.ALL, fetch =  FetchType.LAZY)
     private Set<Tag> tags;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserDetail userDetail;
 
 
     public User(String username, String password) {

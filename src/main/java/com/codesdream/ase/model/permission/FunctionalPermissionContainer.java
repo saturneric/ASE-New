@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -38,8 +39,17 @@ public class FunctionalPermissionContainer {
     @Column(nullable = false)
     private boolean deleted;
 
+    public FunctionalPermissionContainer(){
+        initDefault();
+    }
+
     public FunctionalPermissionContainer(String name, String description) {
         this.name = name;
         this.description = description;
+        initDefault();
+    }
+
+    private void initDefault(){
+        this.roles = new LinkedList<>();
     }
 }

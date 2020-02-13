@@ -3,6 +3,7 @@ package com.codesdream.ase.model.permission;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -17,6 +18,9 @@ public class ScopePermissionContainer {
     private String name;
 
     private String description;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Tag> tags;
 
     @Column(nullable = false)
     private boolean enabled;

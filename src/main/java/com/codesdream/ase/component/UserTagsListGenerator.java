@@ -1,5 +1,6 @@
 package com.codesdream.ase.component;
 
+import com.codesdream.ase.model.permission.ScopePermissionContainer;
 import com.codesdream.ase.model.permission.Tag;
 import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.repository.UserRepository;
@@ -10,10 +11,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * 生成用户标签列表
+ */
 @Component
 public class UserTagsListGenerator {
     @Resource
     UserRepository userRepository;
+
+    public Collection<Tag> generateTags(ScopePermissionContainer scopePermissionContainer){
+        return new ArrayList<>(scopePermissionContainer.getTags());
+    }
 
     public Collection<Tag> generateTags(User user){
         return new ArrayList<Tag>(user.getTags());
