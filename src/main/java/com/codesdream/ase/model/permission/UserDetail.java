@@ -29,4 +29,10 @@ public class UserDetail {
     // 所属专业
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private BaseMajor baseMajor;
+
+    // 真实姓名
+    private String realName;
+
+    // 学生ID
+    private String studentID;
 }

@@ -34,14 +34,14 @@ public class UserService implements IUserService {
 
     @Override
     public User save(User user) {
+        // 查找用户名是否已经被注册
         if(userRepository.findByUsername(user.getUsername()).isPresent())
             throw new RuntimeException("Username Already Exists");
         user.setPassword(asePasswordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
-        user.setDeleted(false);
         return userRepository.save(user);
     }
 
+    // 获得一个默认初始化的用户对象
     @Override
     public User getDefaultUser() {
         return new User();
