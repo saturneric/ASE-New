@@ -1,4 +1,4 @@
-package com.codesdream.ase.model.permission;
+package com.codesdream.ase.model.activity;
 
 import lombok.Data;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -23,14 +23,8 @@ public class Period {
     @Column(name = "end_time", nullable = false)
     private Date endTime;
 
-    //启用状体
+    //启用状态
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
-
-    public Period(Date startTime, Date endTime, boolean enabled) {
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.enabled = enabled;
-    }
 
 }

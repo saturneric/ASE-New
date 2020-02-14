@@ -1,7 +1,6 @@
 package com.codesdream.ase.model.permission;
 
 import javax.persistence.*;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
