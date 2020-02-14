@@ -1,24 +1,44 @@
 package com.codesdream.ase.component;
 
 import com.codesdream.ase.model.permission.FunctionalPermissionContainer;
-import com.codesdream.ase.model.permission.Tag;
 import com.codesdream.ase.model.permission.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
+/**
+ * 生成用户访问权限角色列表
+ */
 @Component
 public class UserRolesListGenerator {
-    public Collection<GrantedAuthority> GenerateRoles(User user){
+    @Resource
+    UserFunctionalPermissionContainersListGenerator functionalPermissionContainersListGenerator;
+
+    public Collection<GrantedAuthority> generateRoles(
+            Collection<FunctionalPermissionContainer> functionalPermissionContainers){
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        for(Tag tag : user.getTags()){
-            for(FunctionalPermissionContainer functionalPermissionContainer : tag.getFunctionalPermissionContainers()){
-                authorities.add(new SimpleGrantedAuthority(functionalPermissionContainer.getName()));
+        for(FunctionalPermissionContainer functionalPermissionContainer :functionalPermissionContainers){
+            for(String role :functionalPermissionContainer.getRoles()){
+                authorities.add(new SimpleGrantedAuthority(role));
             }
         }
         return authorities;
+    }
+
+    public Collection<GrantedAuthority> generateRoles(String username){
+        return generateRoles(
+                functionalPermissionContainersListGenerator.generateFunctionalPermissionContainers(username)
+        );
+    }
+
+    public Collection<GrantedAuthority> generateRoles(User user){
+        return generateRoles(
+                functionalPermissionContainersListGenerator.generateFunctionalPermissionContainers(user)
+        );
     }
 }

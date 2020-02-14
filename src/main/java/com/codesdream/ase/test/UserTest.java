@@ -60,7 +60,7 @@ public class UserTest {
         // 添加为标签功能性权限容器
         HashSet<FunctionalPermissionContainer> functionalPermissionContainers = new HashSet<>();
         functionalPermissionContainers.add(functionalPermissionContainer);
-        tag.setFunctionalPermissionContainers(functionalPermissionContainers);
+        // 等待添加
 
         // 为用户添加标签
         HashSet<Tag> tags = new HashSet<>();
