@@ -3,10 +3,9 @@ package com.codesdream.ase.model.permission;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+
 
 /**
  * 功能性权限容器

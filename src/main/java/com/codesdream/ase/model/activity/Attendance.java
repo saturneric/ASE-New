@@ -24,8 +24,7 @@ public class Attendance {
     private boolean isOnline;
 
     //打卡时段列表
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "attendance")
-    @JoinColumn(name = "a_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Period> clockInPeriods;
 
     //打卡方式，0表示被扫，1表示扫

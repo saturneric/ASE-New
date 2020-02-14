@@ -1,7 +1,7 @@
 package com.codesdream.ase.model.permission;
 
 import lombok.Data;
-import org.hibernate.annotations.ManyToAny;
+
 
 import javax.persistence.*;
 import java.util.HashSet;

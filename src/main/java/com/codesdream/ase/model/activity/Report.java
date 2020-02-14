@@ -2,25 +2,23 @@ package com.codesdream.ase.model.activity;
 
 import com.codesdream.ase.model.permission.User;
 import lombok.Data;
-import org.dom4j.QName;
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.WhereJoinTable;
-import org.springframework.context.annotation.EnableMBeanExport;
 
 import javax.persistence.*;
+import java.awt.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "activity",
+@Table(name = "report",
         indexes = {
-            @Index(name = "act_index1", columnList = "title", unique = true),
-            @Index(name = "act_index2", columnList = "creator")
+            @Index(name = "report_index1", columnList = "title"),
+            @Index(name = "report_index2", columnList = "creator")
         }
 )
-public class Activity {
+public class Report {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -54,10 +52,10 @@ public class Activity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "act_participate",
             joinColumns = {
-                @JoinColumn(name = "act_id")
+                    @JoinColumn(name = "act_id")
             },
             inverseJoinColumns = {
-                @JoinColumn(name = "participate_id")
+                    @JoinColumn(name = "participate_id")
             }
     )
     private Set<User> participateGroup;
@@ -66,10 +64,10 @@ public class Activity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "act_participated",
             joinColumns = {
-                @JoinColumn(name = "act_id" )
+                    @JoinColumn(name = "act_id" )
             },
             inverseJoinColumns = {
-                @JoinColumn(name = "participated_id")
+                    @JoinColumn(name = "participated_id")
             }
     )
     private Set<User> participatedGroup;
@@ -78,10 +76,10 @@ public class Activity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "act_sign",
             joinColumns = {
-                @JoinColumn(name = "act_id")
+                    @JoinColumn(name = "act_id")
             },
             inverseJoinColumns = {
-                @JoinColumn(name = "sign_id")
+                    @JoinColumn(name = "sign_id")
             }
     )
     private Set<User> signGroup;
@@ -90,10 +88,10 @@ public class Activity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "act_signed",
             joinColumns = {
-                @JoinColumn(name = "act_id")
+                    @JoinColumn(name = "act_id")
             },
             inverseJoinColumns = {
-                @JoinColumn(name = "signed_id")
+                    @JoinColumn(name = "signed_id")
             }
     )
     private Set<User> signedGroup;
@@ -102,10 +100,10 @@ public class Activity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "act_vis",
             joinColumns = {
-                @JoinColumn(name = "act_id")
+                    @JoinColumn(name = "act_id")
             },
             inverseJoinColumns = {
-                @JoinColumn(name = "vis_id")
+                    @JoinColumn(name = "vis_id")
             }
     )
     private Set<User> visibleGroup;
@@ -114,10 +112,10 @@ public class Activity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "act_inform",
             joinColumns = {
-                @JoinColumn(name = "act_id")
+                    @JoinColumn(name = "act_id")
             },
             inverseJoinColumns = {
-                @JoinColumn(name = "inform_id")
+                    @JoinColumn(name = "inform_id")
             }
     )
     private Set<User> informGroup;
@@ -126,33 +124,27 @@ public class Activity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "act_informed",
             joinColumns = {
-                @JoinColumn(name = "act_id")
+                    @JoinColumn(name = "act_id")
             },
             inverseJoinColumns = {
-                @JoinColumn(name = "informed_id")
+                    @JoinColumn(name = "informed_id")
             }
     )
     private Set<User> informedGroup;
 
     //计划开始时间
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "plan_period")
     private Period planPeriod;
 
     //实际开始时间
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "real_period")
     private Period realPeriod;
-
-    //提前提醒时间
-    @Column(name = "remind_time", nullable = true)
-    private Date remindTime;
-
-    //附件组
-    @ElementCollection(targetClass = java.lang.String.class)
-    private List<String> enclosures;
 
     //主要负责人
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "chief_manager", nullable = false)
     private User chiefManager;
 
     //次要负责人
@@ -160,19 +152,27 @@ public class Activity {
     @JoinColumn(name = "act_id")
     private List<User> assistManagers;
 
-    //是否开始
-    @JoinColumn(name = "is_on", nullable = false)
-    boolean isOn;
-
-    //是否结束
-    @JoinColumn(name = "is_off", nullable = false)
-    boolean isOff;
 
     //考勤安排
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "attendance")
     private Attendance attendance;
 
-    //活动报告
+    //活动笔记
+    @Column(name = "notes")
+    private String notes;
+
+    //图表
+    @ElementCollection(targetClass = java.lang.String.class)
+    @Column(name = "charts")
+    private List<String> charts;
+
+    //附件url
+    @Column(name = "enclosure")
+    private String enclosure;
+
+    //活动
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Report report;
+    @JoinColumn(name = "activity")
+    private Activity activity;
 }
