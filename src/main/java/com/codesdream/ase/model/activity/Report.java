@@ -11,12 +11,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "report",
-        indexes = {
-            @Index(name = "report_index1", columnList = "title"),
-            @Index(name = "report_index2", columnList = "creator")
-        }
-)
+@Table(name = "report")
 public class Report {
 
     @Id

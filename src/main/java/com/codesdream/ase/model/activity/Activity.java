@@ -2,10 +2,6 @@ package com.codesdream.ase.model.activity;
 
 import com.codesdream.ase.model.permission.User;
 import lombok.Data;
-import org.dom4j.QName;
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.WhereJoinTable;
-import org.springframework.context.annotation.EnableMBeanExport;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,23 +10,18 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "activity",
-        indexes = {
-            @Index(name = "act_index1", columnList = "title", unique = true),
-            @Index(name = "act_index2", columnList = "creator")
-        }
-)
+@Table(name = "activity")
 public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     //活动标题
-    @Column(nullable = false, unique = true)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
     //创建人
-    @Column(nullable = false)
+    @Column(name = "creator", nullable = false)
     private String creator;
 
     //活动类型
