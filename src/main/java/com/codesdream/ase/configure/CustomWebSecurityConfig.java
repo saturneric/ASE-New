@@ -20,10 +20,10 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+    @Resource
     ASEUserDetailsService aseUserDetailService;
 
-    @Autowired
+    @Resource
     ASEPasswordEncoder asePasswordEncoder;
 
     @Override
@@ -33,9 +33,8 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable().formLogin()
                 .and()
-                .formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/").permitAll()
-                .usernameParameter("username")
-                .passwordParameter("password")
+                .formLogin().loginPage("/login")
+                .permitAll().defaultSuccessUrl("/").permitAll()
                 .and()
                 .logout().permitAll();
 
@@ -43,13 +42,14 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user").password("password").roles("普通用户");
+        auth.userDetailsService(aseUserDetailService)
+                .passwordEncoder(asePasswordEncoder);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/assets/**");
+                .antMatchers("/assets/**", "/register/**", "/forget/**", "/not_found/**");
     }
 }

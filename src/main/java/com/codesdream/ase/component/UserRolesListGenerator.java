@@ -2,6 +2,7 @@ package com.codesdream.ase.component;
 
 import com.codesdream.ase.model.permission.FunctionalPermissionContainer;
 import com.codesdream.ase.model.permission.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -16,8 +17,13 @@ import java.util.Optional;
  */
 @Component
 public class UserRolesListGenerator {
-    @Resource
-    UserFunctionalPermissionContainersListGenerator functionalPermissionContainersListGenerator;
+
+    private UserFunctionalPermissionContainersListGenerator functionalPermissionContainersListGenerator;
+
+    public UserRolesListGenerator(){
+        this.functionalPermissionContainersListGenerator =
+                new UserFunctionalPermissionContainersListGenerator();
+    }
 
     public Collection<GrantedAuthority> generateRoles(
             Collection<FunctionalPermissionContainer> functionalPermissionContainers){
@@ -37,6 +43,7 @@ public class UserRolesListGenerator {
     }
 
     public Collection<GrantedAuthority> generateRoles(User user){
+
         return generateRoles(
                 functionalPermissionContainersListGenerator.generateFunctionalPermissionContainers(user)
         );

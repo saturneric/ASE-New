@@ -16,8 +16,13 @@ import java.util.Optional;
  */
 @Component
 public class UserPermissionContainersCollectionsListGenerator {
-    @Resource
-    UserTagsListGenerator userTagsListGenerator;
+
+    private UserTagsListGenerator userTagsListGenerator;
+
+    public UserPermissionContainersCollectionsListGenerator(){
+        this.userTagsListGenerator =
+                new UserTagsListGenerator();
+    }
 
     public Collection<PermissionContainersCollection> generatePermissionContainerCollections(
             Collection<Tag> tags){

@@ -25,10 +25,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    // 手机号
-    @Column(nullable = true)
-    private String phone_number;
-
     // 账号是否过期
     private boolean accountNonExpired;
 
@@ -57,7 +53,7 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
 
-        initUserDefault();
+        initDefault();
     }
 
     public User() {
@@ -65,16 +61,18 @@ public class User implements UserDetails {
         this.password = null;
         this.deleted = false;
 
-        initUserDefault();
+        initDefault();
     }
 
     // 用默认的方式初始化User对象的值
-    private void initUserDefault(){
+    private void initDefault(){
         this.accountNonExpired = true;
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.deleted = false;
+        this.enabled = true;
         this.tags = new HashSet<>();
+        this.userDetail = new UserDetail();
     }
 
     @Override

@@ -12,4 +12,7 @@ public interface IUserService {
    Optional<User> findUserById(int id);
    Optional<User> findUserByUsername(String username);
    User save(User user);
+   // 获得默认用户
+   User getDefaultUser();
+
 }

@@ -12,8 +12,13 @@ import java.util.Collection;
  */
 @Component
 public class UserFunctionalPermissionContainersListGenerator {
-    @Resource
-    UserFunctionalScopeRelationsListGenerator functionalScopeRelationsListGenerator;
+
+    private UserFunctionalScopeRelationsListGenerator functionalScopeRelationsListGenerator;
+
+    public UserFunctionalPermissionContainersListGenerator(){
+        this.functionalScopeRelationsListGenerator =
+                new UserFunctionalScopeRelationsListGenerator();
+    }
 
     public Collection<FunctionalPermissionContainer> generateFunctionalContainers(
             Collection<FunctionalScopeRelation> functionalScopeRelations){
