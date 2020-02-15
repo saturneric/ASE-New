@@ -1,6 +1,7 @@
 package com.codesdream.ase.model.permission;
 
 import com.codesdream.ase.component.UserRolesListGenerator;
+import com.codesdream.ase.model.activity.UserActivity;
 import com.codesdream.ase.service.UserService;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -55,6 +56,9 @@ public class User implements UserDetails {
     // 用户详细信息
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserDetail userDetail;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserActivity userActivity;
 
     // 用户认证表
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
