@@ -1,23 +1,22 @@
 package com.codesdream.ase.component;
 
 import com.codesdream.ase.model.permission.*;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * 生成功能性权限容器列表
  */
-@Component
 public class UserFunctionalPermissionContainersListGenerator {
 
     private UserFunctionalScopeRelationsListGenerator functionalScopeRelationsListGenerator;
 
-    public UserFunctionalPermissionContainersListGenerator(){
-        this.functionalScopeRelationsListGenerator =
-                new UserFunctionalScopeRelationsListGenerator();
+    public UserFunctionalPermissionContainersListGenerator(
+            UserFunctionalScopeRelationsListGenerator userFunctionalScopeRelationsListGenerator)
+    {
+        if(userFunctionalScopeRelationsListGenerator == null) throw new NullPointerException();
+        this.functionalScopeRelationsListGenerator = userFunctionalScopeRelationsListGenerator;
     }
 
     public Collection<FunctionalPermissionContainer> generateFunctionalContainers(

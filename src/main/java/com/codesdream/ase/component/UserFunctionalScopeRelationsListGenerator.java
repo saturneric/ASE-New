@@ -3,23 +3,23 @@ package com.codesdream.ase.component;
 import com.codesdream.ase.model.permission.FunctionalScopeRelation;
 import com.codesdream.ase.model.permission.PermissionContainersCollection;
 import com.codesdream.ase.model.permission.User;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * 生成功能性权限容器与范围性权限容器关联对列表
  */
-@Component
 public class UserFunctionalScopeRelationsListGenerator {
 
     private UserPermissionContainersCollectionsListGenerator userPermissionContainersCollectionsListGenerator;
 
-    public UserFunctionalScopeRelationsListGenerator(){
+    public UserFunctionalScopeRelationsListGenerator(
+            UserPermissionContainersCollectionsListGenerator userPermissionContainersCollectionsListGenerator)
+    {
+        if(userPermissionContainersCollectionsListGenerator == null) throw new NullPointerException();
         this.userPermissionContainersCollectionsListGenerator =
-                new UserPermissionContainersCollectionsListGenerator();
+                userPermissionContainersCollectionsListGenerator;
     }
 
     public Collection<FunctionalScopeRelation> generateFunctionalScopeRelations(

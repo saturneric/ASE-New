@@ -1,10 +1,13 @@
 package com.codesdream.ase.model.permission;
 
 import com.codesdream.ase.component.UserRolesListGenerator;
+import com.codesdream.ase.service.UserService;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,6 +17,10 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {
+
+    @Resource
+    private transient UserService userService;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -45,8 +52,13 @@ public class User implements UserDetails {
     @ManyToMany(cascade = CascadeType.ALL, fetch =  FetchType.LAZY)
     private Set<Tag> tags;
 
+    // 用户详细信息
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserDetail userDetail;
+
+    // 用户认证表
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserAuth userAuth;
 
 
     public User(String username, String password) {
@@ -73,12 +85,12 @@ public class User implements UserDetails {
         this.enabled = true;
         this.tags = new HashSet<>();
         this.userDetail = new UserDetail();
+        this.userAuth = new UserAuth();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        UserRolesListGenerator userRolesListGenerator = new UserRolesListGenerator();
-        return userRolesListGenerator.generateRoles(this);
+        return userService.getUserAuthorities(this);
     }
 
 }

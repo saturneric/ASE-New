@@ -47,6 +47,7 @@ public class UserTest {
         assertTrue(user.isEnabled());
         assertFalse(user.isDeleted());
     }
+
     @Test
     public void UserBaseTest_2(){
         // 用户

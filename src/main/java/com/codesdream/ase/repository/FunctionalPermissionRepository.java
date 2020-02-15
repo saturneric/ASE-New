@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface FunctionalPermissionRepository extends CrudRepository<FunctionalPermissionContainer, Integer> {
-    Optional<FunctionalPermissionRepository> findByName(String name);
+    Optional<FunctionalPermissionContainer> findByName(String name);
 }

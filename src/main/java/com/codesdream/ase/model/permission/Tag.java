@@ -26,7 +26,7 @@ public class Tag {
     private String description;
 
     // 标签关联用户
-    @ManyToMany(mappedBy = "tags", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Set<User> users;
 
     // 启用标志

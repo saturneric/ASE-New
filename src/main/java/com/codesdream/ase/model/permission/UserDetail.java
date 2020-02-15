@@ -35,4 +35,7 @@ public class UserDetail {
 
     // 学生ID
     private String studentID;
+
+    // 在校状态
+    private boolean atSchool;
 }

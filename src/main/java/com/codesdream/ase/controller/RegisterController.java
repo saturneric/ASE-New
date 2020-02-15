@@ -49,8 +49,8 @@ public class RegisterController {
             if (password.equals(retry_password)) {
                 user.setPassword(password);
                 userService.save(user);
-
-                return "index";
+                // 返回登录界面
+                return "login";
             }
 
         }

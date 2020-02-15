@@ -2,27 +2,25 @@ package com.codesdream.ase.component;
 
 import com.codesdream.ase.model.permission.FunctionalPermissionContainer;
 import com.codesdream.ase.model.permission.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 /**
  * 生成用户访问权限角色列表
  */
-@Component
+
 public class UserRolesListGenerator {
 
     private UserFunctionalPermissionContainersListGenerator functionalPermissionContainersListGenerator;
 
-    public UserRolesListGenerator(){
+    public UserRolesListGenerator(
+            UserFunctionalPermissionContainersListGenerator userFunctionalPermissionContainersListGenerator)
+    {
         this.functionalPermissionContainersListGenerator =
-                new UserFunctionalPermissionContainersListGenerator();
+                userFunctionalPermissionContainersListGenerator;
     }
 
     public Collection<GrantedAuthority> generateRoles(

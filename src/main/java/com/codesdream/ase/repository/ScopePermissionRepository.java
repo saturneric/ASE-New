@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface ScopePermissionRepository extends CrudRepository<ScopePermissionContainer, Integer> {
-    Optional<ScopePermissionRepository> findByName(String name);
+    Optional<ScopePermissionContainer> findByName(String name);
 }
