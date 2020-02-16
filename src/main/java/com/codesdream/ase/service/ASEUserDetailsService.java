@@ -1,5 +1,6 @@
 package com.codesdream.ase.service;
 
+import com.codesdream.ase.component.UserAuthoritiesGenerator;
 import com.codesdream.ase.model.permission.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +15,10 @@ import java.util.Optional;
 public class ASEUserDetailsService implements UserDetailsService {
 
     @Resource
-    UserService userService;
+    IUserService userService;
+
+    @Resource
+    UserAuthoritiesGenerator userAuthoritiesGenerator;
 
     @Override
     @Transactional
@@ -27,6 +31,7 @@ public class ASEUserDetailsService implements UserDetailsService {
         else {
             System.out.println("Returning user information");
             System.out.println("User Password: "+user.get().getPassword());
+            user.get().setAuthorities(userAuthoritiesGenerator.grantedAuthorities(user.get()));
             return user.get();
         }
     }

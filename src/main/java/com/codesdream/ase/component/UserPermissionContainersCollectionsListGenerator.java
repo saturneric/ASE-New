@@ -3,6 +3,7 @@ package com.codesdream.ase.component;
 import com.codesdream.ase.model.permission.PermissionContainersCollection;
 import com.codesdream.ase.model.permission.Tag;
 import com.codesdream.ase.model.permission.User;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,6 +11,7 @@ import java.util.Collection;
 /**
  * 生成权限容器集合列表
  */
+@Component
 public class UserPermissionContainersCollectionsListGenerator {
 
     private UserTagsListGenerator userTagsListGenerator;

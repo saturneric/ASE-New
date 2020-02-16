@@ -14,6 +14,7 @@ import java.util.Optional;
 /**
  * 生成用户标签列表
  */
+@Component
 public class UserTagsListGenerator {
     @Resource
     UserRepository userRepository;
