@@ -23,16 +23,8 @@ public class ASEUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        System.out.println("User: " + s);
-        Optional<User> user = userService.findUserByUsername(s);
-        if(!user.isPresent()){
-            throw new UsernameNotFoundException("User Not Found");
-        }
-        else {
-            System.out.println("Returning user information");
-            System.out.println("User Password: "+user.get().getPassword());
-            user.get().setAuthorities(userAuthoritiesGenerator.grantedAuthorities(user.get()));
-            return user.get();
-        }
+        User user = userService.findUserByUsername(s);
+        user.setAuthorities(userAuthoritiesGenerator.grantedAuthorities(user));
+        return user;
     }
 }

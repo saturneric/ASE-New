@@ -33,9 +33,6 @@ public class UserDetail {
     // 真实姓名
     private String realName;
 
-    // 学生ID
-    private String studentID;
-
     // 在校状态
     private boolean atSchool;
 }

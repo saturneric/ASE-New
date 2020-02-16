@@ -1,10 +1,12 @@
 package com.codesdream.ase.service;
 
 import com.codesdream.ase.component.ASEPasswordEncoder;
+import com.codesdream.ase.component.ASEUsernameEncoder;
 import com.codesdream.ase.component.UserRolesListGenerator;
 import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,7 +23,10 @@ public class UserService implements IUserService {
     UserRepository userRepository;
 
     @Resource
-    ASEPasswordEncoder asePasswordEncoder;
+    ASEPasswordEncoder passwordEncoder;
+
+    @Resource
+    ASEUsernameEncoder usernameEncoder;
 
     @Override
     public List<User> findAll() {
@@ -34,8 +39,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Optional<User> findUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findUserByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if(!user.isPresent()) throw new UsernameNotFoundException("User Not Found");
+        return user.get();
     }
 
     @Override
@@ -45,8 +52,14 @@ public class UserService implements IUserService {
 
     @Override
     public void updatePassword(User user, String password) {
-        user.setPassword(asePasswordEncoder.encode(password));
+        user.setPassword(passwordEncoder.encode(password));
         update(user);
+    }
+
+    @Override
+    public void generateRandomUsernameByStudentID(User user, String id) {
+        user.getUserAuth().setStudentID(id);
+        user.setUsername(usernameEncoder.encode(id));
     }
 
     @Override
@@ -54,7 +67,7 @@ public class UserService implements IUserService {
         // 查找用户名是否已经被注册
         if(userRepository.findByUsername(user.getUsername()).isPresent())
             throw new RuntimeException("Username Already Exists");
-        user.setPassword(asePasswordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
