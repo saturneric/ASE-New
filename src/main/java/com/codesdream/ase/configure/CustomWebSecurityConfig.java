@@ -1,6 +1,7 @@
 package com.codesdream.ase.configure;
 
 import com.codesdream.ase.component.ASEPasswordEncoder;
+import com.codesdream.ase.component.ASESecurityAuthenticationProvider;
 import com.codesdream.ase.service.ASEUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,9 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     ASEPasswordEncoder asePasswordEncoder;
 
+    @Resource
+    ASESecurityAuthenticationProvider aseSecurityAuthenticationProvider;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -34,7 +38,7 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable().formLogin()
                 .and()
                 .formLogin().loginPage("/login")
-                .permitAll().defaultSuccessUrl("/").permitAll()
+                .permitAll().defaultSuccessUrl("/home").permitAll()
                 .and()
                 .logout().permitAll();
 
@@ -42,7 +46,8 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(aseUserDetailService)
+        auth.authenticationProvider(aseSecurityAuthenticationProvider)
+                .userDetailsService(aseUserDetailService)
                 .passwordEncoder(asePasswordEncoder);
     }
 

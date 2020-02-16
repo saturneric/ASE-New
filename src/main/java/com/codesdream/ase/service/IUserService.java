@@ -16,13 +16,16 @@ public interface IUserService {
    List<User> findAll();
 
    Optional<User> findUserById(int id);
-   Optional<User> findUserByUsername(String username);
+   User findUserByUsername(String username);
 
    // 获得用户所有的权限角色
    Collection<? extends GrantedAuthority> getUserAuthorities(User user);
 
    // 更新用户的密码
    void updatePassword(User user, String password);
+
+   // 生成随机用户名
+   void generateRandomUsernameByStudentID(User user, String id);
 
    User save(User user);
 
