@@ -1,10 +1,11 @@
-package com.codesdream.ase.component;
+package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.model.permission.PermissionContainersCollection;
 import com.codesdream.ase.model.permission.Tag;
 import com.codesdream.ase.model.permission.User;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -13,14 +14,8 @@ import java.util.Collection;
  */
 @Component
 public class UserPermissionContainersCollectionsListGenerator {
-
+    @Resource
     private UserTagsListGenerator userTagsListGenerator;
-
-    public UserPermissionContainersCollectionsListGenerator(UserTagsListGenerator userTagsListGenerator)
-    {
-        if(userTagsListGenerator == null) throw new NullPointerException();
-        this.userTagsListGenerator = userTagsListGenerator;
-    }
 
     public Collection<PermissionContainersCollection> generatePermissionContainerCollections(
             Collection<Tag> tags){

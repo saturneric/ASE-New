@@ -5,18 +5,15 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * 学院基本信息
+ * 政治面貌
  */
 @Data
 @Entity
-@Table(name = "base_college")
-public class BaseCollege {
+@Table(name = "base_political_status")
+public class BasePoliticalStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String name;
-
-    // 学院代码
-    private int number;
+    private  String name;
 }

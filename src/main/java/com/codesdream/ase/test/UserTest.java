@@ -3,7 +3,7 @@ package com.codesdream.ase.test;
 import com.codesdream.ase.model.permission.FunctionalPermissionContainer;
 import com.codesdream.ase.model.permission.Tag;
 import com.codesdream.ase.model.permission.User;
-import com.codesdream.ase.repository.UserRepository;
+import com.codesdream.ase.repository.permission.UserRepository;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**

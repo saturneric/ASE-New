@@ -1,4 +1,4 @@
-package com.codesdream.ase.component;
+package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.model.permission.Tag;
 import com.codesdream.ase.model.permission.User;

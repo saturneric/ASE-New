@@ -1,11 +1,11 @@
 package com.codesdream.ase.service;
 
-import com.codesdream.ase.component.UserFunctionalPermissionContainersListGenerator;
-import com.codesdream.ase.component.UserFunctionalScopeRelationsListGenerator;
+import com.codesdream.ase.component.permission.UserFunctionalPermissionContainersListGenerator;
+import com.codesdream.ase.component.permission.UserFunctionalScopeRelationsListGenerator;
 import com.codesdream.ase.model.permission.*;
-import com.codesdream.ase.repository.FunctionalPermissionRepository;
-import com.codesdream.ase.repository.ScopePermissionRepository;
-import com.codesdream.ase.repository.TagRepository;
+import com.codesdream.ase.repository.permission.FunctionalPermissionRepository;
+import com.codesdream.ase.repository.permission.ScopePermissionRepository;
+import com.codesdream.ase.repository.permission.TagRepository;
 import javafx.util.Pair;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ public class PermissionService implements IPermissionService {
     private UserFunctionalPermissionContainersListGenerator userFunctionalPermissionContainersListGenerator;
 
     @Resource
-    UserFunctionalScopeRelationsListGenerator userFunctionalScopeRelationsListGenerator;
+    private UserFunctionalScopeRelationsListGenerator userFunctionalScopeRelationsListGenerator;
 
     @Override
     public Optional<Tag> findTag(String name) {

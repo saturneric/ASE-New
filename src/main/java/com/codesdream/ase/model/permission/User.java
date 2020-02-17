@@ -1,15 +1,10 @@
 package com.codesdream.ase.model.permission;
 
-import com.codesdream.ase.component.UserAuthoritiesGenerator;
-import com.codesdream.ase.component.UserRolesListGenerator;
 import com.codesdream.ase.model.activity.UserActivity;
-import com.codesdream.ase.service.IUserService;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;

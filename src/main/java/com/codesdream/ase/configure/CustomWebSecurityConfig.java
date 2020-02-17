@@ -1,9 +1,8 @@
 package com.codesdream.ase.configure;
 
-import com.codesdream.ase.component.ASEPasswordEncoder;
-import com.codesdream.ase.component.ASESecurityAuthenticationProvider;
+import com.codesdream.ase.component.permission.ASEPasswordEncoder;
+import com.codesdream.ase.component.permission.ASESecurityAuthenticationProvider;
 import com.codesdream.ase.service.ASEUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

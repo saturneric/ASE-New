@@ -1,10 +1,11 @@
-package com.codesdream.ase.component;
+package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.model.permission.FunctionalScopeRelation;
 import com.codesdream.ase.model.permission.PermissionContainersCollection;
 import com.codesdream.ase.model.permission.User;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,15 +15,9 @@ import java.util.Collection;
 @Component
 public class UserFunctionalScopeRelationsListGenerator {
 
+    @Resource
     private UserPermissionContainersCollectionsListGenerator userPermissionContainersCollectionsListGenerator;
 
-    public UserFunctionalScopeRelationsListGenerator(
-            UserPermissionContainersCollectionsListGenerator userPermissionContainersCollectionsListGenerator)
-    {
-        if(userPermissionContainersCollectionsListGenerator == null) throw new NullPointerException();
-        this.userPermissionContainersCollectionsListGenerator =
-                userPermissionContainersCollectionsListGenerator;
-    }
 
     public Collection<FunctionalScopeRelation> generateFunctionalScopeRelations(
             Collection<PermissionContainersCollection> permissionContainersCollections){
