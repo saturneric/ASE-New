@@ -17,7 +17,7 @@ public class Attendance {
 
     //二维码url
     @Column(name = "qr_code", nullable = false, unique = true)
-    private String qrCode;
+    private String QRCode;
 
     //是否在线
     @Column(name = "is_online", nullable = false)

@@ -26,7 +26,7 @@ public class UserActivity {
     private List<Activity> manageActivities;
 
     //次要负责的活动
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Activity> assistActivities;
 
     //可见的活动

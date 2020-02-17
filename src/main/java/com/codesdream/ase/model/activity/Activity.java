@@ -17,12 +17,13 @@ public class Activity {
     private int id;
 
     //活动标题
-    @Column(name = "title", nullable = false, unique = true)
+    @Column(name = "title", nullable = false)
     private String title;
 
     //创建人
-    @Column(name = "creator", nullable = false)
-    private String creator;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false)
+    private User creator;
 
     //活动类型
     @Column(nullable = false)
@@ -137,7 +138,7 @@ public class Activity {
     @Column(name = "remind_time", nullable = true)
     private Date remindTime;
 
-    //附件组
+    //附件组(名字)
     @ElementCollection(targetClass = java.lang.String.class)
     private List<String> enclosures;
 
