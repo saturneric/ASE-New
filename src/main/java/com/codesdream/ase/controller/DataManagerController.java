@@ -1,5 +1,8 @@
 package com.codesdream.ase.controller;
 
+import com.codesdream.ase.component.ASESpringUtil;
+import com.codesdream.ase.component.datamanager.DataModelRepositorySearcher;
+import com.codesdream.ase.component.datamanager.DataModelSearcher;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,31 +13,28 @@ import org.w3c.dom.Entity;
 import javax.annotation.Resource;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/database")
 public class DataManagerController {
 
+    @Resource
+    ASESpringUtil springUtil;
+
     @RequestMapping(value = "{subSystem}/{dataModel}/query")
-    private String queryView(Model model, @PathVariable String dataModel, @PathVariable String subSystem)
-            throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        String dataModelFullName = "com.codesdream.ase.model." + subSystem + "." + dataModel;
-        String repositoryFullName = "com.codesdream.ase.repository." + subSystem + "." + dataModel + "Repository";
-        try {
-            Class<?> entityModelClass = Class.forName(dataModelFullName);
-            Collection<String> paramArgs = new ArrayList<>();
-            for(Field field :entityModelClass.getDeclaredFields()){
-                paramArgs.add(field.getName());
-            }
-            model.addAttribute("paramArgs", paramArgs);
-            Object entityModel = entityModelClass.newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            throw e;
+    private String queryView(Model model, @PathVariable String dataModel, @PathVariable String subSystem) {
+        DataModelRepositorySearcher dataModelRepositorySearcher = springUtil.getBean(DataModelRepositorySearcher.class);
+        DataModelSearcher dataModelSearcher = springUtil.getBean(DataModelSearcher.class);
+
+        dataModelSearcher.getDataModelClass(subSystem, dataModel);
+        if(!dataModelSearcher.isPresent()){
+            throw new RuntimeException("Data Model Not Found");
         }
-        return null;
+        dataModelRepositorySearcher.getDataModelRepositoryClass(subSystem, dataModel);
+        if(!dataModelRepositorySearcher.isPresent()){
+            throw new RuntimeException("Data Model Repository Not Found");
+        }
+        return "query";
     }
 }

@@ -24,6 +24,7 @@ public class DataModelRepositorySearcher {
     private boolean present;
 
     public void getDataModelRepositoryClass(String subSystem, String dataModel){
+        dataModel = doCheckName(dataModel);
         try {
             this.repositoryClass = Class.forName(dataModelFullNameGenerator(subSystem, dataModel));
             this.setPresent(true);
@@ -32,11 +33,19 @@ public class DataModelRepositorySearcher {
         }
     }
 
-    public <T> T getDataModelRepositoryInstance(Class<T> dataModeRepositoryClass) {
+    public <T> T getDataModelRepositoryInstance() {
         if(isPresent()) {
-            return springUtil.getBean(dataModeRepositoryClass);
+            return (T) springUtil.getBean(repositoryClass);
         }
         return null;
+    }
+
+
+    public static String doCheckName(String string) {
+        char[] charArray = string.toCharArray();
+        if(Character.isLowerCase(charArray[0])) charArray[0] -= 32;
+        else return string;
+        return String.valueOf(charArray);
     }
 
     private String dataModelFullNameGenerator(String subSystem, String dataModel){

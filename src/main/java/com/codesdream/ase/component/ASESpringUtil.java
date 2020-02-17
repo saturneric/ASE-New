@@ -18,4 +18,5 @@ public class ASESpringUtil {
     public <T> T getBean(Class<T> tClass){
         return applicationContext.getBean(tClass);
     }
+
 }

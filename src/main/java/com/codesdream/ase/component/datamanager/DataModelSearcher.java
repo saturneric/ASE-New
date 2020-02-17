@@ -22,6 +22,7 @@ public class DataModelSearcher {
     private boolean present;
 
     public void getDataModelClass(String subSystem, String dataModel) {
+        dataModel = doCheckName(dataModel);
         try {
             dataModelClass = Class.forName(dataModelFullNameGenerator(subSystem, dataModel));
             this.setPresent(true);
@@ -54,6 +55,13 @@ public class DataModelSearcher {
             }
         }
         return null;
+    }
+
+    public static String doCheckName(String string) {
+        char[] charArray = string.toCharArray();
+        if(Character.isLowerCase(charArray[0])) charArray[0] -= 32;
+        else return string;
+        return String.valueOf(charArray);
     }
 
     private String dataModelFullNameGenerator(String subSystem, String dataModel){

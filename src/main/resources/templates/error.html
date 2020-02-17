@@ -11,6 +11,78 @@
 	<div class="logo-header" data-background-color="blue" style="width:100%">
 	  <h1><font color="#FFFFFF">Error</font></h1>
 	</div>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				<h2>
+					检测到异常发生
+				</h2>
+				<p>
+					<strong><strong>当服务器端程序内部某个模块抛出异常时，该界面就会被显示。此次异常的简要信息已被异常管理子系统收集并概括如下表：</strong></strong>
+				</p>
+				<table class="table table-bordered">
+					<thead>
+					<tr>
+						<th>
+							编号
+						</th>
+						<th>
+							信息项
+						</th>
+						<th>
+							值
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>
+							0
+						</td>
+						<td>
+							服务器返回HTTP状态
+						</td>
+						<td th:text="${http_status}">
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+							1
+						</td>
+						<td>
+							抛出的异常类型
+						</td>
+						<td th:text="${exception_name}">
+
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							2
+						</td>
+						<td>
+							异常附带消息
+						</td>
+						<td th:text="${exception_message}">
+
+						</td>
+					</tr>
+
+
+					</tbody>
+				</table>
+				<h3>
+					运行栈相关信息补充
+				</h3>
+				<p th:each="line : ${error_stack}">
+					<span th:text="${line}"></span>
+				</p>
+			</div>
+		</div>
+	</div>
 	
 	
 	
