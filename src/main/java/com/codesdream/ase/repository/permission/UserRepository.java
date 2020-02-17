@@ -1,4 +1,4 @@
-package com.codesdream.ase.repository;
+package com.codesdream.ase.repository.permission;
 
 import com.codesdream.ase.model.permission.Tag;
 import com.codesdream.ase.model.permission.User;

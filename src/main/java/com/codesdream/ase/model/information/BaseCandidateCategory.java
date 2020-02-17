@@ -5,18 +5,16 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * 学院基本信息
+ * 考生类别
  */
 @Data
 @Entity
-@Table(name = "base_college")
-public class BaseCollege {
+@Table(name = "base_candidate_category")
+public class BaseCandidateCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
 
-    // 学院代码
-    private int number;
 }

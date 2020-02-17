@@ -1,10 +1,10 @@
 package com.codesdream.ase.service;
 
-import com.codesdream.ase.component.ASEPasswordEncoder;
-import com.codesdream.ase.component.ASEUsernameEncoder;
-import com.codesdream.ase.component.UserRolesListGenerator;
+import com.codesdream.ase.component.permission.ASEPasswordEncoder;
+import com.codesdream.ase.component.permission.ASEUsernameEncoder;
+import com.codesdream.ase.component.permission.UserRolesListGenerator;
 import com.codesdream.ase.model.permission.User;
-import com.codesdream.ase.repository.UserRepository;
+import com.codesdream.ase.repository.permission.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
