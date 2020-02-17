@@ -34,8 +34,11 @@ public class DataModelRepositorySearcher {
     }
 
     public <T> T getDataModelRepositoryInstance() {
+        // 确保可以引用
         if(isPresent()) {
-            return (T) springUtil.getBean(repositoryClass);
+            @SuppressWarnings("unchecked")
+            T repository = (T) springUtil.getBean(repositoryClass);
+            return repository;
         }
         return null;
     }

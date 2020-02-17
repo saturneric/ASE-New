@@ -4,6 +4,9 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+/**
+ * 民族基本信息
+ */
 @Data
 @Entity
 @Table(name = "base_ethnic")

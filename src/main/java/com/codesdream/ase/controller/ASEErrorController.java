@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -30,13 +31,12 @@ public class ASEErrorController implements ErrorController {
         model.addAttribute("exception_name", exception.getClass().getName());
         model.addAttribute("exception_message", exception.getMessage());
         List<String> stack_infos = new ArrayList<>();
-
         for(StackTraceElement element : exception.getStackTrace()){
             String s = element.toString();
             stack_infos.add(s);
         }
         model.addAttribute("error_stack", stack_infos);
-
+        model.addAttribute("exception_date",new Date());
         return "error";
 
     }

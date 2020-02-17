@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * 考生类别
+ * 考生类别基本信息
  */
 @Data
 @Entity

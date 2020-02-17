@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * 政治面貌
+ * 政治面貌基本信息
  */
 @Data
 @Entity

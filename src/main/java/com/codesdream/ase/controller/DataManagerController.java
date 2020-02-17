@@ -35,6 +35,8 @@ public class DataManagerController {
         if(!dataModelRepositorySearcher.isPresent()){
             throw new RuntimeException("Data Model Repository Not Found");
         }
+
+        Map<String, Object> data;
         return "query";
     }
 }
