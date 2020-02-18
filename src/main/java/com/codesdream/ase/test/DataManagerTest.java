@@ -12,7 +12,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
-
+/**
+ * 测试DataModel相关查找器
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DataManagerTest {

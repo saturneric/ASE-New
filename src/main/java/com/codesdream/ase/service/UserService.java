@@ -83,7 +83,7 @@ public class UserService implements IUserService {
                 || user.getUserAuth().getUserQuestion().length() > 255
                 || user.getUserAuth().getStudentID().length() > 24
                 || user.getUserAuth().getMail().length() > 64
-                || user.getUserDetail().getRealName().length() > 12)
+                || user.getUserDetail().getRealName().length() > 64)
             throw new UserInformationIllegalException(user.getUsername());
 
         // 强制以哈希值(sha256)保存密码
