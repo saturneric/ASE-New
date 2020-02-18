@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService implements IUserService {
@@ -70,6 +71,11 @@ public class UserService implements IUserService {
     public void generateRandomUsernameByStudentID(User user, String id) {
         user.getUserAuth().setStudentID(id);
         user.setUsername(usernameEncoder.encode(id));
+    }
+
+    @Override
+    public void generateRandomUsername(User user) {
+        user.setUsername(usernameEncoder.encode(UUID.randomUUID().toString()));
     }
 
     @Override

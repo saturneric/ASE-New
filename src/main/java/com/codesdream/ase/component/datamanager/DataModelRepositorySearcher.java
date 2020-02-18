@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * DataModel对应Repository层查询器
+ * Model对应的Repository层查询器
  */
 @Data
 @Component
@@ -42,7 +42,6 @@ public class DataModelRepositorySearcher {
         }
         return null;
     }
-
 
     public static String doCheckName(String string) {
         char[] charArray = string.toCharArray();

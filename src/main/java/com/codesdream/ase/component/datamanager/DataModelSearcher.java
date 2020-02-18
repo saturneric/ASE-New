@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * 根据子系统及名称查找特定的Data Model
+ * 根据子系统及名称查找特定的MModel
  */
 @Data
 @Component
