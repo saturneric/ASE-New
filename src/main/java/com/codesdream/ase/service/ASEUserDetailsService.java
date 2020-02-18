@@ -1,6 +1,6 @@
 package com.codesdream.ase.service;
 
-import com.codesdream.ase.component.UserAuthoritiesGenerator;
+import com.codesdream.ase.component.permission.UserAuthoritiesGenerator;
 import com.codesdream.ase.model.permission.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 public class ASEUserDetailsService implements UserDetailsService {

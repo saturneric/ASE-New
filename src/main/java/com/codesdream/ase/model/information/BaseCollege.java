@@ -16,4 +16,7 @@ public class BaseCollege {
     private int id;
 
     private String name;
+
+    // 学院代码
+    private int number;
 }

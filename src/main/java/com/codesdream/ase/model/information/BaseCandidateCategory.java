@@ -5,15 +5,16 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * 民族基本信息
+ * 考生类别基本信息
  */
 @Data
 @Entity
-@Table(name = "base_ethnic")
-public class BaseEthnic {
+@Table(name = "base_candidate_category")
+public class BaseCandidateCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
+
 }
