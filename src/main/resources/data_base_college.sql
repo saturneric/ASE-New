@@ -14,7 +14,7 @@ INSERT INTO `base_college` VALUES ('10', '计算机学院', '10');
 INSERT INTO `base_college` VALUES ('11', '理学院', '11');
 INSERT INTO `base_college` VALUES ('12', '管理学院', '12');
 INSERT INTO `base_college` VALUES ('13', '人文与经法学院', '13');
-INSERT INTO `base_college` VALUES ('14', '软件学院学院', '14');
+INSERT INTO `base_college` VALUES ('14', '软件学院', '14');
 INSERT INTO `base_college` VALUES ('15', '生命学院', '15');
 INSERT INTO `base_college` VALUES ('16', '外国语学院', '16');
 INSERT INTO `base_college` VALUES ('17', '教育实验学院', '17');

@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Table(name = "base_candidate_category")
 public class BaseCandidateCategory {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;

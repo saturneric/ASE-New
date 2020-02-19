@@ -12,10 +12,9 @@ import javax.persistence.*;
 @Table(name = "base_administrative_division")
 public class BaseAdministrativeDivision {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
 
-    private int parent_id;
+    private int parentId;
 }

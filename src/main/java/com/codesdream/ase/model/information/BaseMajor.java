@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Table(name = "base_major")
 public class BaseMajor {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;

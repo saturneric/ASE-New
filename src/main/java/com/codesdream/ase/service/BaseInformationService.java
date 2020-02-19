@@ -1,14 +1,20 @@
 package com.codesdream.ase.service;
 
+import com.codesdream.ase.component.datamanager.DataTable;
 import com.codesdream.ase.exception.BaseInformationAlreadyExistException;
 import com.codesdream.ase.exception.BaseInformationIllegalException;
 import com.codesdream.ase.exception.BaseInformationNotExistException;
 import com.codesdream.ase.model.information.*;
 import com.codesdream.ase.repository.information.*;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.Vector;
 
+@Service
 public class BaseInformationService implements IBaseInformationService {
 
     @Resource
@@ -82,13 +88,21 @@ public class BaseInformationService implements IBaseInformationService {
         return studentInfo.isPresent();
     }
 
+    // 查找省级行政区域
     @Override
     public BaseAdministrativeDivision findAdministrativeDivisionByName(String name) {
         Optional<BaseAdministrativeDivision> administrativeDivision =
-                administrativeDivisionRepository.findByName(name);
+                administrativeDivisionRepository.findByNameContainsAndParentId(name, 0);
         // 检查
-        if(!administrativeDivision.isPresent())
-            throw new BaseInformationNotExistException(BaseAdministrativeDivision.class);
+        if(!administrativeDivision.isPresent()) {
+            // 如果填入未知数据
+            administrativeDivision = administrativeDivisionRepository.findByName("未知");
+            if(administrativeDivision.isPresent()) {
+                return administrativeDivision.get();
+            }
+            else throw new BaseInformationNotExistException(BaseAdministrativeDivision.class);
+
+        }
         return administrativeDivision.get();
     }
 
@@ -145,12 +159,50 @@ public class BaseInformationService implements IBaseInformationService {
     }
 
     @Override
+    public void studentInfoImportFromDataTable(DataTable table) {
+        Collection<Optional<Integer>> infoIndexOptional = new ArrayList<>();
+        infoIndexOptional.add(table.getTitleIndex("学号"));
+        infoIndexOptional.add(table.getTitleIndex("班号"));
+        infoIndexOptional.add(table.getTitleIndex("姓名"));
+        infoIndexOptional.add(table.getTitleIndex("性别"));
+        infoIndexOptional.add(table.getTitleIndex("学院名称"));
+        infoIndexOptional.add(table.getTitleIndex("专业名称"));
+        infoIndexOptional.add(table.getTitleIndex("民族名称"));
+        infoIndexOptional.add(table.getTitleIndex("政治面貌名称"));
+        infoIndexOptional.add(table.getTitleIndex("省份名称"));
+
+        Vector<Integer> infoIndex = new Vector<>();
+
+        for(Optional<Integer> infoIdx : infoIndexOptional){
+            if(!infoIdx.isPresent()) throw new RuntimeException("Unfit Data Table");
+            else infoIndex.add(infoIdx.get());
+        }
+
+        int dataRowsSize = table.getRowsSize();
+
+        for(int i = 0; i <dataRowsSize; i++){
+            Vector<String> row = table.getRowVector(i);
+            BaseStudentInfo studentInfo =
+                    constructStudentInfo(row.elementAt(infoIndex.elementAt(0)),
+                            row.elementAt(infoIndex.elementAt(1)),
+                            row.elementAt(infoIndex.elementAt(2)),
+                            row.elementAt(infoIndex.elementAt(3)),
+                            row.elementAt(infoIndex.elementAt(4)),
+                            row.elementAt(infoIndex.elementAt(5)),
+                            row.elementAt(infoIndex.elementAt(6)),
+                            row.elementAt(infoIndex.elementAt(7)),
+                            row.elementAt(infoIndex.elementAt(8)));
+            save(studentInfo);
+        }
+    }
+
+    @Override
     public BaseStudentInfo constructStudentInfo(String studentId,
                                                 String classId,
                                                 String realName, String sex,
                                                 String college,
                                                 String major, String ethnic,
-                                                String candidateCategory, String politicalStatus,
+                                                String politicalStatus,
                                                 String administrativeDivision)
     {
         // 检查

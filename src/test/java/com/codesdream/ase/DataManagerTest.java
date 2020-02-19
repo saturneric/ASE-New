@@ -1,10 +1,7 @@
 package com.codesdream.ase;
 
 import com.codesdream.ase.component.ASESpringUtil;
-import com.codesdream.ase.component.datamanager.DataExcelGenerator;
-import com.codesdream.ase.component.datamanager.DataExcelReader;
-import com.codesdream.ase.component.datamanager.DataModelRepositorySearcher;
-import com.codesdream.ase.component.datamanager.DataModelSearcher;
+import com.codesdream.ase.component.datamanager.*;
 import com.codesdream.ase.repository.permission.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -102,6 +99,69 @@ public class DataManagerTest {
         Assert.assertEquals(iterator.next(), "Tom");
         Assert.assertEquals(iterator.next(), "M");
         Assert.assertEquals(iterator.next(), "18");
+    }
+
+
+    // Data Table 基本测试
+    @Test
+    public void dataTableBaseTest(){
+        DataTable table = springUtil.getBean(DataTable.class);
+        table.addColTitle("Name").addColTitle("Sex").addColTitle("Age");
+
+
+        Collection<String> dataCollection = new ArrayList<>();
+        dataCollection.add("Tom");
+        dataCollection.add("M");
+        dataCollection.add("18");
+        table.addRow(dataCollection);
+        dataCollection.clear();
+        dataCollection.add("Pat");
+        dataCollection.add("F");
+        dataCollection.add("16");
+        table.addRow(dataCollection);
+
+        dataCollection = table.getRow(0);
+        Iterator<String> iterator = dataCollection.iterator();
+        Assert.assertEquals(iterator.next(), "Tom");
+        Assert.assertEquals(iterator.next(), "M");
+        Assert.assertEquals(iterator.next(), "18");
+
+        dataCollection = table.getRow(1);
+        iterator = dataCollection.iterator();
+        Assert.assertEquals(iterator.next(), "Pat");
+        Assert.assertEquals(iterator.next(), "F");
+        Assert.assertEquals(iterator.next(), "16");
+    }
+
+    @Test
+    public void dataTableImportTest(){
+        DataTable table = springUtil.getBean(DataTable.class);
+        table.importTable(new DataExcelReader("DataExcelGeneratorTest.xlsx"));
+        Collection<String> dataCollection = table.getRow(0);
+        Iterator<String> iterator = dataCollection.iterator();
+        Assert.assertEquals(iterator.next(), "Tom");
+        Assert.assertEquals(iterator.next(), "M");
+        Assert.assertEquals(iterator.next(), "18");
+    }
+
+    @Test
+    public void dataTableExportTest(){
+        DataTable table = springUtil.getBean(DataTable.class);
+        table.addColTitle("Name").addColTitle("Sex").addColTitle("Age");
+
+
+        Collection<String> dataCollection = new ArrayList<>();
+        dataCollection.add("Tom");
+        dataCollection.add("M");
+        dataCollection.add("18");
+        table.addRow(dataCollection);
+        dataCollection.clear();
+        dataCollection.add("Pat");
+        dataCollection.add("F");
+        dataCollection.add("16");
+        table.addRow(dataCollection);
+
+        table.exportTable(new DataExcelGenerator("DataTableExport.xlsx"));
     }
 
 

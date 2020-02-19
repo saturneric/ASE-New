@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface BaseAdministrativeDivisionRepository extends CrudRepository<BaseAdministrativeDivision, Integer> {
     Optional<BaseAdministrativeDivision> findByName(String name);
+    Optional<BaseAdministrativeDivision> findByNameContainsAndParentId(String name, int parentId);
 }

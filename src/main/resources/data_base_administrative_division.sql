@@ -1,6 +1,7 @@
 -- ----------------------------
 -- Records of base_administrative_division
 -- ----------------------------
+INSERT INTO `base_administrative_division` VALUES ('000000', '未知', '0');
 INSERT INTO `base_administrative_division` VALUES ('110000', '北京市', '0');
 INSERT INTO `base_administrative_division` VALUES ('110100', '北京市市辖区', '110000');
 INSERT INTO `base_administrative_division` VALUES ('110101', '北京市东城区', '110100');

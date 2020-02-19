@@ -7,8 +7,8 @@ import java.util.Collection;
 // 描述数据表的行
 @Data
 public class DataTableRow {
-    int index;
-    Collection<String> row;
+    private int index;
+    private Collection<String> row;
 
     public DataTableRow(int index, Collection<String> row){
         this.index = index;

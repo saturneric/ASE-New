@@ -1,5 +1,6 @@
 package com.codesdream.ase.service;
 
+import com.codesdream.ase.component.datamanager.DataTable;
 import com.codesdream.ase.model.information.*;
 
 public interface IBaseInformationService {
@@ -38,8 +39,11 @@ public interface IBaseInformationService {
 
     BaseStudentInfo findStudentInfoByStudentId(String studentId);
 
+    // 从文件中导入学生基本信息
+    void studentInfoImportFromDataTable(DataTable table);
+
     BaseStudentInfo constructStudentInfo(String studentId,
-                                         String classId, String realName, String sex, String college, String major, String ethnic, String candidateCategory, String politicalStatus,
+                                         String classId, String realName, String sex, String college, String major, String ethnic, String politicalStatus,
                                          String administrativeDivision);
 
     BaseStudentInfo save(BaseStudentInfo baseStudentInfo);
