@@ -19,8 +19,8 @@ public class UserTagsListGenerator {
     @Resource
     UserRepository userRepository;
 
-    public Collection<Tag> generateTags(ScopePermissionContainer scopePermissionContainer){
-        return new ArrayList<>(scopePermissionContainer.getTags());
+    public Collection<Tag> generateTags(ScopePermissionContainer spc){
+        return new ArrayList<>(spc.getTags());
     }
 
     public Collection<Tag> generateTags(User user){

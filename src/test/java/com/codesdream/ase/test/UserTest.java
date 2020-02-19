@@ -1,4 +1,4 @@
-package com.codesdream.ase;
+package com.codesdream.ase.test;
 
 import com.codesdream.ase.model.permission.User;
 
@@ -65,8 +65,6 @@ public class UserTest {
 
     @Test
     public void UserBaseTest_2(){
-        User user = userService.findUserByUsername("Tim");
-
 
 
     }

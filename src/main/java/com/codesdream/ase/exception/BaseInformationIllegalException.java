@@ -9,9 +9,9 @@ public class BaseInformationIllegalException extends RuntimeException {
     String type;
     String value;
 
-    public BaseInformationIllegalException(String type, String value){
+    public BaseInformationIllegalException(Class<?> aClass, String value){
         super();
-        this.type = type;
+        this.type = aClass.getName();
         this.value = value;
     }
 }

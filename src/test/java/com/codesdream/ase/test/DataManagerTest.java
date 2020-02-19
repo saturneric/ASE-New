@@ -1,4 +1,4 @@
-package com.codesdream.ase;
+package com.codesdream.ase.test;
 
 import com.codesdream.ase.component.ASESpringUtil;
 import com.codesdream.ase.component.datamanager.*;

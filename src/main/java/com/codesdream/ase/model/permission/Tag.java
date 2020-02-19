@@ -38,7 +38,7 @@ public class Tag {
     private boolean deleted;
 
     // 对应权限容器集合
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<PermissionContainersCollection> permissionContainersCollections;
 
     public Tag(String name, String description) {

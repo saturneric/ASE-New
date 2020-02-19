@@ -1,5 +1,6 @@
 package com.codesdream.ase.service;
 
+import com.codesdream.ase.model.information.BaseStudentInfo;
 import com.codesdream.ase.model.permission.User;
 import javafx.util.Pair;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +15,9 @@ public interface IUserService {
    // 获得一个空的默认用户
    User getDefaultUser();
 
+   // 由学生基本信息生成对应用户
+   User getUserByStudentInfo(BaseStudentInfo studentInfo);
+
    List<User> findAll();
 
    Optional<User> findUserById(int id);
@@ -27,6 +31,9 @@ public interface IUserService {
 
    // 更新用户的密码
    void updatePassword(User user, String password);
+
+   // 封禁用户
+   void disableUser(User user);
 
    // 根据学号生成随机用户名
    void generateRandomUsernameByStudentID(User user, String id);

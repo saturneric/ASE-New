@@ -1,6 +1,5 @@
 package com.codesdream.ase.component.permission;
 
-import com.codesdream.ase.component.permission.UserFunctionalPermissionContainersListGenerator;
 import com.codesdream.ase.model.permission.FunctionalPermissionContainer;
 import com.codesdream.ase.model.permission.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,13 +16,13 @@ import java.util.Collection;
 @Component
 public class UserRolesListGenerator {
     @Resource
-    private UserFunctionalPermissionContainersListGenerator functionalPermissionContainersListGenerator;
+    private UserFPCListGenerator fpcListGenerator;
 
     public Collection<GrantedAuthority> generateRoles(
-            Collection<FunctionalPermissionContainer> functionalPermissionContainers){
+            Collection<FunctionalPermissionContainer> fpcs){
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        for(FunctionalPermissionContainer functionalPermissionContainer :functionalPermissionContainers){
-            for(String role :functionalPermissionContainer.getRoles()){
+        for(FunctionalPermissionContainer fpc :fpcs){
+            for(String role :fpc.getRoles()){
                 authorities.add(new SimpleGrantedAuthority(role));
             }
         }
@@ -32,14 +31,14 @@ public class UserRolesListGenerator {
 
     public Collection<GrantedAuthority> generateRoles(String username){
         return generateRoles(
-                functionalPermissionContainersListGenerator.generateFunctionalPermissionContainers(username)
+                fpcListGenerator.generateFPCs(username)
         );
     }
 
     public Collection<GrantedAuthority> generateRoles(User user){
 
         return generateRoles(
-                functionalPermissionContainersListGenerator.generateFunctionalPermissionContainers(user)
+                fpcListGenerator.generateFPCs(user)
         );
     }
 }

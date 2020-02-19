@@ -18,10 +18,10 @@ public class FunctionalScopeRelation {
     private int id;
 
     // 对应功能性权限容器
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private FunctionalPermissionContainer functionalPermissionContainer;
 
     // 对应范围性权限容器
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private ScopePermissionContainer scopePermissionContainer;
 }

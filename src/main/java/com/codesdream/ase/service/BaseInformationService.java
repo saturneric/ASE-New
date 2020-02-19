@@ -6,6 +6,7 @@ import com.codesdream.ase.exception.BaseInformationIllegalException;
 import com.codesdream.ase.exception.BaseInformationNotExistException;
 import com.codesdream.ase.model.information.*;
 import com.codesdream.ase.repository.information.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.Vector;
 
+@Slf4j
 @Service
 public class BaseInformationService implements IBaseInformationService {
 
@@ -70,7 +72,7 @@ public class BaseInformationService implements IBaseInformationService {
     public boolean checkPoliticalStatus(String name) {
         Optional<BasePoliticalStatus> politicalStatus =
                 politicalStatusRepository.findByName(name);
-        return false;
+        return politicalStatus.isPresent();
     }
 
     @Override
@@ -96,11 +98,12 @@ public class BaseInformationService implements IBaseInformationService {
         // 检查
         if(!administrativeDivision.isPresent()) {
             // 如果填入未知数据
+            log.warn("省级行政区域: " + name + " 未在数据库中找到,将使用未知符号占位");
             administrativeDivision = administrativeDivisionRepository.findByName("未知");
             if(administrativeDivision.isPresent()) {
                 return administrativeDivision.get();
             }
-            else throw new BaseInformationNotExistException(BaseAdministrativeDivision.class);
+            else throw new BaseInformationNotExistException(BaseAdministrativeDivision.class, name);
 
         }
         return administrativeDivision.get();
@@ -111,7 +114,7 @@ public class BaseInformationService implements IBaseInformationService {
         Optional<BaseCollege> college =
                 collegeRepository.findByName(name);
         // 检查
-        if(!college.isPresent()) throw new BaseInformationNotExistException(BaseCollege.class);
+        if(!college.isPresent()) throw new BaseInformationNotExistException(BaseCollege.class, name);
         return college.get();
     }
 
@@ -119,7 +122,7 @@ public class BaseInformationService implements IBaseInformationService {
     public BaseEthnic findEthnicByName(String name) {
         Optional<BaseEthnic> ethnic =
                 ethnicRepository.findByName(name);
-        if(!ethnic.isPresent()) throw new BaseInformationNotExistException(BaseEthnic.class);
+        if(!ethnic.isPresent()) throw new BaseInformationNotExistException(BaseEthnic.class, name);
         return ethnic.get();
     }
 
@@ -127,7 +130,7 @@ public class BaseInformationService implements IBaseInformationService {
     public BaseMajor findMajorByName(String name) {
         Optional<BaseMajor> major =
                 majorRepository.findByName(name);
-        if(!major.isPresent()) throw new BaseInformationNotExistException(BaseMajor.class);
+        if(!major.isPresent()) throw new BaseInformationNotExistException(BaseMajor.class, name);
         return major.get();
     }
 
@@ -136,7 +139,7 @@ public class BaseInformationService implements IBaseInformationService {
         Optional<BasePoliticalStatus> politicalStatus =
                 politicalStatusRepository.findByName(name);
         if(!politicalStatus.isPresent())
-            throw new BaseInformationNotExistException(BasePoliticalStatus.class);
+            throw new BaseInformationNotExistException(BasePoliticalStatus.class, name);
         return politicalStatus.get();
     }
 
@@ -145,7 +148,7 @@ public class BaseInformationService implements IBaseInformationService {
         Optional<BaseCandidateCategory> candidateCategory =
                 candidateCategoryRepository.findByName(name);
         if(!candidateCategory.isPresent())
-            throw new BaseInformationNotExistException(BaseCandidateCategory.class);
+            throw new BaseInformationNotExistException(BaseCandidateCategory.class, name);
         return candidateCategory.get();
     }
 
@@ -154,13 +157,14 @@ public class BaseInformationService implements IBaseInformationService {
         Optional<BaseStudentInfo> studentInfo =
                 studentInfoRepository.findByStudentId(studentId);
         if(!studentInfo.isPresent())
-            throw new BaseInformationNotExistException(BaseStudentInfo.class);
+            throw new BaseInformationNotExistException(BaseStudentInfo.class, studentId);
         return studentInfo.get();
     }
 
     @Override
     public void studentInfoImportFromDataTable(DataTable table) {
         Collection<Optional<Integer>> infoIndexOptional = new ArrayList<>();
+
         infoIndexOptional.add(table.getTitleIndex("学号"));
         infoIndexOptional.add(table.getTitleIndex("班号"));
         infoIndexOptional.add(table.getTitleIndex("姓名"));
@@ -171,28 +175,46 @@ public class BaseInformationService implements IBaseInformationService {
         infoIndexOptional.add(table.getTitleIndex("政治面貌名称"));
         infoIndexOptional.add(table.getTitleIndex("省份名称"));
 
+
         Vector<Integer> infoIndex = new Vector<>();
 
         for(Optional<Integer> infoIdx : infoIndexOptional){
-            if(!infoIdx.isPresent()) throw new RuntimeException("Unfit Data Table");
+            if(!infoIdx.isPresent()){
+                log.error("所提供的数据表不符合学生信息导入规范, 有关键数据缺失");
+                throw new RuntimeException("Unfit Data Table");
+            }
             else infoIndex.add(infoIdx.get());
         }
 
         int dataRowsSize = table.getRowsSize();
 
-        for(int i = 0; i <dataRowsSize; i++){
+        for(int i = 0; i < dataRowsSize; i++){
             Vector<String> row = table.getRowVector(i);
-            BaseStudentInfo studentInfo =
-                    constructStudentInfo(row.elementAt(infoIndex.elementAt(0)),
-                            row.elementAt(infoIndex.elementAt(1)),
-                            row.elementAt(infoIndex.elementAt(2)),
-                            row.elementAt(infoIndex.elementAt(3)),
-                            row.elementAt(infoIndex.elementAt(4)),
-                            row.elementAt(infoIndex.elementAt(5)),
-                            row.elementAt(infoIndex.elementAt(6)),
-                            row.elementAt(infoIndex.elementAt(7)),
-                            row.elementAt(infoIndex.elementAt(8)));
-            save(studentInfo);
+            try {
+                BaseStudentInfo studentInfo =
+                        constructStudentInfo(row.elementAt(infoIndex.elementAt(0)),
+                                row.elementAt(infoIndex.elementAt(1)),
+                                row.elementAt(infoIndex.elementAt(2)),
+                                row.elementAt(infoIndex.elementAt(3)),
+                                row.elementAt(infoIndex.elementAt(4)),
+                                row.elementAt(infoIndex.elementAt(5)),
+                                row.elementAt(infoIndex.elementAt(6)),
+                                row.elementAt(infoIndex.elementAt(7)),
+                                row.elementAt(infoIndex.elementAt(8)));
+                save(studentInfo);
+            } catch (BaseInformationNotExistException e){
+                String log_info = String.format("一项学生信息的某项基本信息未在数据库找到, 该项数据无效." +
+                        " %s: %s",e.getClassName(), e.getValue());
+                log.warn(log_info);
+            } catch (BaseInformationIllegalException e){
+                String log_info = String.format("一项学生信息的某项基本信息不合法, 该项数据无效." +
+                        " %s: %s", e.getType(), e.getValue());
+                log.warn(log_info);
+            } catch (BaseInformationAlreadyExistException e){
+                String log_info = String.format("一项学生信息的学号已在数据库中包含." +
+                        " %s: %s",e.getClassName(), e.getValue());
+                log.warn(log_info);
+            }
         }
     }
 
@@ -207,13 +229,13 @@ public class BaseInformationService implements IBaseInformationService {
     {
         // 检查
         if(!sex.equals("男") && !sex.equals("女"))
-            throw new BaseInformationIllegalException("sex", sex);
+            throw new BaseInformationIllegalException(String.class, sex);
         if(classId.length() != 8)
-            throw new BaseInformationIllegalException("classId", classId);
+            throw new BaseInformationIllegalException(String.class, classId);
         if(studentId.length() != 10)
-            throw new BaseInformationIllegalException("studentId",studentId);
+            throw new BaseInformationIllegalException(String.class, studentId);
         if(realName.length() > 64)
-            throw new BaseInformationIllegalException("realName",realName);
+            throw new BaseInformationIllegalException(String.class, realName);
 
         BaseStudentInfo studentInfo = new BaseStudentInfo();
         studentInfo.setSex(sex);
@@ -239,14 +261,27 @@ public class BaseInformationService implements IBaseInformationService {
                 || baseStudentInfo.getClassId().equals("")
                 || baseStudentInfo.getStudentId().equals("")
                 || baseStudentInfo.getName().equals(""))
-            throw new BaseInformationIllegalException("studentInfo", "didn't fully initialize");
+
+            throw new BaseInformationIllegalException(
+                    baseStudentInfo.getClass(),
+                    "One of the Attributes IS NULL or Empty");
 
         // 检查学号重复
         if(checkStudentInfo(baseStudentInfo.getStudentId()))
-            throw new BaseInformationAlreadyExistException(baseStudentInfo.getClass());
+            throw new BaseInformationAlreadyExistException(
+                    baseStudentInfo.getClass(),
+                    baseStudentInfo.getStudentId());
 
-        studentInfoRepository.save(baseStudentInfo);
 
-        return null;
+
+        return studentInfoRepository.save(baseStudentInfo);
+    }
+
+    @Override
+    public BaseStudentInfo update(BaseStudentInfo baseStudentInfo) {
+        // 更新前检查
+        if(!checkStudentInfo(baseStudentInfo.getStudentId()))
+            throw new BaseInformationNotExistException(BaseStudentInfo.class, baseStudentInfo.getStudentId());
+        return studentInfoRepository.save(baseStudentInfo);
     }
 }

@@ -7,9 +7,11 @@ import lombok.EqualsAndHashCode;
 @Data
 public class BaseInformationNotExistException extends RuntimeException {
     private String className;
+    private String value;
 
-    public BaseInformationNotExistException(Class<?> baseInformationClass){
+    public BaseInformationNotExistException(Class<?> baseInformationClass, String value){
         super();
         this.className = baseInformationClass.getName();
+        this.value = value;
     }
 }

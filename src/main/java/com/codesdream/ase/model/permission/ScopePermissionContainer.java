@@ -19,7 +19,7 @@ public class ScopePermissionContainer {
 
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Tag> tags;
 
     @Column(nullable = false)

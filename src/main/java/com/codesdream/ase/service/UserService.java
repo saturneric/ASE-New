@@ -6,6 +6,7 @@ import com.codesdream.ase.component.permission.UserRolesListGenerator;
 import com.codesdream.ase.exception.UserInformationIllegalException;
 import com.codesdream.ase.exception.UserNotFoundException;
 import com.codesdream.ase.exception.UsernameAlreadyExistException;
+import com.codesdream.ase.model.information.BaseStudentInfo;
 import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.repository.permission.UserRepository;
 import javafx.util.Pair;
@@ -67,6 +68,13 @@ public class UserService implements IUserService {
         update(user);
     }
 
+    // 封禁用户
+    @Override
+    public void disableUser(User user){
+        user.setEnabled(false);
+        update(user);
+    }
+
     @Override
     public void generateRandomUsernameByStudentID(User user, String id) {
         user.getUserAuth().setStudentID(id);
@@ -118,6 +126,29 @@ public class UserService implements IUserService {
     @Override
     public User getDefaultUser() {
         return new User();
+    }
+
+    @Override
+    public User getUserByStudentInfo(BaseStudentInfo studentInfo) {
+        User user = getDefaultUser();
+        // 根据学生id生成用户名
+        generateRandomUsernameByStudentID(user, studentInfo.getStudentId());
+        // 填充用户基本信息
+        user.getUserAuth().setStudentID(studentInfo.getStudentId());
+        user.getUserDetail().setClassId(studentInfo.getClassId());
+        user.getUserDetail().setRealName(studentInfo.getName());
+
+        // 填充用户详细信息
+        user.getUserDetail().setBaseAdministrativeDivision(studentInfo.getAdministrativeDivision());
+        user.getUserDetail().setBaseCollege(studentInfo.getCollege());
+        user.getUserDetail().setBaseMajor(studentInfo.getMajor());
+        user.getUserDetail().setBaseEthnic(studentInfo.getEthnic());
+        user.getUserDetail().setBasePoliticalStatus(studentInfo.getPoliticalStatus());
+
+        // 添加在校学生认证
+        user.getUserDetail().setAtSchool(true);
+
+        return user;
     }
 
 

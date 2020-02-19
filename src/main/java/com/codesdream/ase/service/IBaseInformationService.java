@@ -2,6 +2,9 @@ package com.codesdream.ase.service;
 
 import com.codesdream.ase.component.datamanager.DataTable;
 import com.codesdream.ase.model.information.*;
+import com.fasterxml.jackson.databind.ser.Serializers;
+
+import java.util.Optional;
 
 public interface IBaseInformationService {
     // 检查行政区域是否合法
@@ -25,8 +28,10 @@ public interface IBaseInformationService {
     // 检查学生信息是否存在
     boolean checkStudentInfo(String studentId);
 
+    // 根据名字查找有效的省级行政区划
     BaseAdministrativeDivision findAdministrativeDivisionByName(String name);
 
+    // 查找学院
     BaseCollege findCollegeByName(String name);
 
     BaseEthnic findEthnicByName(String name);
@@ -47,4 +52,6 @@ public interface IBaseInformationService {
                                          String administrativeDivision);
 
     BaseStudentInfo save(BaseStudentInfo baseStudentInfo);
+
+    BaseStudentInfo update(BaseStudentInfo baseStudentInfo);
 }

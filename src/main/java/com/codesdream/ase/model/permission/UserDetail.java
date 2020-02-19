@@ -16,29 +16,32 @@ public class UserDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    // 学生班号
+    private String classId = "";
+
     // 所属地区
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private BaseAdministrativeDivision baseAdministrativeDivision;
+    private BaseAdministrativeDivision baseAdministrativeDivision = null;
 
     // 所属学院
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private BaseCollege baseCollege;
+    private BaseCollege baseCollege = null;
 
     // 所属专业
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private BaseMajor baseMajor;
+    private BaseMajor baseMajor = null;
 
     // 民族
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private BaseEthnic baseEthnic;
+    private BaseEthnic baseEthnic = null;
 
     // 政治面貌
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private BasePoliticalStatus basePoliticalStatus;
+    private BasePoliticalStatus basePoliticalStatus = null;
 
     // 真实姓名
     private String realName = "";
 
-    // 在校状态
+    // 在校认证状态
     private boolean atSchool = false;
 }

@@ -1,10 +1,10 @@
 package com.codesdream.ase.service;
 
-import com.codesdream.ase.component.permission.UserFunctionalPermissionContainersListGenerator;
-import com.codesdream.ase.component.permission.UserFunctionalScopeRelationsListGenerator;
+import com.codesdream.ase.component.permission.UserFPCListGenerator;
+import com.codesdream.ase.component.permission.UserFSRGenerator;
 import com.codesdream.ase.model.permission.*;
-import com.codesdream.ase.repository.permission.FunctionalPermissionRepository;
-import com.codesdream.ase.repository.permission.ScopePermissionRepository;
+import com.codesdream.ase.repository.permission.FunctionalPermissionContainerRepository;
+import com.codesdream.ase.repository.permission.ScopePermissionContainerRepository;
 import com.codesdream.ase.repository.permission.TagRepository;
 import javafx.util.Pair;
 import org.springframework.stereotype.Service;
@@ -21,16 +21,16 @@ public class PermissionService implements IPermissionService {
     private TagRepository tagRepository;
 
     @Resource
-    private FunctionalPermissionRepository functionalPermissionRepository;
+    private FunctionalPermissionContainerRepository fpcRepository;
 
     @Resource
-    private ScopePermissionRepository scopePermissionRepository;
+    private ScopePermissionContainerRepository spcRepository;
 
     @Resource
-    private UserFunctionalPermissionContainersListGenerator userFunctionalPermissionContainersListGenerator;
+    private UserFPCListGenerator userFPCListGenerator;
 
     @Resource
-    private UserFunctionalScopeRelationsListGenerator userFunctionalScopeRelationsListGenerator;
+    private UserFSRGenerator userFSRGenerator;
 
     @Override
     public Optional<Tag> findTag(String name) {
@@ -38,23 +38,33 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public Optional<FunctionalPermissionContainer> findFunctionalPermissionContainer(String name) {
-        return functionalPermissionRepository.findByName(name);
+    public Optional<FunctionalPermissionContainer> findFPC(String name) {
+        return fpcRepository.findByName(name);
     }
 
     @Override
-    public Optional<ScopePermissionContainer> findScopePermissionContainer(String name) {
-        return scopePermissionRepository.findByName(name);
+    public Optional<ScopePermissionContainer> findSPC(String name) {
+        return spcRepository.findByName(name);
     }
 
     @Override
-    public Collection<PermissionContainersCollection> getPermissionContainerCollections(Tag tag) {
+    public Optional<FunctionalPermissionContainer> findFPC(int id) {
+        return fpcRepository.findById(id);
+    }
+
+    @Override
+    public Optional<ScopePermissionContainer> findSPC(int id) {
+        return spcRepository.findById(id);
+    }
+
+    @Override
+    public Collection<PermissionContainersCollection> getPCCs(Tag tag) {
         return new ArrayList<>(tag.getPermissionContainersCollections());
     }
 
     @Override
-    public Collection<Tag> getTagsFromScopePermissionContainers(ScopePermissionContainer scopePermissionContainer) {
-        return new ArrayList<>(scopePermissionContainer.getTags());
+    public Collection<Tag> getTagsFromSPC(ScopePermissionContainer spc) {
+        return new ArrayList<>(spc.getTags());
     }
 
     @Override
@@ -63,30 +73,46 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public Collection<FunctionalPermissionContainer> getFunctionPermissionContainers(PermissionContainersCollection permissionContainersCollection) {
+    public Collection<FunctionalPermissionContainer> getFPCs(
+            PermissionContainersCollection pcc)
+    {
 
-        Collection<PermissionContainersCollection> permissionContainersCollections = new ArrayList<PermissionContainersCollection>(){{
-            add(permissionContainersCollection);
+        Collection<PermissionContainersCollection> pccCollections =
+                new ArrayList<PermissionContainersCollection>(){{
+            add(pcc);
         }};
 
         // 生成功能性与范围性权限容器关联对
-        Collection<FunctionalScopeRelation> functionalScopeRelations =
-                userFunctionalScopeRelationsListGenerator.generateFunctionalScopeRelations(permissionContainersCollections);
-        return userFunctionalPermissionContainersListGenerator.generateFunctionalContainers(functionalScopeRelations);
+        Collection<FunctionalScopeRelation> fsr =
+                userFSRGenerator.generateFSRs(pccCollections);
+        return userFPCListGenerator.generateFPC(fsr);
     }
 
     @Override
     public Collection<User> getUsersFromTag(Tag tag) {
-        return null;
+        return new ArrayList<>(tag.getUsers());
     }
 
     @Override
-    public void addRelationItemToPermissionContainerCollectionPermissionContainerCollection(PermissionContainersCollection permissionContainersCollection, FunctionalPermissionContainer functionalPermissionContainer, ScopePermissionContainer scopePermissionContainer) {
+    public void addRelationItemToPCCollection(PermissionContainersCollection pcc,
+                                              FunctionalPermissionContainer fpc,
+                                              ScopePermissionContainer spc)
+    {
+        if(!findFPC(fpc.getId()).isPresent()){
+
+        }
+        FunctionalScopeRelation relation = new FunctionalScopeRelation();
+        relation.setFunctionalPermissionContainer(fpc);
+        relation.setScopePermissionContainer(spc);
+        pcc.getFunctionalScopeRelations().add(relation);
+        update(pcc);
 
     }
 
     @Override
-    public void addRelationItemsToPermissionContainerCollectionPermissionContainerCollection(PermissionContainersCollection permissionContainersCollection, Collection<Pair<FunctionalPermissionContainer, ScopePermissionContainer>> functionalScopePermissionContainerPairs) {
+    public void addRelationItemsToPCC(PermissionContainersCollection pcc,
+                                      Collection<Pair<FunctionalPermissionContainer, ScopePermissionContainer>> fspcPairs)
+    {
 
     }
 
@@ -101,12 +127,12 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public void addRoleToFunctionalPermissionContainer(FunctionalPermissionContainer functionalPermissionContainer, String role) {
+    public void addRoleToFPC(FunctionalPermissionContainer fpc, String role) {
 
     }
 
     @Override
-    public void addRolesToFunctionalPermissionContainer(FunctionalPermissionContainer functionalPermissionContainer, Collection<String> roles) {
+    public void addRolesToFPC(FunctionalPermissionContainer fpc, Collection<String> roles) {
 
     }
 
@@ -116,12 +142,32 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public void save(FunctionalPermissionContainer functionalPermissionContainer) {
+    public void save(FunctionalPermissionContainer fpc) {
 
     }
 
     @Override
-    public void save(ScopePermissionContainer scopePermissionContainer) {
+    public void save(ScopePermissionContainer spc) {
+
+    }
+
+    @Override
+    public void save(PermissionContainersCollection pcc) {
+
+    }
+
+    @Override
+    public void update(FunctionalPermissionContainer fpc) {
+
+    }
+
+    @Override
+    public void update(ScopePermissionContainer spc) {
+
+    }
+
+    @Override
+    public void update(PermissionContainersCollection pcc) {
 
     }
 }

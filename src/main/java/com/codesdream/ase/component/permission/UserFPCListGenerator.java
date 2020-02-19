@@ -11,11 +11,11 @@ import java.util.Collection;
  * 生成功能性权限容器列表
  */
 @Component
-public class UserFunctionalPermissionContainersListGenerator {
+public class UserFPCListGenerator {
     @Resource
-    private UserFunctionalScopeRelationsListGenerator functionalScopeRelationsListGenerator;
+    private UserFSRGenerator fsrListGenerator;
 
-    public Collection<FunctionalPermissionContainer> generateFunctionalContainers(
+    public Collection<FunctionalPermissionContainer> generateFPC(
             Collection<FunctionalScopeRelation> functionalScopeRelations){
         Collection<FunctionalPermissionContainer> functionalPermissionContainers
                 = new ArrayList<>();
@@ -27,15 +27,15 @@ public class UserFunctionalPermissionContainersListGenerator {
         return functionalPermissionContainers;
     }
 
-    public Collection<FunctionalPermissionContainer> generateFunctionalPermissionContainers(User user){
-        return generateFunctionalContainers(
-                functionalScopeRelationsListGenerator.generateFunctionalScopeRelations(user)
+    public Collection<FunctionalPermissionContainer> generateFPCs(User user){
+        return generateFPC(
+                fsrListGenerator.generateFSRs(user)
         );
     }
 
-    public Collection<FunctionalPermissionContainer> generateFunctionalPermissionContainers(String username){
-        return generateFunctionalContainers(
-                functionalScopeRelationsListGenerator.generateFunctionalScopeRelations(username)
+    public Collection<FunctionalPermissionContainer> generateFPCs(String username){
+        return generateFPC(
+                fsrListGenerator.generateFSRs(username)
         );
     }
 }

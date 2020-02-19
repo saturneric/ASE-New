@@ -7,9 +7,11 @@ import lombok.EqualsAndHashCode;
 @Data
 public class BaseInformationAlreadyExistException extends RuntimeException {
     private String className;
+    private String value;
 
-    public BaseInformationAlreadyExistException(Class<?> aClass){
+    public BaseInformationAlreadyExistException(Class<?> aClass, String value){
         super();
         this.className = aClass.getName();
+        this.value = value;
     }
 }
