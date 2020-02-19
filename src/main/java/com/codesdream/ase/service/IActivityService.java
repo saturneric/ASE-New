@@ -24,4 +24,7 @@ public interface IActivityService {
     //活动信息更新
     Activity update(Activity activity);
 
+    //活动创建
+    Activity createActivity(Activity activity);
+
 }
