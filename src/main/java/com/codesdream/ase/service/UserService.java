@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService implements IUserService {
@@ -73,6 +74,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void generateRandomUsername(User user) {
+        user.setUsername(usernameEncoder.encode(UUID.randomUUID().toString()));
+    }
+
+    @Override
     public User save(User user) {
         // 查找用户名是否已经被注册
         if(userRepository.findByUsername(user.getUsername()).isPresent())
@@ -83,7 +89,7 @@ public class UserService implements IUserService {
                 || user.getUserAuth().getUserQuestion().length() > 255
                 || user.getUserAuth().getStudentID().length() > 24
                 || user.getUserAuth().getMail().length() > 64
-                || user.getUserDetail().getRealName().length() > 12)
+                || user.getUserDetail().getRealName().length() > 64)
             throw new UserInformationIllegalException(user.getUsername());
 
         // 强制以哈希值(sha256)保存密码

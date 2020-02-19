@@ -31,6 +31,9 @@ public interface IUserService {
    // 根据学号生成随机用户名
    void generateRandomUsernameByStudentID(User user, String id);
 
+   // 随机生成一个用户名
+   void generateRandomUsername(User user);
+
    // 注册用户
    User save(User user);
 

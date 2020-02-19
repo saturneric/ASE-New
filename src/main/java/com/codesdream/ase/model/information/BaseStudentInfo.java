@@ -16,27 +16,27 @@ public class BaseStudentInfo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     // 真实姓名
-    private String name;
+    private String name = "";
     // 学号
-    private String studentId;
+    private String studentId = "";
     // 班号
-    private String classId;
+    private String classId = "";
     // 性别
-    private String sex;
+    private String sex = "";
     // 民族
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private BaseEthnic ethnic;
+    private BaseEthnic ethnic = null;
     // 学院
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private BaseCollege college;
+    private BaseCollege college = null;
     // 专业
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private BaseMajor major;
+    private BaseMajor major = null;
     // 政治面貌
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private BasePoliticalStatus politicalStatus;
+    private BasePoliticalStatus politicalStatus = null;
     // 省份地区
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private BaseAdministrativeDivision administrativeDivision;
+    private BaseAdministrativeDivision administrativeDivision = null;
 
 }

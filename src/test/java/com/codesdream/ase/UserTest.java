@@ -1,4 +1,4 @@
-package com.codesdream.ase.test;
+package com.codesdream.ase;
 
 import com.codesdream.ase.model.permission.User;
 
