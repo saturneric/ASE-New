@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,15 +18,15 @@ public class Period {
     private int id;
 
     //开始时间
-    @Column(name = "start_time", nullable = false)
-    private Date startTime;
+    @Column(name = "start_time")//, nullable = false)
+    private LocalDateTime startTime = LocalDateTime.of(2020,2,18,16,36);
 
     //结束时间
-    @Column(name = "end_time", nullable = false)
-    private Date endTime;
+    @Column(name = "end_time")//, nullable = false)
+    private LocalDateTime endTime = LocalDateTime.of(2020,2,18,16,37);
 
     //启用状态
-    @Column(name = "enabled", nullable = false)
+    @Column(name = "enabled")//, nullable = false)
     private boolean enabled;
 
 }

@@ -16,11 +16,11 @@ public class Attendance {
     private int id;
 
     //二维码url
-    @Column(name = "qr_code", nullable = false, unique = true)
+    @Column(name = "qr_code")//, nullable = false, unique = true)
     private String QRCode;
 
     //是否在线
-    @Column(name = "is_online", nullable = false)
+    @Column(name = "is_online")//, nullable = false)
     private boolean isOnline;
 
     //打卡时段列表
@@ -28,6 +28,6 @@ public class Attendance {
     private Set<Period> clockInPeriods;
 
     //打卡方式，0表示被扫，1表示扫
-    @Column(nullable = false)
+    @Column//(nullable = false)
     private boolean means;
 }

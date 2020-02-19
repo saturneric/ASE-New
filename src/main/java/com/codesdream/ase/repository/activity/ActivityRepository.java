@@ -1,4 +1,4 @@
-package com.codesdream.ase.repository;
+package com.codesdream.ase.repository.activity;
 
 import com.codesdream.ase.model.activity.Activity;
 import org.springframework.data.repository.CrudRepository;

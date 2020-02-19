@@ -23,8 +23,8 @@ public class Report {
     private String title;
 
     //创建人
-    @Column(nullable = false)
-    private String creator;
+    @OneToOne(cascade = CascadeType.MERGE)
+    private User creator;
 
     //活动类型
     @Column(nullable = false)
@@ -39,12 +39,12 @@ public class Report {
     private String cycle;
 
     //自愿参与人列表
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "act_volunteer")
     private Set<User> volunteers;
 
     //参与人列表
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "act_participate",
             joinColumns = {
                     @JoinColumn(name = "act_id")
@@ -68,7 +68,7 @@ public class Report {
     private Set<User> participatedGroup;
 
     //可报名人员列表
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "act_sign",
             joinColumns = {
                     @JoinColumn(name = "act_id")
@@ -80,7 +80,7 @@ public class Report {
     private Set<User> signGroup;
 
     //已报名人员列表
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "act_signed",
             joinColumns = {
                     @JoinColumn(name = "act_id")
@@ -92,7 +92,7 @@ public class Report {
     private Set<User> signedGroup;
 
     //可见人员列表
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "act_vis",
             joinColumns = {
                     @JoinColumn(name = "act_id")
@@ -170,4 +170,5 @@ public class Report {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "activity")
     private Activity activity;
+
 }

@@ -2,12 +2,14 @@ package com.codesdream.ase.service;
 
 import com.codesdream.ase.model.activity.Activity;
 import com.codesdream.ase.model.activity.Report;
-import com.codesdream.ase.repository.ReportRepository;
+import com.codesdream.ase.repository.activity.ReportRepository;
 
+import javax.annotation.Resource;
 import java.util.Optional;
 
 public class ReportService implements IReportService {
 
+    @Resource
     ReportRepository reportRepository;
     ActivityService activityService;
 
@@ -27,8 +29,7 @@ public class ReportService implements IReportService {
             throw new RuntimeException("Activity does not exist.");
         }
         activityService.addReport(activity, report);
-        reportRepository.save(report);
-        return report;
+        return reportRepository.save(report);
     }
 
     @Override

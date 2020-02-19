@@ -2,15 +2,17 @@ package com.codesdream.ase.service;
 
 import com.codesdream.ase.model.activity.Activity;
 import com.codesdream.ase.model.activity.Report;
-import com.codesdream.ase.repository.ActivityRepository;
+import com.codesdream.ase.repository.activity.ActivityRepository;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Optional;
 
 @Service
 public class ActivityService implements IActivityService {
 
-    ActivityRepository activityRepository;
+    @Resource
+    private ActivityRepository activityRepository;
 
     @Override
     public Optional<Activity> findActivityByTitle(String title) {
@@ -24,15 +26,13 @@ public class ActivityService implements IActivityService {
 
     @Override
     public Activity save(Activity activity) {
-        activityRepository.save(activity);
-        return activity;
+        return activityRepository.save(activity);
     }
 
     @Override
     public Activity addReport(Activity activity, Report report) {
        activity.setReport(report);
-       update(activity);
-       return activity;
+       return update(activity);
     }
 
     @Override
@@ -42,8 +42,7 @@ public class ActivityService implements IActivityService {
 
     @Override
     public Activity update(Activity activity) {
-        activityRepository.save(activity);
-        return activity;
+        return activityRepository.save(activity);
     }
 
 }
