@@ -37,6 +37,5 @@ public class BaseInformationTest {
         Assert.assertTrue(informationService.checkEthnic("汉族"));
         Assert.assertTrue(informationService.checkMajor("软件工程"));
         Assert.assertTrue(informationService.checkPoliticalStatus("群众"));
-
     }
 }

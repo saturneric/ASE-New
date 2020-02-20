@@ -30,10 +30,10 @@ public interface IUserService {
    Collection<? extends GrantedAuthority> getUserAuthorities(User user);
 
    // 更新用户的密码
-   void updatePassword(User user, String password);
+   User updatePassword(User user, String password);
 
    // 封禁用户
-   void disableUser(User user);
+   User disableUser(User user);
 
    // 根据学号生成随机用户名
    void generateRandomUsernameByStudentID(User user, String id);

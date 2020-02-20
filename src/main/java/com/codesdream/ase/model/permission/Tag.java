@@ -19,40 +19,34 @@ public class Tag {
     private int id;
 
     // 标签名
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(unique = true)
+    private String name = "";
 
     // 标签解释
-    private String description;
+    private String description = "";
 
     // 标签关联用户
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private Set<User> users;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    private Set<User> users = new HashSet<>();
 
     // 启用标志
     @Column(nullable = false)
-    private boolean enabled;
+    private boolean enabled = true;
 
     // 删除标志
     @Column(nullable = false)
-    private boolean deleted;
+    private boolean deleted = false;
 
     // 对应权限容器集合
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private Set<PermissionContainersCollection> permissionContainersCollections;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    private Set<PermissionContainersCollection> permissionContainersCollections = new HashSet<>();
 
-    public Tag(String name, String description) {
+    public Tag(String name) {
         this.name = name;
-        this.description = description;
-        this.deleted = false;
-        this.enabled = true;
-        this.users = new HashSet<User>();
     }
 
-    public Tag() {
-        this.deleted = false;
-        this.enabled = true;
-        this.users = new HashSet<User>();
+    public Tag(){
+
     }
 
 }

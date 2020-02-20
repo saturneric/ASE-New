@@ -14,14 +14,14 @@ public class UserAuth {
     private int id;
 
     // 密保问题
-    private String userQuestion;
+    private String userQuestion = null;
 
     // 密保问题答案
-    private String userAnswer;
+    private String userAnswer = null;
 
     // 用户邮箱
-    private String mail;
+    private String mail = null;
 
     // 学生ID
-    private String studentID;
+    private String studentID = null;
 }

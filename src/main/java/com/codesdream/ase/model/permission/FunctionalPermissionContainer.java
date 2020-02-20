@@ -19,36 +19,31 @@ public class FunctionalPermissionContainer {
     private int id;
 
     // 功能性权限容器名
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(unique = true)
+    private String name = "";
 
     // 功能性权限容器解释
-    private String description;
+    private String description = "";
 
     // 对应访问控制角色列表
     @ElementCollection
     @Column(nullable = false)
-    private List<String> roles;
+    private List<String> roles = new LinkedList<>();
 
     // 是否启用
     @Column(nullable = false)
-    private boolean enabled;
+    private boolean enabled = true;
 
     // 是否删除
     @Column(nullable = false)
-    private boolean deleted;
+    private boolean deleted = false;
+
+    public FunctionalPermissionContainer(String name) {
+        this.name = name;
+    }
 
     public FunctionalPermissionContainer(){
-        initDefault();
+
     }
 
-    public FunctionalPermissionContainer(String name, String description) {
-        this.name = name;
-        this.description = description;
-        initDefault();
-    }
-
-    private void initDefault(){
-        this.roles = new LinkedList<>();
-    }
 }

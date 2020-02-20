@@ -17,7 +17,7 @@ public class UserDetail {
     private int id;
 
     // 学生班号
-    private String classId = "";
+    private String classId = null;
 
     // 所属地区
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
@@ -40,7 +40,7 @@ public class UserDetail {
     private BasePoliticalStatus basePoliticalStatus = null;
 
     // 真实姓名
-    private String realName = "";
+    private String realName = null;
 
     // 在校认证状态
     private boolean atSchool = false;

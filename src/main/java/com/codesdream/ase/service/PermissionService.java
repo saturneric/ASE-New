@@ -4,9 +4,11 @@ import com.codesdream.ase.component.permission.UserFPCListGenerator;
 import com.codesdream.ase.component.permission.UserFSRGenerator;
 import com.codesdream.ase.model.permission.*;
 import com.codesdream.ase.repository.permission.FunctionalPermissionContainerRepository;
+import com.codesdream.ase.repository.permission.PermissionContainersCollectionRepository;
 import com.codesdream.ase.repository.permission.ScopePermissionContainerRepository;
 import com.codesdream.ase.repository.permission.TagRepository;
 import javafx.util.Pair;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,10 +29,36 @@ public class PermissionService implements IPermissionService {
     private ScopePermissionContainerRepository spcRepository;
 
     @Resource
+    private PermissionContainersCollectionRepository pccRepository;
+
+    @Resource
+    private IUserService userService;
+
+    @Resource
     private UserFPCListGenerator userFPCListGenerator;
 
     @Resource
     private UserFSRGenerator userFSRGenerator;
+
+    @Override
+    public FunctionalPermissionContainer getDefaultFPC(String name) {
+        return new FunctionalPermissionContainer(name);
+    }
+
+    @Override
+    public ScopePermissionContainer getDefaultSPC(String name) {
+        return new ScopePermissionContainer(name);
+    }
+
+    @Override
+    public PermissionContainersCollection getDefaultPCC(String name) {
+        return new PermissionContainersCollection(name);
+    }
+
+    @Override
+    public Tag getDefaultTag(String name) {
+        return new Tag(name);
+    }
 
     @Override
     public Optional<Tag> findTag(String name) {
@@ -94,80 +122,150 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public void addRelationItemToPCCollection(PermissionContainersCollection pcc,
-                                              FunctionalPermissionContainer fpc,
-                                              ScopePermissionContainer spc)
+    public PermissionContainersCollection addRelationItemToPCC(PermissionContainersCollection pcc,
+                                                               FunctionalPermissionContainer fpc,
+                                                               ScopePermissionContainer spc)
     {
         if(!findFPC(fpc.getId()).isPresent()){
-
+            throw new RuntimeException("FPC NOT In Database");
+        }
+        if(!findSPC(spc.getId()).isPresent()){
+            throw new RuntimeException("SPC NOT In Database");
         }
         FunctionalScopeRelation relation = new FunctionalScopeRelation();
         relation.setFunctionalPermissionContainer(fpc);
         relation.setScopePermissionContainer(spc);
         pcc.getFunctionalScopeRelations().add(relation);
-        update(pcc);
+        return update(pcc);
 
     }
 
     @Override
-    public void addRelationItemsToPCC(PermissionContainersCollection pcc,
-                                      Collection<Pair<FunctionalPermissionContainer, ScopePermissionContainer>> fspcPairs)
+    public PermissionContainersCollection addRelationItemsToPCC(PermissionContainersCollection pcc,
+                                                                Collection<Pair<FunctionalPermissionContainer, ScopePermissionContainer>> fspcPairs)
     {
-
+        for(Pair<FunctionalPermissionContainer, ScopePermissionContainer> fspc :fspcPairs){
+            pcc = addRelationItemToPCC(pcc, fspc.getKey(), fspc.getValue());
+        }
+        return pcc;
     }
 
     @Override
-    public void addUserToTag(Tag tag, User user) {
-
+    public Tag addUserToTag(Tag tag, User user) {
+        // 检查用户是否存在
+        if(!userService.checkIfUserExists(user.getUsername()).getKey())
+            throw new RuntimeException("User Not Exist");
+        tag.getUsers().add(user);
+        return update(tag);
     }
 
     @Override
-    public void addUsersToTag(Tag tag, Collection<User> users) {
-
+    public Tag addUsersToTag(Tag tag, Collection<User> users) {
+        for(User user :users){
+            tag = addUserToTag(tag, user);
+        }
+        return tag;
     }
 
     @Override
-    public void addRoleToFPC(FunctionalPermissionContainer fpc, String role) {
-
+    public FunctionalPermissionContainer addRoleToFPC(FunctionalPermissionContainer fpc, String role) {
+        fpc.getRoles().add(role);
+        return update(fpc);
     }
 
     @Override
-    public void addRolesToFPC(FunctionalPermissionContainer fpc, Collection<String> roles) {
-
+    public FunctionalPermissionContainer addRolesToFPC(FunctionalPermissionContainer fpc, Collection<String> roles) {
+        for(String role : roles){
+            fpc = addRoleToFPC(fpc, role);
+        }
+        return fpc;
     }
 
     @Override
-    public void save(Tag tag) {
-
+    public ScopePermissionContainer addTagToSPC(ScopePermissionContainer spc, Tag tag) {
+        if(!tagRepository.findByName(tag.getName()).isPresent())
+            throw new RuntimeException("Tag Not Exist");
+        spc.getTags().add(tag);
+        return update(spc);
     }
 
     @Override
-    public void save(FunctionalPermissionContainer fpc) {
-
+    public ScopePermissionContainer addTagsToSPC(ScopePermissionContainer spc, Collection<Tag> tags) {
+        for(Tag tag :tags){
+            spc = addTagToSPC(spc, tag);
+        }
+        return spc;
     }
 
     @Override
-    public void save(ScopePermissionContainer spc) {
-
+    public Tag addPCCToTag(Tag tag, PermissionContainersCollection pcc) {
+        if(!pccRepository.findByName(pcc.getName()).isPresent())
+            throw new RuntimeException("PCC Not Exist");
+        tag.getPermissionContainersCollections().add(pcc);
+        return update(tag);
     }
 
     @Override
-    public void save(PermissionContainersCollection pcc) {
-
+    public Tag addPCCsToTag(Tag tag, Collection<PermissionContainersCollection> pccs) {
+        for(PermissionContainersCollection pcc : pccs) {
+            tag = addPCCToTag(tag, pcc);
+        }
+        return tag;
     }
 
     @Override
-    public void update(FunctionalPermissionContainer fpc) {
-
+    public Tag save(Tag tag) {
+        if(tagRepository.findByName(tag.getName()).isPresent())
+            throw new RuntimeException("Tag Already Exist");
+        return tagRepository.save(tag);
     }
 
     @Override
-    public void update(ScopePermissionContainer spc) {
-
+    public FunctionalPermissionContainer save(FunctionalPermissionContainer fpc) {
+        if(fpcRepository.findByName(fpc.getName()).isPresent())
+            throw new RuntimeException("FPC Already Exist");
+        return fpcRepository.save(fpc);
     }
 
     @Override
-    public void update(PermissionContainersCollection pcc) {
+    public ScopePermissionContainer save(ScopePermissionContainer spc) {
+        if(spcRepository.findByName(spc.getName()).isPresent())
+            throw new RuntimeException("SPC Already Exist");
+        return spcRepository.save(spc);
+    }
 
+    @Override
+    public PermissionContainersCollection save(PermissionContainersCollection pcc) {
+        if(pccRepository.findByName(pcc.getName()).isPresent())
+            throw new  RuntimeException("PCC Already Exist");
+        return pccRepository.save(pcc);
+    }
+
+    @Override
+    public Tag update(Tag tag) {
+        if(!tagRepository.findByName(tag.getName()).isPresent())
+            throw new RuntimeException(("Tag Not Exist"));
+        return tagRepository.save(tag);
+    }
+
+    @Override
+    public FunctionalPermissionContainer update(FunctionalPermissionContainer fpc) {
+        if(!fpcRepository.findByName(fpc.getName()).isPresent())
+            throw new RuntimeException("FPC Not Exist");
+        return fpcRepository.save(fpc);
+    }
+
+    @Override
+    public ScopePermissionContainer update(ScopePermissionContainer spc) {
+        if(!spcRepository.findByName(spc.getName()).isPresent())
+            throw new RuntimeException("SPC Not Exist");
+        return spcRepository.save(spc);
+    }
+
+    @Override
+    public PermissionContainersCollection update(PermissionContainersCollection pcc) {
+        if(!pccRepository.findByName(pcc.getName()).isPresent())
+            throw new RuntimeException("PCC Not Exist");
+        return pccRepository.save(pcc);
     }
 }

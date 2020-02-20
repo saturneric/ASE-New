@@ -1,13 +1,21 @@
 package com.codesdream.ase.service;
 
 import com.codesdream.ase.model.permission.*;
-import com.sun.org.apache.xpath.internal.functions.FuncQname;
 import javafx.util.Pair;
 
 import java.util.Collection;
 import java.util.Optional;
 
 public interface IPermissionService {
+
+    FunctionalPermissionContainer getDefaultFPC(String name);
+
+    ScopePermissionContainer getDefaultSPC(String name);
+
+    PermissionContainersCollection getDefaultPCC(String name);
+
+    Tag getDefaultTag(String name);
+
     // 查找用户标签
     Optional<Tag> findTag(String name);
 
@@ -41,45 +49,59 @@ public interface IPermissionService {
     Collection<User> getUsersFromTag(Tag tag);
 
     // 指定一对功能性权限容器与对应的范围性权限容器并添加到指定权限容器集合中
-    void addRelationItemToPCCollection(
+    PermissionContainersCollection addRelationItemToPCC(
             PermissionContainersCollection pcc,
             FunctionalPermissionContainer fpc,
             ScopePermissionContainer spc);
 
     // 指定多对功能性权限容器与对应的范围性权限容器并添加到指定权限容器集合中
-    void addRelationItemsToPCC(
+    PermissionContainersCollection addRelationItemsToPCC(
             PermissionContainersCollection pcc,
             Collection<Pair<FunctionalPermissionContainer, ScopePermissionContainer>>
             fspcPairs);
 
     // 添加一个用户到指定标签中
-    void addUserToTag(Tag tag, User user);
+    Tag addUserToTag(Tag tag, User user);
 
     // 添加多个用户到指定标签中
-    void addUsersToTag(Tag tag, Collection<User> users);
+    Tag addUsersToTag(Tag tag, Collection<User> users);
 
     // 为功能性权限容器添加一个访问控制角色
-    void addRoleToFPC(
+    FunctionalPermissionContainer addRoleToFPC(
             FunctionalPermissionContainer fpc,
             String role);
 
     // 为功能性权限容器添加多个访问控制角色
-    void addRolesToFPC(
+    FunctionalPermissionContainer addRolesToFPC(
             FunctionalPermissionContainer fpc,
             Collection<String> roles);
 
-    void save(Tag tag);
+    // 为范围性权限容器添加一个标签
+    ScopePermissionContainer addTagToSPC(ScopePermissionContainer spc, Tag tag);
 
-    void save(FunctionalPermissionContainer fpc);
+    // 为范围性权限容器添加多个标签
+    ScopePermissionContainer addTagsToSPC(ScopePermissionContainer spc, Collection<Tag> tags);
 
-    void save(ScopePermissionContainer spc);
+    // 将一个权限容器集合添加到标签中
+    Tag addPCCToTag(Tag tag, PermissionContainersCollection pcc);
 
-    void save(PermissionContainersCollection pcc);
+    // 将多个权限容器集合添加到标签中
+    Tag addPCCsToTag(Tag tag, Collection<PermissionContainersCollection> pccs);
 
-    void update(FunctionalPermissionContainer fpc);
+    Tag save(Tag tag);
 
-    void update(ScopePermissionContainer spc);
+    FunctionalPermissionContainer save(FunctionalPermissionContainer fpc);
 
-    void update(PermissionContainersCollection pcc);
+    ScopePermissionContainer save(ScopePermissionContainer spc);
+
+    PermissionContainersCollection save(PermissionContainersCollection pcc);
+
+    Tag update(Tag tag);
+
+    FunctionalPermissionContainer update(FunctionalPermissionContainer fpc);
+
+    ScopePermissionContainer update(ScopePermissionContainer spc);
+
+    PermissionContainersCollection update(PermissionContainersCollection pcc);
 
 }

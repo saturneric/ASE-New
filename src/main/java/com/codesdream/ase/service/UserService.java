@@ -63,16 +63,16 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void updatePassword(User user, String password) {
+    public User updatePassword(User user, String password) {
         user.setPassword(passwordEncoder.encode(password));
-        update(user);
+        return update(user);
     }
 
     // 封禁用户
     @Override
-    public void disableUser(User user){
+    public User disableUser(User user){
         user.setEnabled(false);
-        update(user);
+        return update(user);
     }
 
     @Override
