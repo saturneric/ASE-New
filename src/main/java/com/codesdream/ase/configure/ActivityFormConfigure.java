@@ -29,7 +29,7 @@ public class ActivityFormConfigure {
        add("assist-manager");
        add("attendance");
     }};
-    public final static HashMap<String, Set<String>> stdActivityMap;
+    public final static Map<String, HashSet<String>> stdActivityMap;
 
     static {
         stdActivityMap = new HashMap() {{

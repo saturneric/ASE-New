@@ -2,6 +2,7 @@ package com.codesdream.ase.model.activity;
 
 import com.codesdream.ase.model.permission.User;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
