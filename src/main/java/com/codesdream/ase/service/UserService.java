@@ -93,6 +93,17 @@ public class UserService implements IUserService {
             throw new UsernameAlreadyExistException(user.getUsername());
 
         // 用户信息一般性规范检查
+        if(user.getUserAuth().getUserAnswer() == null
+                || user.getUserAuth().getUserQuestion() == null
+                || user.getUserAuth().getStudentID() == null
+                || user.getUserDetail().getRealName() == null
+                || user.getUserAuth().getMail() == null){
+
+            throw new RuntimeException("Key Information IS NULL");
+        }
+
+
+        // 用户信息一般性规范检查
         if(user.getUserAuth().getUserAnswer().length() > 255
                 || user.getUserAuth().getUserQuestion().length() > 255
                 || user.getUserAuth().getStudentID().length() > 24
@@ -144,6 +155,7 @@ public class UserService implements IUserService {
         user.getUserDetail().setBaseMajor(studentInfo.getMajor());
         user.getUserDetail().setBaseEthnic(studentInfo.getEthnic());
         user.getUserDetail().setBasePoliticalStatus(studentInfo.getPoliticalStatus());
+        user.getUserDetail().setSex(studentInfo.getSex());
 
         // 添加在校学生认证
         user.getUserDetail().setAtSchool(true);

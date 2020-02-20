@@ -1,10 +1,15 @@
 <!doctype html>
-<html lang="en"
-	  xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
+	  <link href="../static/assets/css/atlantis.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="../static/assets/css/atlantis.css.map.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/atlantis.min.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/demo.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/fonts.css" rel="stylesheet" type="text/css"><link href="../static/assets/css/fonts.min.css" rel="stylesheet" type="text/css">
 	<div th:include="layout::head"></div>
 <meta charset="utf-8">
-<title>home</title>
+<title>main</title>
 </head>
 
 <body>
@@ -13,7 +18,7 @@
 	<!-- End Custom template -->
   </div>
 	<!--   Core JS Files   -->
-	<div class="wrapper">
+<div class="wrapper">
 	  <div class="main-header">
 	    <!-- Logo Header -->
 	    <div class="logo-header" data-background-color="blue"> <a href="index.html" class="logo"> <img src="../assets/img/logo.svg" alt="navbar brand" class="navbar-brand"></a>
@@ -146,14 +151,7 @@
 	      <div class="sidebar-content">
 	        <div class="user">
 	          <div class="avatar-sm float-left mr-2"> <img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle"></div>
-	          <div class="info">
-				  <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-					  <span>
-						  <span th:text="${real_name}"></span>
-						  <span class="user-level">学生</span>
-						  <span class="caret"></span>
-					  </span>
-				  </a>
+	          <div class="info"> <a data-toggle="collapse" href="#collapseExample" aria-expanded="true"> <span> 二狗子<span class="user-level">学生</span> <span class="caret"></span></span></a>
 	            <div class="clearfix"></div>
 	            <div class="collapse in" id="collapseExample">
 	              <ul class="nav">
@@ -251,135 +249,13 @@
         </div>
       </div>
 	  
-	          
-	  <div class="main-panel" >
-	  	<div class="card" style="left:20px;position:inherit ">
+		   	
 		  
-		  <div class="page-header" style="height:60px;left:20px"></div>
-		  
-		  <div class="card-title" style="left:30px;position:inherit ">
-			 <font style="vertical-align: inherit" ><font style="vertical-align: inherit;">基本信息</font></font>
-		  </div>
-		  <table style="width: 80% ;left:20px;position:inherit " class="table table-bordered" >
-		   
-		    <tbody>
-				<tr style="background-color: #F2F2F2;border-color: #212121">
-		        <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">姓名</font></font></th>
-		        <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><span th:text="${real_name}"></span></font></font></td>
-		        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">身份认证状态</font></font></td>
-		        <td style="background-color: #FFFFFF">
-					<font style="vertical-align: inherit;">
-						<font style="vertical-align: inherit;">
-							<span th:if="${is_at_school}">已认证</span>
-							<span th:unless="${is_at_school}">未认证</span>
-						</font>
-					</font>
-				</td>
 
-		      
-	          </tr>
-		      <tr style="background-color: #F2F2F2;border-color: #212121">
-		        <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">学号</font></font></th>
-		        <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><span th:text="${student_id}"></span></font></font></td>
-		        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">身份</font></font></td>
-		        <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">学生</font></font></td>
-		      
-	          </tr>
-				<tr style="background-color: #F2F2F2;border-color: #212121">
-		        <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">民族</font></font></th>
-		        <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><span th:text="${ethnic}"></span> </font></font></td>
-		        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">性别</font></font></td>
-		        <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><span th:text="${sex}"></span> </font></font></td>
-		        
-		        
+	   		 <iframe id="frame-area" src="huodong2.html" style="width:100%; height:100%;overflow-x: hidden" ></iframe>
 		  
-	          
-		        
-		        
-		  
-	          </tr><tr style="background-color: #F2F2F2;border-color: #212121">
-		        <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">班号</font></font></th>
-		        <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><span th:text="${class_id}"></span> </font></font></td>
-		        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">班级</font></font></td>
-		        <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">软件九班</font></font></td>
-		        
-		        
-		  
-	          </tr><tr style="background-color: #F2F2F2;border-color: #212121">
-		        <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">专业</font></font></th>
-					<td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><span th:text="${major}"></span></font></font></td>
-		        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">学院</font></font></td>
-		        <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><span th:text="${college}"></span> </font></font></td>
-				
-				</tr><tr style="background-color: #F2F2F2;border-color: #212121">
-		        <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">邮箱</font></font></th>
-		        	<td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><span th:text="${mail}"></span></font></font></td>
-		        	<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">职务</font></font></td>
-		        <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">无</font></font></td>
-		        
-		        
-		  
-	          </tr>
-				
-		     
-	        </tbody>
-	    </table>
-		  
-		  
-		  
-		   <div class="card-title" style="left:20px;position:inherit " >
-			 <font style="vertical-align: inherit" ><font style="vertical-align: inherit;">统计信息</font></font>
-		  </div>
-		  <table class="table table-bordered" style="width: 80%;left:20px;position:inherit ">
-			<thead>
-       			 <tr>
-		        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">学分积</font></font></th>
-		        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">学分积排名</font></font></th>
-		        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">综合测评</font></font></th>
-		        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">综测排名</font></font></th>
-		        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">考勤次数</font></font></th>
-		        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">考勤率</font></font></th>
-				<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">活动参加数	</font></font></th>
-	          </tr>
-	        </thead>
-		    <tbody>
-		      <tr style="background-color:  #F2F2F2">
-		        <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1个</font></font></th>
-		        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表格单元格</font></font></td>
-		        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表格单元格</font></font></td>
-		        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表格单元格</font></font></td>
-		        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表格单元格</font></font></td>
-		        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表格单元格</font></font></td> <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表格单元格</font></font></td>
-		  
-	          </tr>
-		     
-	        </tbody>
-	    </table>
-<!--
-		  <footer class="footer">
-		    <div class="container-fluid">
-		      <nav class="pull-left">
-		        <ul class="nav">
-		          <li class="nav-item"> <a class="nav-link" href="#"> ThemeKita </a></li>
-		          <li class="nav-item"> <a class="nav-link" href="#"> Help </a></li>
-		          <li class="nav-item"> <a class="nav-link" href="#"> Licenses </a></li>
-	            </ul>
-	          </nav>
-		      <div class="copyright ml-auto"> 2018, made with by ThemeKita - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>
-	        </div>
-	    </footer>
--->
-						
-						
-					</div>
-</div>
-	  
-	  
-		
-	  <!-- End Sidebar -->
-		
-		
-	  <!-- Custom template | don't include it in your project! -->	  <!-- End Custom template -->
+      
+<!-- End Sidebar -->  <!-- Custom template | don't include it in your project! -->	  <!-- End Custom template -->
 </div>
 	<script src="../assets/js/core/jquery.3.2.1.min.js"></script> <script src="../assets/js/core/popper.min.js"></script>
 <script src="../assets/js/core/bootstrap.min.js"></script>

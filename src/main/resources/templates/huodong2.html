@@ -1,0 +1,626 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+	<link href="../static/assets/css/atlantis.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="../static/assets/css/atlantis.css.map.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/atlantis.min.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/demo.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/fonts.css" rel="stylesheet" type="text/css"><link href="../static/assets/css/fonts.min.css" rel="stylesheet" type="text/css">
+	<div th:include="layout::head"></div>
+<title>创建活动</title>
+</head>
+
+<body>
+<div class="main-panel" >
+  <div class="card" style="left:20px;position:inherit;width:90%; ">
+    <div class="form-group" style="left: 20%;position: inherit;width: 600px;" >
+      <div class="page-header" style="height:60px;left:20px"></div>
+		
+		
+		
+		<div class="form-group">
+			<label for="largeInput"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">*    </font>活动名称</font></font></label>
+			<input style="" type="text" class="form-control form-control" id="defaultInput" placeholder="">
+			
+			
+			
+		</div>
+		<div class="form-group">
+			<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">*     </font>活动描述</font></font></label>
+			<textarea class="form-control" id="comment" rows="5">
+			</textarea>
+		</div>
+		<div class="form-group">
+			<label for="exampleFormControlFile1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上传封面</font></font></label>
+			<input type="file" class="form-control-file" id="exampleFormControlFile1">
+		</div>
+		<div class="form-group">
+			<label for="exampleFormControlFile1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上传附件</font></font>(多文件请上传压缩包)</label>
+			<input type="file" class="form-control-file" id="exampleFormControlFile1">
+		</div>
+		<div class="form-group">
+			<label for="exampleFormControlSelect1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">*     </font>活动类型</font></font></label>
+			<select class="form-control" id="exampleFormControlSelect1">
+				<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">团建活动</font></font></option>
+				<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">会议活动</font></font></option>
+				<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">讲座</font></font></option>
+				<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">打卡签到</font></font></option>
+				
+			</select>
+		</div>
+	  <div class="form-group">
+			
+			<div class="form-group" >
+			<label for="largeInput"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">*    </font>活动标签</font></font></label>
+			<p class="row" >
+				<input style="width:70% " type="text" class="form-control form-control" id="defaultInput" placeholder="添加新的标签">
+				<button class="btn btn-primary btn-border" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">添加</font></font></button>
+			</p>
+			
+			
+			</div>
+		
+			
+			<div class="selectgroup selectgroup-pills">
+				
+				<label class="selectgroup-item">
+					<input type="checkbox" name="value" value="HTML" class="selectgroup-input" checked="">
+					<span class="selectgroup-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的HTML</font></font></span>
+				</label>
+				<label class="selectgroup-item">
+					<input type="checkbox" name="value" value="CSS" class="selectgroup-input">
+					<span class="selectgroup-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的CSS</font></font></span>
+				</label>
+				<label class="selectgroup-item">
+					<input type="checkbox" name="value" value="PHP" class="selectgroup-input">
+					<span class="selectgroup-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的PHP</font></font></span>
+				</label>
+				<label class="selectgroup-item">
+					<input type="checkbox" name="value" value="JavaScript" class="selectgroup-input">
+					<span class="selectgroup-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的JavaScript</font></font></span>
+				</label>
+				<label class="selectgroup-item">
+					<input type="checkbox" name="value" value="Ruby" class="selectgroup-input">
+					<span class="selectgroup-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">红宝石</font></font></span>
+				</label>
+				<label class="selectgroup-item">
+					<input type="checkbox" name="value" value="Ruby" class="selectgroup-input">
+					<span class="selectgroup-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">红宝石</font></font></span>
+				</label>
+				<label class="selectgroup-item">
+					<input type="checkbox" name="value" value="C++" class="selectgroup-input">
+					<span class="selectgroup-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">C ++</font></font></span>
+				</label>
+			</div>
+	  </div>
+		
+	  <div class="form-group">
+			<label for="largeInput"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">*    </font>活动地点</font></font></label>
+			<input style="" type="text" class="form-control form-control" id="defaultInput" placeholder="">
+		</div>
+	  <div class="form-check">
+			<label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">*    </font>是否可报名</font></font></label>
+			<label class="form-radio-label">
+				<input class="form-radio-input" type="radio" name="optionsRadios" value="" checked="">
+				<span class="form-radio-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可报名</font></font></span>
+			</label>
+			<label class="form-radio-label ml-3">
+				<input class="form-radio-input" type="radio" name="optionsRadios" value="">
+				<span class="form-radio-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不可报名</font></font></span>
+			</label>
+		</div>
+		
+	  <div class="form-group" >
+		    <label for="largeInput2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">* </font>设定活动参与者</font></font></label>
+		    <div class="row" >
+		      <input style="width:60% " type="text" class="form-control form-control" id="defaultInput2" placeholder="输入学号/班号进行指定添加">
+		      <button class="btn btn-primary btn-border" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">添加对象</font></font></button>
+	        
+	      </div>
+			<hr>
+		  <font style="font-size:14px ;left: 30px;position: relative">筛选添加(不选默认为全选)</font>
+						<p></p>	  		
+						<div class="form-group">  
+						  <div class="form-check">
+
+							<strong><font style="vertical-align: inherit;">  职务：</font></strong>
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">班长</font></font></span>
+									</label>
+									  <label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: 	inherit;">班干部</font></font></span>
+								</label>
+									 <label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">学生会</font></font></span>
+									</label>
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">年级干部</font></font></span>
+									</label>
+								  <label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">无职务</font></font></span>
+								</label>
+							 </div>
+							<div class="row">
+
+									<strong><font style="vertical-align: inherit;">  学院和专业：</font></strong>
+
+									<select class="form-control" id="exampleFormControlSelect1" style="width: 30%;">
+										<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">软件学院</font></font></option>
+										<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">微电子学院</font></font></option>
+										<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有</font></font></option>
+
+
+									</select>  <font>  学院   </font>  <div style="width: 6%;"></div>
+									<select class="form-control" id="exampleFormControlSelect1" style="width: 30%;">
+												<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">软件工程</font></font></option>
+												<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有</font></font></option>
+
+											</select><font>  专业</font><div style="width: 6%;"></div>
+
+							</div>
+							<div class="row" style="position: relative;top: 15px;">
+
+									<strong><font style="vertical-align: inherit;">  班级：</font></strong>
+
+									<select class="form-control" id="exampleFormControlSelect1" style="width: 30%;">
+										<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font></option>
+										<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2</font></font></option>
+										<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3</font></font></option>
+										<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有</font></font></option>
+
+									</select> 
+
+							</div>
+
+							</div>
+									<div class="form-check">
+
+									<strong><font style="vertical-align: inherit;">  性别：</font></strong>
+											<label class="form-check-label">
+												<input class="form-check-input" type="checkbox" value="">
+												<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">男</font></font></span>
+											</label>
+											  <label class="form-check-label">
+												<input class="form-check-input" type="checkbox" value="">
+												<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">女</font></font></span>
+									</label>
+								 </div>
+			  					<button class="btn btn-link">
+											<span class="btn-label">
+												<i class="fa fa-link"></i>
+											</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+											查看名单（160人）
+										</font></font></button>
+			 					 <div class="card-body">
+									<p class="demo">
+										
+										<button class="btn btn-primary btn-border"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">筛选并添加</font></font></button>
+										<button class="btn btn-primary btn-border" style="color:red;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">筛选并移除</font></font></button>
+									
+
+									</p>
+								</div>
+		  </div>
+				  <div class="form-group" >
+					<label for="largeInput3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">* </font>设定活动可报名对象</font></font></label>
+					<div class="row" >
+						  <input style="width:60% " type="text" class="form-control form-control" id="defaultInput2" placeholder="输入学号/班号进行指定添加">
+						  <button class="btn btn-primary btn-border" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">添加对象</font></font></button>
+
+					</div>
+					<hr>
+					<font style="font-size:14px ;left: 30px;position: relative">筛选添加(不选默认为全选)</font>
+					<p></p>
+					<div class="form-group">
+					  <div class="form-check"> <strong><font style="vertical-align: inherit;"> 职务：</font></strong>
+						<label class="form-check-label">
+						  <input class="form-check-input" type="checkbox" value="">
+						  <span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">班长</font></font></span> </label>
+						<label class="form-check-label">
+						  <input class="form-check-input" type="checkbox" value="">
+						  <span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: 	inherit;">班干部</font></font></span> </label>
+						<label class="form-check-label">
+						  <input class="form-check-input" type="checkbox" value="">
+						  <span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">学生会</font></font></span> </label>
+						<label class="form-check-label">
+						  <input class="form-check-input" type="checkbox" value="">
+						  <span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">年级干部</font></font></span> </label>
+						<label class="form-check-label">
+						  <input class="form-check-input" type="checkbox" value="">
+						  <span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">无职务</font></font></span> </label>
+					  </div>
+					  <div class="row"> <strong><font style="vertical-align: inherit;"> 学院和专业：</font></strong>
+						<select name="exampleFormControlSelect" class="form-control" id="exampleFormControlSelect2" style="width: 30%;">
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">软件学院</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">微电子学院</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有</font></font></option>
+						</select>
+						<font> 学院 </font>
+						<div style="width: 6%;"></div>
+						<select name="exampleFormControlSelect" class="form-control" id="exampleFormControlSelect2" style="width: 30%;">
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">软件工程</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有</font></font></option>
+						</select>
+						<font> 专业</font>
+						<div style="width: 6%;"></div>
+					  </div>
+					  <div class="row" style="position: relative;top: 15px;"> <strong><font style="vertical-align: inherit;"> 班级：</font></strong>
+						<select name="exampleFormControlSelect" class="form-control" id="exampleFormControlSelect2" style="width: 30%;">
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有</font></font></option>
+						</select>
+					  </div>
+					</div>
+					<div class="form-check"> <strong><font style="vertical-align: inherit;"> 性别：</font></strong>
+					  <label class="form-check-label">
+						<input class="form-check-input" type="checkbox" value="">
+						<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">男</font></font></span> </label>
+					  <label class="form-check-label">
+						<input class="form-check-input" type="checkbox" value="">
+						<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">女</font></font></span> </label>
+					</div>
+					  <button class="btn btn-link">
+						<span class="btn-label">
+							<i class="fa fa-link"></i>
+						</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+						查看名单（160人）
+					</font></font></button>
+					<div class="card-body">
+					  <p class="demo">
+						<button class="btn btn-primary btn-border"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">筛选并添加</font></font></button>
+						<button class="btn btn-primary btn-border" style="color:red;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">筛选并移除</font></font></button>
+					  </p>
+					</div>
+				  </div>
+		
+		
+		
+		<div class="form-check">
+			<label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">*    </font>活动可见范围</font></font></label><br>
+			<label class="form-radio-label">
+				<input class="form-radio-input" type="radio" name="optionsRadios" value="" checked="">
+				<span class="form-radio-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有人可见</font></font></span>
+			</label>
+			<label class="form-radio-label ml-3">
+				<input class="form-radio-input" type="radio" name="optionsRadios" value="">
+				<span class="form-radio-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">仅参与者或报名者可见</font></font></span>
+			</label>
+		</div>
+		<div class="form-group">
+			<label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">报名时间</font></font></label>
+			
+			<div class="row">
+				<font style="font-size:  14px">报名开始时间:</font>
+				<input style="width: 20%"  class="form-control" id="year" placeholder="年">
+				<input style="width: 20%"  class="form-control" id="month" placeholder="月">
+				<input style="width: 20%"  class="form-control" id="day" placeholder="日">
+				<button class="btn btn-link">
+						<span class="btn-label">
+							<i class="fa fa-link"></i>
+						</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+					展开日历
+					</font></font></button>
+			</div>
+			
+			<div class="row">
+				<font style="font-size:  14px">报名持续时长:</font>
+				
+				<input style="width: 20%"  class="form-control" id="tian" placeholder="天">
+				<input style="width: 20%"  class="form-control" id="hour" placeholder="小时">
+			</div>
+			
+		
+		
+		</div>
+		<div class="form-group">
+			<div class="row"><label>
+				<font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">*    </font>活动进行时间</font></font></label>          
+				
+			</div>
+			
+			<div class="row">
+				<font style="font-size:  14px">开始时间:</font>
+				<input style="width: 20%"  class="form-control" id="year" placeholder="年">
+				<input style="width: 20%"  class="form-control" id="month" placeholder="月">
+				<input style="width: 20%"  class="form-control" id="day" placeholder="日">
+				<button class="btn btn-link">
+						<span class="btn-label">
+							<i class="fa fa-link"></i>
+						</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+					展开日历
+					</font></font></button>
+			</div>
+			<div class="row">
+				<font style="font-size:  14px">持续时长:</font>
+				
+				<input style="width: 20%"  class="form-control" id="tian" placeholder="天">
+				<input style="width: 20%"  class="form-control" id="hour" placeholder="小时">
+			</div>
+		
+				
+			
+			<div class="form-check">
+				<label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">*    </font>活动是否重复/周期性进行</font></font></label><br>
+				<label class="form-radio-label">
+					<input class="form-radio-input" type="radio" name="optionsRadios" value="" checked="">
+					<span class="form-radio-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">是</font></font></span>
+				</label>
+				<label class="form-radio-label ml-3">
+					<input class="form-radio-input" type="radio" name="optionsRadios" value="">
+					<span class="form-radio-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">否</font></font></span>
+				</label>
+			</div>
+			<div class="row">
+				<font style="font-size:  14px">周期:</font>
+				
+				<input style="width: 20%"  class="form-control" id="week" placeholder="">周
+			</div>
+			<font style="font-size: 14px">哪一天开展活动：</font>
+			<div class="form-check">
+									
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">周一</font></font></span>
+									</label>
+									  <label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: 	inherit;">周二</font></font></span>
+								</label>
+									 <label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">周三</font></font></span>
+									</label>
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">周四</font></font></span>
+									</label>
+								  <label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">周五</font></font></span>
+								</label>
+								<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">周六</font></font></span>
+								</label>
+								<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" value="">
+										<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">周天</font></font></span>
+								</label>
+							 </div>
+			
+			
+		</div>
+		<div class="form-check">
+				<label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">*    </font>活动是否签到</font></font></label><br>
+				<label class="form-radio-label">
+					<input class="form-radio-input" type="radio" name="optionsRadios" value="" checked="">
+					<span class="form-radio-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">每次签到</font></font></span>
+				</label>
+				<label class="form-radio-label ml-3">
+					<input class="form-radio-input" type="radio" name="optionsRadios" value="">
+					<span class="form-radio-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">随机签到</font></font></span>
+				</label>
+				<label class="form-radio-label ml-3">
+					<input class="form-radio-input" type="radio" name="optionsRadios" value="">
+					<span class="form-radio-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不签到</font></font></span>
+				</label>
+		</div>
+		<div class="form-group" >
+					<label for="largeInput3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="color: red">* </font>设定活动管理者</font></font></label>
+					<div class="row" >
+						  <input style="width:60% " type="text" class="form-control form-control" id="defaultInput2" placeholder="输入学号/班号进行指定添加">
+						  <button class="btn btn-primary btn-border" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">添加对象</font></font></button>
+
+					</div>
+					<hr>
+					<font style="font-size:14px ;left: 30px;position: relative">筛选添加(不选默认为全选)</font>
+					<p></p>
+					<div class="form-group">
+					  <div class="form-check"> <strong><font style="vertical-align: inherit;"> 职务：</font></strong>
+						<label class="form-check-label">
+						  <input class="form-check-input" type="checkbox" value="">
+						  <span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">班长</font></font></span> </label>
+						<label class="form-check-label">
+						  <input class="form-check-input" type="checkbox" value="">
+						  <span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: 	inherit;">班干部</font></font></span> </label>
+						<label class="form-check-label">
+						  <input class="form-check-input" type="checkbox" value="">
+						  <span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">学生会</font></font></span> </label>
+						<label class="form-check-label">
+						  <input class="form-check-input" type="checkbox" value="">
+						  <span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">年级干部</font></font></span> </label>
+						<label class="form-check-label">
+						  <input class="form-check-input" type="checkbox" value="">
+						  <span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">无职务</font></font></span> </label>
+					  </div>
+					  <div class="row"> <strong><font style="vertical-align: inherit;"> 学院和专业：</font></strong>
+						<select name="exampleFormControlSelect" class="form-control" id="exampleFormControlSelect2" style="width: 30%;">
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">软件学院</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">微电子学院</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有</font></font></option>
+						</select>
+						<font> 学院 </font>
+						<div style="width: 6%;"></div>
+						<select name="exampleFormControlSelect" class="form-control" id="exampleFormControlSelect2" style="width: 30%;">
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">软件工程</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有</font></font></option>
+						</select>
+						<font> 专业</font>
+						<div style="width: 6%;"></div>
+					  </div>
+					  <div class="row" style="position: relative;top: 15px;"> <strong><font style="vertical-align: inherit;"> 班级：</font></strong>
+						<select name="exampleFormControlSelect" class="form-control" id="exampleFormControlSelect2" style="width: 30%;">
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3</font></font></option>
+						  <option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有</font></font></option>
+						</select>
+					  </div>
+					</div>
+					<div class="form-check"> <strong><font style="vertical-align: inherit;"> 性别：</font></strong>
+					  <label class="form-check-label">
+						<input class="form-check-input" type="checkbox" value="">
+						<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">男</font></font></span> </label>
+					  <label class="form-check-label">
+						<input class="form-check-input" type="checkbox" value="">
+						<span class="form-check-sign"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">女</font></font></span> </label>
+					</div>
+					  <button class="btn btn-link">
+						<span class="btn-label">
+							<i class="fa fa-link"></i>
+						</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+						查看名单（160人）
+					</font></font></button>
+					<div class="card-body">
+					  <p class="demo">
+						<button class="btn btn-primary btn-border"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">添加为管理员</font></font></button>
+						<button class="btn btn-primary btn-border" style="color:red;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">移除</font></font></button>
+					  </p>
+					</div>
+				  </div>
+		
+		
+		
+		
+		<div class="card-action">
+									<button class="btn btn-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">提交</font></font></button>
+									<button class="btn btn-danger" style="left:10%;position: relative"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">取消</font></font></button>
+								</div>
+		
+	</div>
+			  
+	  
+		
+		
+      
+    </div>
+   
+  </div>
+</div>
+
+<script src="../assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="../assets/js/core/popper.min.js"></script>
+<script src="../assets/js/core/bootstrap.min.js"></script>
+<script src="../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="../assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+<script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="../assets/js/plugin/chart.js/chart.min.js"></script>
+<script src="../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+<script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="../assets/js/plugin/datatables/datatables.min.js"></script>
+<script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="../assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+<script src="../assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+<script src="../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+<script src="../assets/js/atlantis.min.js"></script>
+<script src="../assets/js/setting-demo.js"></script>
+<script src="../assets/js/demo.js"></script>
+<script>
+		Circles.create({
+			id:'circles-1',
+			radius:45,
+			value:60,
+			maxValue:100,
+			width:7,
+			text: 5,
+			colors:['#f1f1f1', '#FF9E27'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		Circles.create({
+			id:'circles-2',
+			radius:45,
+			value:70,
+			maxValue:100,
+			width:7,
+			text: 36,
+			colors:['#f1f1f1', '#2BB930'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		Circles.create({
+			id:'circles-3',
+			radius:45,
+			value:40,
+			maxValue:100,
+			width:7,
+			text: 12,
+			colors:['#f1f1f1', '#F25961'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
+
+		var mytotalIncomeChart = new Chart(totalIncomeChart, {
+			type: 'bar',
+			data: {
+				labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
+				datasets : [{
+					label: "Total Income",
+					backgroundColor: '#ff9e27',
+					borderColor: 'rgb(23, 125, 255)',
+					data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					display: false,
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							display: false //this will remove only the label
+						},
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}],
+					xAxes : [ {
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}]
+				},
+			}
+		});
+
+		$('#lineChart').sparkline([105,103,123,100,95,105,115], {
+			type: 'line',
+			height: '70',
+			width: '100%',
+			lineWidth: '2',
+			lineColor: '#ffa534',
+			fillColor: 'rgba(255, 165, 52, .14)'
+		});
+	</script>
+
+	
+	
+	
+</body>
+</html>

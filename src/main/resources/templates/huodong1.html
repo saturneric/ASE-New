@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+	<link href="../static/assets/css/atlantis.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="../static/assets/css/atlantis.css.map.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/atlantis.min.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/demo.css" rel="stylesheet" type="text/css">
+    <link href="../static/assets/css/fonts.css" rel="stylesheet" type="text/css"><link href="../static/assets/css/fonts.min.css" rel="stylesheet" type="text/css">
+	<div th:include="layout::head"></div>
+<title>我的活动</title>
+</head>
+
+<body>
+<div class="main-panel" >
+  <div class="card" style="left:20px;position:inherit;width:90%; ">
+    <div style="left: 5%;position: inherit">
+      	<div class="page-header" style="height:60px;left:20px"></div>
+		
+		<div class="card-body">
+									<ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
+										<li class="nav-item">
+											<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">基本信息</font></font></a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">签到情况</font></font></a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">活动管理者</font></font></a>
+										</li>
+									</ul>
+									<div class="tab-content mt-2 mb-3" id="pills-tabContent">
+										<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+											<div style="position:relative; height : 40px"></div>
+												<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">远处，在“山”一词的后面，远离Vokalia和Consonantia国家，那里有盲目的文字。</font><font style="vertical-align: inherit;">他们分开居住在语义大国语义海的Bookmarksgrove。</font></font></p>
+
+											<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">一条名为Duden的小河在其所在地流淌，并向其提供必要的游憩设施。</font><font style="vertical-align: inherit;">这是一个天堂般的国家，在这里，烤过的句子飞入您的嘴里。</font></font></p>
+											<table style="width: 80% ;left:20px;position:inherit " class="table table-bordered">
+											  <tbody>
+											    <tr style="background-color: #F2F2F2;border-color: #212121">
+											      <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建人</font></font></th>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">二狗子</font></font></td>
+											      <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">报名人数</font></font></td>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1223</font></font></td>
+										        </tr>
+											    <tr style="background-color: #F2F2F2;border-color: #212121">
+											      <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">进行状态</font></font></th>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">未开始</font></font></td>
+											      <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">活动编号</font></font></td>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">E123442</font></font></td>
+										        </tr>
+											    <tr style="background-color: #F2F2F2;border-color: #212121">
+											      <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我的角色</font></font></th>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参加者</font></font></td>
+											      <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参加情况</font></font></td>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">待参加</font></font></td>
+										        </tr>
+											    <tr style="background-color: #F2F2F2;border-color: #212121">
+											      <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">报名时间</font></font></th>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.13-3.14</font></font></td>
+											      <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">开展时间</font></font></td>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.15 14：00-3.17 14:00</font></font></td>
+										        </tr>
+											    <tr style="background-color: #F2F2F2;border-color: #212121">
+											      <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">活动类型</font></font></th>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">团建活动</font></font></td>
+											      <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">地点</font></font></td>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在线</font></font></td>
+										        </tr>
+											    <tr style="background-color: #F2F2F2;border-color: #212121">
+											      <th scope="row"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">是否考勤</font></font></th>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">随机考勤</font></font></td>
+											      <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+											      <td style="background-color: #FFFFFF"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+										        </tr>
+										      </tbody>
+										  </table>
+				
+										</div>
+										<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" style="position: relative;left: 20%;">
+											
+											
+											<div style="position:relative; height : 40px"></div>
+											
+											<p class="demo" style="position: inherit;  ">
+											<button  style="height: 10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><i class="icon-arrow-left"></i></font></font></button>
+											
+											<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3月10日</font></font>
+											
+											<button  style="height: 10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><i class="icon-arrow-right"></i></font></font></button>
+											</p>
+											
+											<table class="table table-typo" style="width: 40%">
+										<tbody>
+											<tr>
+												<td>
+													<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">已签到名单</font></font></p>
+
+												</td>
+												<td>
+												
+												
+												<p>二分法</p>
+											<p>大法官</p>
+											<p>王大王</p>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">未签到名单</font></font></p>
+
+												</td>
+												<td>
+													<p>二分法</p>
+											<p>大法官</p>
+											<p>王大王</p></td>
+											</tr
+										</tbody>
+									</table>
+		   											
+										</div>
+										<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" style="position: relative;left: 20%;">
+											<div style="position:relative; height : 40px"></div>
+											<p>二分法</p>
+											<p>大法官</p>
+											<p>王大王</p>
+										</div>
+									</div>
+								</div>
+		
+		
+		
+		<p class="demo" style="position: inherit; left:30%">
+									
+										<button class="btn btn-primary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一个活动</font></font></button>
+			
+			             3/20
+			
+				<button class="btn btn-primary" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个活动</font></font></button>
+			
+			</p>
+      
+    </div>
+   
+  </div>
+</div>
+
+<script src="../assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="../assets/js/core/popper.min.js"></script>
+<script src="../assets/js/core/bootstrap.min.js"></script>
+<script src="../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="../assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+<script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="../assets/js/plugin/chart.js/chart.min.js"></script>
+<script src="../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+<script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="../assets/js/plugin/datatables/datatables.min.js"></script>
+<script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="../assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+<script src="../assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+<script src="../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+<script src="../assets/js/atlantis.min.js"></script>
+<script src="../assets/js/setting-demo.js"></script>
+<script src="../assets/js/demo.js"></script>
+<script>
+		Circles.create({
+			id:'circles-1',
+			radius:45,
+			value:60,
+			maxValue:100,
+			width:7,
+			text: 5,
+			colors:['#f1f1f1', '#FF9E27'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		Circles.create({
+			id:'circles-2',
+			radius:45,
+			value:70,
+			maxValue:100,
+			width:7,
+			text: 36,
+			colors:['#f1f1f1', '#2BB930'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		Circles.create({
+			id:'circles-3',
+			radius:45,
+			value:40,
+			maxValue:100,
+			width:7,
+			text: 12,
+			colors:['#f1f1f1', '#F25961'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
+
+		var mytotalIncomeChart = new Chart(totalIncomeChart, {
+			type: 'bar',
+			data: {
+				labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
+				datasets : [{
+					label: "Total Income",
+					backgroundColor: '#ff9e27',
+					borderColor: 'rgb(23, 125, 255)',
+					data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					display: false,
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							display: false //this will remove only the label
+						},
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}],
+					xAxes : [ {
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}]
+				},
+			}
+		});
+
+		$('#lineChart').sparkline([105,103,123,100,95,105,115], {
+			type: 'line',
+			height: '70',
+			width: '100%',
+			lineWidth: '2',
+			lineColor: '#ffa534',
+			fillColor: 'rgba(255, 165, 52, .14)'
+		});
+	</script>
+
+	
+	
+	
+</body>
+</html>

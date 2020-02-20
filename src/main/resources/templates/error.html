@@ -14,78 +14,85 @@
 			<nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
 
 				<div class="container-fluid">
-					<h1 style="color: white">Error Occurred</h1>
+					<div th:if="${if_active}">
+						<h1 style="color: white">Error Occurred</h1>
+					</div>
+					<div th:unless="${if_active}">
+						<h1 style="color: white">No Error Occurred</h1>
+					</div>
 				</div>
 			</nav>
 		</div>
 		<div class="main-panel">
 			<div class="content">
 				<div class="page-inner">
-					<div class="page-header">
-						<h4 class="page-title"><div class="fa fa-surprise"></div>&nbsp; 异常被抛出 (Exception Thrown)</h4>
-					</div>
-					<div class="row">
-						<div class="col-md-8">
-							<div class="card">
-								<div class="card-header">
-
-									<h4 class="card-title"><div class="fa fa-cogs"></div> &nbsp; 概要信息</h4>
-								</div>
-								<div class="card-body">
-									<div class="card-sub">
-										此次异常的简要信息已被异常管理子系统收集并概括如下表
-									</div>
-									<table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-8">
-										<thead>
-										<tr>
-											<th scope="col">#</th>
-											<th scope="col">信息项</th>
-											<th scope="col">值</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr>
-											<td>0 </td>
-											<td>HTTP状态</td>
-											<td class="text-primary" th:text="${http_status}"></td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>异常类型</td>
-											<td class="text-primary" th:text="${exception_name}"></td>
-										</tr>
-
-										<tr>
-											<td>2</td>
-											<td>附带消息</td>
-											<td class="text-primary" th:text="${exception_message}"></td>
-										</tr>
-
-										<tr>
-											<td>2</td>
-											<td>附带消息</td>
-											<td class="text-primary" th:text="${#dates.format(exception_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
-										</tr>
-
-										</tbody>
-									</table>
-								</div>
-
-							</div>
-							<div class="card">
-								<div class="card-header">
-									<h1 class="card-title"><div class="fa fa-bug"></div> &nbsp; 运行栈相关信息</h1>
-								</div>
-								<div class="card-body">
-									<ol class="activity-feed">
-										<li class="feed-item" th:each="line : ${error_stack}">
-											<span class="text" th:text="${line}"></span>
-										</li>
-									</ol>
-
-								</div>
-							</div>
+					<div th:if="${if_active}">
+						<div class="page-header">
+							<h4 class="page-title"><div class="fa fa-surprise"></div>&nbsp; 异常被抛出 (Exception Thrown)</h4>
 						</div>
+						<div class="row">
+								<div class="col-md-8">
+									<div class="card">
+										<div class="card-header">
+
+											<h4 class="card-title"><div class="fa fa-cogs"></div> &nbsp; 概要信息</h4>
+										</div>
+										<div class="card-body">
+											<div class="card-sub">
+												此次异常的简要信息已被异常管理子系统收集并概括如下表
+											</div>
+											<table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-8">
+												<thead>
+												<tr>
+													<th scope="col">#</th>
+													<th scope="col">信息项</th>
+													<th scope="col">值</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr>
+													<td>0 </td>
+													<td>HTTP状态</td>
+													<td class="text-primary" th:text="${http_status}"></td>
+												</tr>
+												<tr>
+													<td>1</td>
+													<td>异常类型</td>
+													<td class="text-primary" th:text="${exception_name}"></td>
+												</tr>
+
+												<tr>
+													<td>2</td>
+													<td>附带消息</td>
+													<td class="text-primary" th:text="${exception_message}"></td>
+												</tr>
+
+												<tr>
+													<td>2</td>
+													<td>时间</td>
+													<td class="text-primary" th:text="${#dates.format(exception_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
+												</tr>
+
+												</tbody>
+											</table>
+										</div>
+
+									</div>
+									<div class="card">
+										<div class="card-header">
+											<h1 class="card-title"><div class="fa fa-bug"></div> &nbsp; 运行栈相关信息</h1>
+										</div>
+										<div class="card-body">
+											<ol class="activity-feed">
+												<li class="feed-item" th:each="line : ${error_stack}">
+													<span class="text" th:text="${line}"></span>
+												</li>
+											</ol>
+
+										</div>
+									</div>
+								</div>
+							</div>
 					</div>
 				</div>
 			</div>

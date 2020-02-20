@@ -20,8 +20,16 @@ public class HomeController {
         User user = userService.findUserByUsername(principal.getName());
         // 为视图模板指定参数
         model.addAttribute("username", user.getUsername().substring(0, 18));
+        model.addAttribute("real_name", user.getUserDetail().getRealName());
+        model.addAttribute("sex", user.getUserDetail().getSex());
         model.addAttribute("student_id", user.getUserAuth().getStudentID());
+        model.addAttribute("class_id", user.getUserDetail().getClassId());
+        model.addAttribute("college", user.getUserDetail().getBaseCollege().getName());
+        model.addAttribute("ethnic", user.getUserDetail().getBaseEthnic().getName());
+        model.addAttribute("major", user.getUserDetail().getBaseMajor().getName());
         model.addAttribute("is_at_school", user.getUserDetail().isAtSchool());
+        model.addAttribute("ethnic", user.getUserDetail().getBaseEthnic().getName());
+        model.addAttribute("mail", user.getUserAuth().getMail());
         return "home";
     }
 }

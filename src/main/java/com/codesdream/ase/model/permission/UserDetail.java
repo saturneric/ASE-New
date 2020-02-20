@@ -42,6 +42,9 @@ public class UserDetail {
     // 真实姓名
     private String realName = null;
 
+    // 性别
+    private String sex = null;
+
     // 在校认证状态
     private boolean atSchool = false;
 }
