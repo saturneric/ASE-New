@@ -1,0 +1,26 @@
+.parent{;
+    height: 100%;
+    padding: 100px 0 0;
+    ox-sizing: border-box;
+    position: relative;
+}
+
+.middle-container{
+    height: 420px;
+    width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.line-display{
+    display: inline-block;
+}
+
+.link-block{
+    height: 20px;
+    width: 80px;
+}
+
+.left-block{
+    margin-right:0;
+}

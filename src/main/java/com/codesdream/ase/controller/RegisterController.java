@@ -69,6 +69,9 @@ public class RegisterController {
                 // 返回登录界面
                 return "login";
             }
+            else{
+                throw  new RuntimeException("Retry Password Not Correct");
+            }
 
         }
 

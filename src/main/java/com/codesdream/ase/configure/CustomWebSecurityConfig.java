@@ -54,6 +54,12 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/assets/**", "/register/**", "/forget/**", "/not_found/**", "/error/**");
+                .antMatchers(
+                        "/assets/**",
+                        "/register/**",
+                        "/forget/**",
+                        "/not_found/**",
+                        "/error/**",
+                        "/login/**");
     }
 }
