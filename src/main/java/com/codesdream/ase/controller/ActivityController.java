@@ -31,11 +31,12 @@ public class ActivityController {
         ASESpringUtil aseSpringUtil = new ASESpringUtil();
         ActivityFormConfigure activityFormConfigure = aseSpringUtil.getBean(ActivityFormConfigure.class);
         WebFormValidator webFormValidator = aseSpringUtil.getBean(WebFormValidator.class);
-        HashMap<String, Boolean> checkResult = webFormValidator.check(activityFormConfigure.stdActivityMap, parameterMap);
-        if(checkResult.get("activity").equals(false)){
+        if(!webFormValidator.check(activityFormConfigure.getStdActivityForm(), parameterMap)){
             throw new InvalidFormFormatException("Invalid activity form.");
         }
+
         return "act_created";
     }
 }
+
 

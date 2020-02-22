@@ -11,7 +11,7 @@ import java.util.Set;
 @Component
 public class ActivityFormConfigure {
 
-    private static final Set<String> stdActivityForm = new HashSet(){{
+    private final HashSet<String> stdActivityForm = new HashSet<String>(){{
        add("title");
        add("creator");
        add("type");
@@ -29,11 +29,8 @@ public class ActivityFormConfigure {
        add("assist-manager");
        add("attendance");
     }};
-    public final static Map<String, HashSet<String>> stdActivityMap;
 
-    static {
-        stdActivityMap = new HashMap() {{
-            put("activity", stdActivityForm);
-        }};
+    public HashSet<String> getStdActivityForm() {
+        return stdActivityForm;
     }
 }
