@@ -1,5 +1,6 @@
 package com.codesdream.ase.component.permission;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Collection;
 
+@Slf4j
 @Component
 public class ASESecurityAuthenticationProvider implements AuthenticationProvider {
     @Resource
@@ -30,7 +32,6 @@ public class ASESecurityAuthenticationProvider implements AuthenticationProvider
         String username = usernameEncoder.encode(authentication.getName());
         // 获得表单中的密码
         String password = passwordEncoder.encode(authentication.getCredentials().toString());
-
         // 判断用户是否存在
         UserDetails userInfo = userDetailsService.loadUserByUsername(username);
         if (userInfo == null) {

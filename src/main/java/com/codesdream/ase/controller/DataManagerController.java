@@ -23,7 +23,7 @@ public class DataManagerController {
     ASESpringUtil springUtil;
 
     @RequestMapping(value = "{subSystem}/{dataModel}/query")
-    private String queryView(Model model, @PathVariable String dataModel, @PathVariable String subSystem) {
+    public String queryView(Model model, @PathVariable String dataModel, @PathVariable String subSystem) {
         DataModelRepositorySearcher dataModelRepositorySearcher = springUtil.getBean(DataModelRepositorySearcher.class);
         DataModelSearcher dataModelSearcher = springUtil.getBean(DataModelSearcher.class);
 

@@ -11,6 +11,21 @@ $(document).ready(function () {
     });
 });
 
+function notify_check() {
+    ase_notification("danger", "提示", "账号或密码错误");
+}
+
+function login() {
+    ase_form_post("/login","login-form", {
+        success : function (result) {
+            console.log(result);
+        },
+        error : function (result) {
+          console.log("FAIL!!!");
+        }
+    })
+}
+
 function check_username(){
     const checker = {
         "checkType": "UsernameExistChecker",
@@ -23,20 +38,10 @@ function check_username(){
             console.log(result);
             const usernameGroup = $("div#username-group");
             if(result.userExist === true) {
-                if(usernameGroup.hasClass("has-error")){
-                    usernameGroup.removeClass("has-error");
-                }
-                if(!usernameGroup.hasClass("has-success")){
-                    usernameGroup.addClass("has-success");
-                }
+                ase_set_input_success(usernameGroup);
             }
             else{
-                if(usernameGroup.hasClass("has-success")){
-                    usernameGroup.removeClass("has-success");
-                }
-                if(!usernameGroup.hasClass("has-error")){
-                    usernameGroup.addClass("has-error");
-                }
+                ase_set_input_error(usernameGroup);
             }
         }
     });

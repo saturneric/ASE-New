@@ -53,17 +53,17 @@ function ase_modify_attr(tag, attr_name, attr_value) {
 }
 
 // 修改标签的data-notify属性
-function ase_add_attr_data_notify(tag, value) {
+function ase_set_attr_data_notify(tag, value) {
     ase_modify_attr(tag, 'data-notify', value);
 }
 
 // 修改标签的data-notify-position属性
-function ase_add_attr_data_notify_position(tag, position) {
+function ase_set_attr_data_notify_position(tag, position) {
     ase_modify_attr(tag, 'data-notify-position', position);
 }
 
 // 给标签添加显示值
-function ase_add_show_text(tag, text) {
+function ase_set_show_text(tag, text) {
     tag.html(text);
 
 }
@@ -78,56 +78,56 @@ function ase_create_tag(tag, id) {
 }
 
 // 给标签指定css属性
-function ase_add_attr_style(tag, value) {
+function ase_set_attr_style(tag, value) {
     ase_modify_attr(tag, 'style', value);
 }
 
 // 给标签指定class属性
-function ase_add_attr_class(tag, value) {
+function ase_set_attr_class(tag, value) {
     ase_modify_attr(tag, 'class', value);
 }
 
+// 给标签添加class属性
+function ase_add_attr_class(tag, value){
+    tag.addClass(value);
+}
+
 // 给标签指定class属性
-function ase_add_attr_role(tag, value) {
+function ase_set_attr_role(tag, value) {
     ase_modify_attr(tag, 'role', value);
 }
 
 // 获得一个提示气泡
-function ase_notification_getter() {
-    const notification = ase_create_tag("div", ase_create_random_id());
-    const close_button = ase_create_tag('button');
-    const icon_span = ase_create_tag('span');
-    const title_span = ase_create_tag('span');
-    const message_span = ase_create_tag('span');
-
-    notification.append(close_button);
-    notification.append(icon_span);
-    notification.append(title_span);
-    notification.append(message_span);
-
-    ase_add_attr_data_notify(notification, 'container');
-    ase_add_attr_data_notify_position(notification, 'top-right');
-    ase_add_attr_role(notification, 'alert');
-    ase_add_attr_class(notification, 'col-10 col-xs-11 col-sm-4 alert alert-danger');
-    ase_add_attr_style(notification, 'display: inline-block; ' +
-        'margin: 0px auto; ' +
-        'padding-left: 65px; ' +
-        'position: fixed; ' +
-        'transition: all 0.5s ease-in-out 0s; ' +
-        'z-index: 1031; ' +
-        'top: 254px; ' +
-        'right: 20px;');
-
-
-    ase_add_attr_data_notify(close_button, 'dismiss');
-    ase_add_attr_data_notify(icon_span, 'icon');
-    ase_add_attr_data_notify(title_span, 'title');
-    ase_add_attr_data_notify(message_span, 'message');
+function ase_notification(type, title, message) {
+    $.notify({
+        title :title,
+        message: message
+    },{
+        type: type
+    });
 }
 
+// 将输入框设置为成功
+function ase_set_input_success(input_tag) {
+    if(input_tag.hasClass("has-error")){
+        input_tag.removeClass("has-error");
+    }
+    if(!input_tag.hasClass("has-success")){
+        input_tag.addClass("has-success");
+    }
+}
 
-// 快速给服务器以POST方法传递对象
-function ase_post_object(url, object, callback){
+function ase_set_input_error(input_tag){
+    if(input_tag.hasClass("has-success")){
+        input_tag.removeClass("has-success");
+    }
+    if(!input_tag.hasClass("has-error")){
+        input_tag.addClass("has-error");
+    }
+}
+
+// 装饰ajax回调函数
+function callback_decorator(callback){
     if(!callback.hasOwnProperty("success")){
         ase_debug_log_info("Function Callback NULL")
         callback.success = function (result) {
@@ -143,6 +143,27 @@ function ase_post_object(url, object, callback){
     }
     // 对成功调用返回进行装饰
     callback.success = request_success_callback_decorator(callback.success);
+    return callback;
+}
+
+// 快速以post方式提交表单
+function ase_form_post(url ,id, callback){
+    const form = ase_tag_getter("form", id);
+    callback = callback_decorator(callback);
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: url ,
+        data: form.serialize(),
+        success: callback.success,
+        error : callback.error,
+    });
+}
+
+// 快速给服务器以POST方法传递对象
+function ase_post_object(url, object, callback){
+   callback = callback_decorator(callback);
 
     $.ajax({
         type: "POST",

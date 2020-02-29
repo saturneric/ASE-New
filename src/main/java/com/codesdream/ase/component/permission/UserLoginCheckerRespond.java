@@ -8,8 +8,10 @@ import lombok.EqualsAndHashCode;
 @Data
 public class UserLoginCheckerRespond extends RespondJSONBaseObject {
     boolean userExist = false;
+    boolean loginStatus = false;
 
     public UserLoginCheckerRespond(){
         super("success");
     }
+
 }

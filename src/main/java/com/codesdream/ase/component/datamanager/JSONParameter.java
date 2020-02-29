@@ -36,7 +36,7 @@ public class JSONParameter {
         return jsonParam;
     }
 
-    // 根据JSON对象构造JSON字符串用于返回-0=
+    // 根据JSON对象构造JSON字符串用于返回
     public String getJSONString(JSONObject json){
         return json.toJSONString();
     }
@@ -44,6 +44,16 @@ public class JSONParameter {
     // 根据Java对象构造JSON字符串用于返回
     public String getJSONString(Object object){
         return JSON.toJSONString(object);
+    }
+
+    // 由JSON对象获得对应的Java对象
+    public <T> T getJavaObject(JSONObject json, Class<T> type){
+        return json.toJavaObject(type);
+    }
+
+    // 由Request获得对应的Java对象(常用于Post请求中)
+    public <T> T getJavaObjectByRequest(HttpServletRequest request, Class<T> type){
+        return getJavaObject(getJSONByRequest(request), type);
     }
 
 }

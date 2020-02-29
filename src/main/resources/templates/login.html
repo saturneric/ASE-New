@@ -20,14 +20,12 @@
         <form id="login-form" action="/login" method="post">
             <div class="card-body">
                 <div id="username-group" class="form-group">
-
                     <label for="username">学号</label>
                     <div class="input-icon">
                         <span class="input-icon-addon">
                             <i class="fa fa-user"></i>
                         </span>
                         <input type="text" class="form-control" id="username" name="username" placeholder="这里输入学号" required>
-
                     </div>
 
                 </div>
@@ -52,7 +50,7 @@
                 </div>
             </div>
         </form>
-        <button onclick="check_username()" class="btn btn-primary btn-block"><b>检查</b></button>
+        <button onclick="login()" class="btn btn-primary btn-block"><b>检查</b></button>
         <div class="line-display">
             <a class="btn-link"  th:href="@{/forget}"><b>忘记密码</b></a>
             &nbsp;&nbsp;&nbsp;
@@ -60,6 +58,7 @@
         </div>
     </div>
 </div>
+
 
 </body>
 </html>

@@ -46,12 +46,11 @@ public class LoginController {
     @RequestMapping(value = "/login/check", method = RequestMethod.POST)
     @ResponseBody
     String checkLogin(HttpServletRequest request){
-        log.info("Get Login Check Request");
         JSONObject json = jsonParameter.getJSONByRequest(request);
         UserLoginChecker loginChecker = json.toJavaObject(UserLoginChecker.class);
         // 检查类型
         if(loginChecker.getCheckType().equals("UsernameExistChecker")){
-            // 计算用户名
+            // 根据学号计算用户名
             String user = usernameEncoder.encode(loginChecker.getUsername()) ;
             // 查询用户名存在状态
             boolean existStatus = userService.checkIfUserExists(user).getKey();
@@ -59,7 +58,6 @@ public class LoginController {
             UserLoginCheckerRespond respond = new UserLoginCheckerRespond();
             respond.setUserExist(existStatus);
             return jsonParameter.getJSONString(respond);
-
         }
         else {
             // 返回失败对象
