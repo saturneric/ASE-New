@@ -137,11 +137,10 @@ public class Activity {
 
     //提前提醒时间
     @Column(name = "remind_time", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime remindTime;
 
     //附件组(名字)
-    @ElementCollection(targetClass = java.lang.String.class)
+    @ElementCollection(targetClass = String.class)
     private List<String> enclosures;
 
     //主要负责人
