@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
@@ -137,7 +138,7 @@ public class Activity {
     //提前提醒时间
     @Column(name = "remind_time", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date remindTime;
+    private LocalDateTime remindTime;
 
     //附件组(名字)
     @ElementCollection(targetClass = java.lang.String.class)

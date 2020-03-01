@@ -2,6 +2,7 @@ package com.codesdream.ase.service;
 
 import com.codesdream.ase.model.activity.Activity;
 import com.codesdream.ase.model.activity.Report;
+import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.repository.activity.ActivityRepository;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +50,10 @@ public class ActivityService implements IActivityService {
     public Activity createActivity(Activity activity) {
         return activityRepository.save(activity);
     }
+
+    /*@Override
+    public Activity findActivitiesInTheCharge(User user) {
+
+    }*/
 
 }

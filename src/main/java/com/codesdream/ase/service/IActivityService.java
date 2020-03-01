@@ -2,6 +2,7 @@ package com.codesdream.ase.service;
 
 import com.codesdream.ase.model.activity.Activity;
 import com.codesdream.ase.model.activity.Report;
+import com.codesdream.ase.model.permission.User;
 
 import java.util.Optional;
 
@@ -26,5 +27,8 @@ public interface IActivityService {
 
     //活动创建
     Activity createActivity(Activity activity);
+
+    //查询主要负责的活动
+    //Activity findActivitiesInTheCharge(User user);
 
 }
