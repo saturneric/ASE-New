@@ -1,6 +1,7 @@
 package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// 认证失败返回
+@Slf4j
 @Component
 public class ASEAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
@@ -23,10 +26,14 @@ public class ASEAuthenticationFailureHandler extends SimpleUrlAuthenticationFail
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException
     {
-        logger.info("ASEAuthenticationSuccessHandler Login Fail!");
+        log.info("ASEAuthenticationSuccessHandler Login Fail!");
         UserLoginCheckerRespond respond = new UserLoginCheckerRespond();
         respond.setUserExist(false);
         respond.setLoginStatus(false);
+        respond.setUserBanned(true);
+        respond.setRespondInformation("Authentication Failed");
+
+        // 填充response对象
         response.getWriter().write(jsonParameter.getJSONString(respond));
     }
 }

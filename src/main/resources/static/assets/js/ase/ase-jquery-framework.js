@@ -146,16 +146,34 @@ function callback_decorator(callback){
     return callback;
 }
 
+function ase_serialize_object(form)
+{
+    const o = {};
+    const a = form.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+}
+
+
 // 快速以post方式提交表单
 function ase_form_post(url ,id, callback){
-    const form = ase_tag_getter("form", id);
     callback = callback_decorator(callback);
-
+    const form_object = ase_serialize_object(ase_tag_getter("form", id));
+    form_object.checkType = "From";
     $.ajax({
         type: "POST",
         dataType: "json",
         url: url ,
-        data: form.serialize(),
+        data: JSON.stringify(form_object),
         success: callback.success,
         error : callback.error,
     });

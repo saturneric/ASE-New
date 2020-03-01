@@ -1,12 +1,7 @@
 package com.codesdream.ase.configure;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Spring 框架全局配置类

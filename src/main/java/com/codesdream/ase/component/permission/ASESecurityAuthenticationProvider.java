@@ -34,6 +34,9 @@ public class ASESecurityAuthenticationProvider implements AuthenticationProvider
         String password = passwordEncoder.encode(authentication.getCredentials().toString());
         // 判断用户是否存在
         UserDetails userInfo = userDetailsService.loadUserByUsername(username);
+
+        log.info(String.format("SecurityAuthentication: %s %s", username, password));
+
         if (userInfo == null) {
             throw new UsernameNotFoundException("User IS Not Existing");
         }

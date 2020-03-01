@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 public class UserLoginCheckerRespond extends RespondJSONBaseObject {
     boolean userExist = false;
     boolean loginStatus = false;
+    boolean userBanned = false;
+    String respondInformation = "";
 
     public UserLoginCheckerRespond(){
         super("success");

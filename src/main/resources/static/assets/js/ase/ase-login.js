@@ -16,7 +16,7 @@ function notify_check() {
 }
 
 function login() {
-    ase_form_post("/login","login-form", {
+    ase_form_post("/login/process","login-form", {
         success : function (result) {
             console.log(result);
         },
