@@ -1,18 +1,18 @@
-package com.codesdream.ase.component.permission;
+package com.codesdream.ase.component.json.respond;
 
-import com.codesdream.ase.component.datamanager.RespondJSONBaseObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserLoginCheckerRespond extends RespondJSONBaseObject {
+public class UserLoginCheckerJSONRespond extends JSONBaseRespondObject {
     boolean userExist = false;
     boolean loginStatus = false;
     boolean userBanned = false;
     String respondInformation = "";
+    String sessionId = "";
 
-    public UserLoginCheckerRespond(){
+    public UserLoginCheckerJSONRespond(){
         super("success");
     }
 

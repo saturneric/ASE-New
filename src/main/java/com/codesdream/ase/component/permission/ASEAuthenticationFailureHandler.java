@@ -1,10 +1,9 @@
 package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +26,7 @@ public class ASEAuthenticationFailureHandler extends SimpleUrlAuthenticationFail
             throws IOException, ServletException
     {
         log.info("ASEAuthenticationSuccessHandler Login Fail!");
-        UserLoginCheckerRespond respond = new UserLoginCheckerRespond();
+        UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
         respond.setUserExist(false);
         respond.setLoginStatus(false);
         respond.setUserBanned(true);

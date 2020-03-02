@@ -1,6 +1,7 @@
 package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -26,7 +27,7 @@ public class ASEAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/javascript;charset=utf-8");
-        UserLoginCheckerRespond checkerRespond = new UserLoginCheckerRespond();
+        UserLoginCheckerJSONRespond checkerRespond = new UserLoginCheckerJSONRespond();
         checkerRespond.setLoginStatus(false);
         checkerRespond.setUserExist(false);
         checkerRespond.setUserBanned(true);

@@ -9,7 +9,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.annotation.Resource;
@@ -57,7 +65,9 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(accessDeniedHandler);
 
         // 替换掉原有的UsernamePasswordAuthenticationFilter
-        http.addFilterBefore(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(aseUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new SecurityContextPersistenceFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Override
@@ -82,15 +92,30 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //注册自定义的UsernamePasswordAuthenticationFilter
     @Bean
-    ASEUsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception {
+    ASEUsernamePasswordAuthenticationFilter aseUsernamePasswordAuthenticationFilter() throws Exception {
         ASEUsernamePasswordAuthenticationFilter filter = new ASEUsernamePasswordAuthenticationFilter();
         filter.setAuthenticationSuccessHandler(successHandler);
         filter.setAuthenticationFailureHandler(failureHandler);
+        filter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy(sessionRegistry()));
+        filter.setAllowSessionCreation(true);
         filter.setRequiresAuthenticationRequestMatcher(
                 new AntPathRequestMatcher("/login/process", "POST"));
-
 
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+
+    @Bean
+    public SessionAuthenticationStrategy sessionAuthenticationStrategy(SessionRegistry sessionRegistry){
+        return new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry){{
+            setMaximumSessions(1);
+        }};
+    }
+
 }

@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class ActivityController {
@@ -45,8 +46,11 @@ public class ActivityController {
         if(!webFormValidator.check(activityFormConfigure.getStdActivityForm(), parameterMap)) {
             throw new InvalidFormFormatException("Invalid activity form.");
         }
-        JSONObject jsonObject = jsonParameter.getJSONByRequest(request);
-        Activity activity = jsonObject.toJavaObject(Activity.class);
+        // 需要检查JSON是否合法
+        Optional<JSONObject> jsonObject = jsonParameter.getJSONByRequest(request);
+        if(!jsonObject.isPresent()) return "error";
+        Activity activity = jsonObject.get().toJavaObject(Activity.class);
+
         NullValueValidator nullValueValidator = aseSpringUtil.getBean(NullValueValidator.class);
         List<String> nullValues = nullValueValidator.checkNullValues(activity);
 

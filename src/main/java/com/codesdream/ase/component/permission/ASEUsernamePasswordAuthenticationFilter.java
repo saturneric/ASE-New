@@ -1,29 +1,19 @@
 package com.codesdream.ase.component.permission;
 
-import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.datamanager.JSONParameter;
-import lombok.Data;
+import com.codesdream.ase.component.json.request.UserLoginChecker;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.TextEscapeUtils;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.util.Optional;
 
 // 登录验证过滤器
 @Slf4j
@@ -35,27 +25,31 @@ public class ASEUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
-        // 判断是否为JSON格式的数据
-        log.info(String.format("Content Type: %s", request.getContentType()));
-        if(request.getContentType().equals("application/x-www-form-urlencoded; charset=UTF-8")) {
 
-            UserLoginChecker checker = jsonParameter.getJavaObjectByRequest(request, UserLoginChecker.class);
-            if (!checker.getCheckType().equals("From"))
+        // 判断是否为AJAX请求格式的数据
+        if(Optional.ofNullable(request.getHeader("X-Requested-With")).isPresent()) {
+
+            Optional<UserLoginChecker> checker = jsonParameter.getJavaObjectByRequest(request, UserLoginChecker.class);
+            if(!checker.isPresent()) throw new BadCredentialsException("Invalid AJAX JSON Request");
+            if (!checker.get().getCheckType().equals("From"))
                 throw new AuthenticationServiceException("Invalid Checker Type");
 
-            String username = checker.getUsername();
-            String password = checker.getPassword();
+            // 获得相应的用户名密码
+            String username = checker.get().getUsername();
+            String password = checker.get().getPassword();
 
             if (username == null) username = "";
             if (password == null) password = "";
 
             // 去除首尾两端的空白字符
             username = username.trim();
+            password = password.trim();
 
             UsernamePasswordAuthenticationToken authRequest =
                     new UsernamePasswordAuthenticationToken(username, password);
 
-            log.info(String.format("User Authentication: %s %s.", username, password));
+
+            log.info(String.format("User AJAX JSON Authentication: %s %s.", username, password));
 
             setDetails(request, authRequest);
 

@@ -173,7 +173,7 @@ function ase_form_post(url ,id, callback){
         type: "POST",
         dataType: "json",
         url: url ,
-        data: JSON.stringify(form_object),
+        data: { json: JSON.stringify(form_object) },
         success: callback.success,
         error : callback.error,
     });
@@ -187,7 +187,7 @@ function ase_post_object(url, object, callback){
         type: "POST",
         dataType: "json",
         url: url ,
-        data: JSON.stringify(object),
+        data: { json: JSON.stringify(object) },
         success: callback.success,
         error : callback.error,
     });
