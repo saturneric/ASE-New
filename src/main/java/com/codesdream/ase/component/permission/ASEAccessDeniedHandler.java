@@ -1,6 +1,7 @@
 package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -27,7 +28,7 @@ public class ASEAccessDeniedHandler implements AccessDeniedHandler {
 
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/javascript;charset=utf-8");
-        UserLoginCheckerRespond checkerRespond = new UserLoginCheckerRespond();
+        UserLoginCheckerJSONRespond checkerRespond = new UserLoginCheckerJSONRespond();
         checkerRespond.setLoginStatus(true);
         checkerRespond.setUserExist(true);
         checkerRespond.setRespondInformation("Authenticated user has no access to this resource");

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 /**
  * 处理JSON相关数据
@@ -15,25 +16,28 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class JSONParameter {
 
-    // 提取Request中的JSON数据
-    public JSONObject getJSONByRequest(HttpServletRequest request){
-        JSONObject jsonParam = null;
+    // 处理Request Body
+    public  String getRequestBody(HttpServletRequest request){
         try {
-            // 获取输入流
-            BufferedReader streamReader =
-                    new BufferedReader(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8));
-
-            // 写入数据到 String Builder
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = streamReader.readLine()) != null) {
-                sb.append(line);
-            }
-            jsonParam = JSONObject.parseObject(sb.toString());
+            return request.getParameter("json");
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return jsonParam;
+    }
+
+    // 提取Request中的JSON数据
+    public Optional<JSONObject> getJSONByRequest(HttpServletRequest request){
+        try {
+            JSONObject jsonParam = null;
+            String content = getRequestBody(request);
+            jsonParam = JSONObject.parseObject(content);
+            return Optional.ofNullable(jsonParam);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+
     }
 
     // 根据JSON对象构造JSON字符串用于返回
@@ -52,8 +56,9 @@ public class JSONParameter {
     }
 
     // 由Request获得对应的Java对象(常用于Post请求中)
-    public <T> T getJavaObjectByRequest(HttpServletRequest request, Class<T> type){
-        return getJavaObject(getJSONByRequest(request), type);
+    public <T> Optional<T> getJavaObjectByRequest(HttpServletRequest request, Class<T> type){
+        Optional<JSONObject> json = getJSONByRequest(request);
+        return json.map(jsonObject -> getJavaObject(jsonObject, type));
     }
 
 }

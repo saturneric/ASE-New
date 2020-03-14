@@ -1,4 +1,4 @@
-package com.codesdream.ase.component.permission;
+package com.codesdream.ase.component.json.request;
 
 import lombok.Data;
 
