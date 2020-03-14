@@ -2,6 +2,7 @@ package com.codesdream.ase.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.ASESpringUtil;
+import com.codesdream.ase.component.activity.NullValueAttributes;
 import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.configure.ActivityFormConfigure;
 import com.codesdream.ase.exception.InvalidFormFormatException;
@@ -32,6 +33,8 @@ public class ActivityController {
     @Resource
     JSONParameter jsonParameter;
 
+
+
     @RequestMapping(value = "/activity_creator")
     String activityCreatorView(Model model){return "activity_creator";}
 
@@ -49,6 +52,24 @@ public class ActivityController {
         Activity activity = jsonObject.toJavaObject(Activity.class);
         NullValueValidator nullValueValidator = aseSpringUtil.getBean(NullValueValidator.class);
         List<String> nullValues = nullValueValidator.checkNullValues(activity);
+        NullValueAttributes nullValueAttributes = aseSpringUtil.getBean(NullValueAttributes.class);
+        for (String str : nullValues){
+            if(str.equals("title")){
+                nullValueAttributes.getNullValueAttributes().add("title");
+            }
+            else if(str.equals("creator")){
+                nullValueAttributes.getNullValueAttributes().add("creator");
+            }
+            else if(str.equals("type")){
+                nullValueAttributes.getNullValueAttributes().add("type");
+            }
+            else if(str.equals("planPeriod")){
+                nullValueAttributes.getNullValueAttributes().add("planPeriod");
+            }
+            else if(str.equals("chiefManager")){
+                nullValueAttributes.getNullValueAttributes().add("chiefManager");
+            }
+        }
 
         return "act_created";
     }
