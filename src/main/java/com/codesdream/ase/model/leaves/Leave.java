@@ -6,7 +6,7 @@ import java.util.*;
 import javax.persistence.*;
 @Data
 @Entity
-@Table(name = "leaves_archive")
+@Table(name = "leave")
 public class Leave {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
