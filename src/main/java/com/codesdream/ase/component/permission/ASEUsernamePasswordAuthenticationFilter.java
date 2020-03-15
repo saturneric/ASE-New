@@ -1,5 +1,6 @@
 package com.codesdream.ase.component.permission;
 
+import com.codesdream.ase.component.auth.AJAXRequestChecker;
 import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.component.json.request.UserLoginChecker;
 import lombok.extern.slf4j.Slf4j;
@@ -22,41 +23,45 @@ public class ASEUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
     @Resource
     private JSONParameter jsonParameter;
 
+    @Resource
+    private AJAXRequestChecker ajaxRequestChecker;
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
 
         // 判断是否为AJAX请求格式的数据
-        if(Optional.ofNullable(request.getHeader("X-Requested-With")).isPresent()) {
-
-            Optional<UserLoginChecker> checker = jsonParameter.getJavaObjectByRequest(request, UserLoginChecker.class);
-            if(!checker.isPresent()) throw new BadCredentialsException("Invalid AJAX JSON Request");
-            if (!checker.get().getCheckType().equals("From"))
-                throw new AuthenticationServiceException("Invalid Checker Type");
-
-            // 获得相应的用户名密码
-            String username = checker.get().getUsername();
-            String password = checker.get().getPassword();
-
-            if (username == null) username = "";
-            if (password == null) password = "";
-
-            // 去除首尾两端的空白字符
-            username = username.trim();
-            password = password.trim();
-
-            UsernamePasswordAuthenticationToken authRequest =
-                    new UsernamePasswordAuthenticationToken(username, password);
-
-
-            log.info(String.format("User AJAX JSON Authentication: %s %s.", username, password));
-
-            setDetails(request, authRequest);
-
-            return this.getAuthenticationManager().authenticate(authRequest);
+        if(!ajaxRequestChecker.checkAjaxPOSTRequest(request)) {
+            log.info("NOT AJAX POST Request.");
+            throw new AuthenticationServiceException("Authentication method not supported: NOT Ajax Method.");
         }
-        else{
-                return super.attemptAuthentication(request, response);
-        }
+
+        Optional<UserLoginChecker> checker = jsonParameter.getJavaObjectByRequest(request, UserLoginChecker.class);
+        if(!checker.isPresent()) throw new BadCredentialsException("Invalid AJAX JSON Request");
+        log.info("JSON Object 2 Java Object Success.");
+        if (!checker.get().getCheckType().equals("UsernamePasswordChecker"))
+            throw new AuthenticationServiceException("Authentication not supported: NOT Username Password Type.");
+
+        // 获得相应的用户名密码
+        String username = checker.get().getUsername();
+        String password = checker.get().getPassword();
+
+        if (username == null) username = "";
+        if (password == null) password = "";
+
+        // 去除首尾两端的空白字符
+        username = username.trim();
+        password = password.trim();
+
+        UsernamePasswordAuthenticationToken authRequest =
+                new UsernamePasswordAuthenticationToken(username, password);
+
+
+        log.info(String.format("User AJAX JSON Authentication: %s %s.", username, password));
+
+        setDetails(request, authRequest);
+
+        return this.getAuthenticationManager().authenticate(authRequest);
+
     }
 }

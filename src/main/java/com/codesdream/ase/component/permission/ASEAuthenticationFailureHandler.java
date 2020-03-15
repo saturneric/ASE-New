@@ -25,7 +25,7 @@ public class ASEAuthenticationFailureHandler extends SimpleUrlAuthenticationFail
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException
     {
-        log.info("ASEAuthenticationSuccessHandler Login Fail!");
+        log.info("ASEAuthenticationFailureHandler Login Fail!");
         UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
         respond.setUserExist(false);
         respond.setLoginStatus(false);

@@ -19,7 +19,13 @@ public class JSONParameter {
     // 处理Request Body
     public  String getRequestBody(HttpServletRequest request){
         try {
-            return request.getParameter("json");
+            StringBuilder stringBuilder = new StringBuilder();
+            BufferedReader reader = request.getReader();
+            reader.reset();
+            String line;
+            while ((line = reader.readLine()) != null)
+                stringBuilder.append(line);
+            return stringBuilder.toString();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.Optional;
 
 
@@ -41,9 +42,9 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(value = "/login/check", method = RequestMethod.POST)
+    @RequestMapping(value = "/login/check_exists", method = RequestMethod.POST)
     @ResponseBody
-    String checkLogin(HttpServletRequest request){
+    String checkExists(HttpServletRequest request){
 
         // 检查是否为JSON
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
@@ -51,10 +52,11 @@ public class LoginController {
 
 
         UserLoginChecker loginChecker = json.get().toJavaObject(UserLoginChecker.class);
-        // 检查类型
+
+        // 检查学号对应的用户名是否存在
         if(loginChecker.getCheckType().equals("UsernameExistChecker")){
             // 根据学号计算用户名
-            String user = usernameEncoder.encode(loginChecker.getUsername()) ;
+            String user = userService.getUsernameByStudentId(loginChecker.getUsername());
             // 查询用户名存在状态
             boolean existStatus = userService.checkIfUserExists(user).getKey();
             // 构造返回对象
@@ -67,5 +69,30 @@ public class LoginController {
             return jsonParameter.getJSONString(new JSONBaseRespondObject());
         }
     }
+
+    // 根据学号计算对应的username
+    @RequestMapping(value = "/login/check_uid", method = RequestMethod.POST)
+    @ResponseBody
+    String checkUsernameByStudentID(HttpServletRequest request){
+        // 检查是否为JSON
+        Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
+        if(!json.isPresent()) return jsonParameter.getJSONString(new FailedSONRespond());
+
+        UserLoginChecker loginChecker = json.get().toJavaObject(UserLoginChecker.class);
+
+        if(loginChecker.getCheckType().equals("UIDGeneratorChecker")) {
+            UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
+            respond.setRespondInformation(userService.getUsernameByStudentId(loginChecker.getUsername()));
+            return jsonParameter.getJSONString(respond);
+        }
+        else {
+            // 返回失败对象
+            return jsonParameter.getJSONString(new JSONBaseRespondObject());
+        }
+
+
+    }
+
+
 
 }

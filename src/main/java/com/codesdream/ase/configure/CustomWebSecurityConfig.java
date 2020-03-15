@@ -4,6 +4,7 @@ import com.codesdream.ase.component.permission.*;
 import com.codesdream.ase.service.ASEUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -51,6 +52,7 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     ASEAccessDeniedHandler accessDeniedHandler;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -66,7 +68,9 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 替换掉原有的UsernamePasswordAuthenticationFilter
         http.addFilterAt(aseUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(new SecurityContextPersistenceFilter(), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(asejsonTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     }
 
@@ -92,6 +96,12 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //注册自定义的UsernamePasswordAuthenticationFilter
     @Bean
+    ASEJSONTokenAuthenticationFilter asejsonTokenAuthenticationFilter() throws Exception {
+        return new ASEJSONTokenAuthenticationFilter();
+    }
+
+    //注册自定义的UsernamePasswordAuthenticationFilter
+    @Bean
     ASEUsernamePasswordAuthenticationFilter aseUsernamePasswordAuthenticationFilter() throws Exception {
         ASEUsernamePasswordAuthenticationFilter filter = new ASEUsernamePasswordAuthenticationFilter();
         filter.setAuthenticationSuccessHandler(successHandler);
@@ -99,7 +109,7 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy(sessionRegistry()));
         filter.setAllowSessionCreation(true);
         filter.setRequiresAuthenticationRequestMatcher(
-                new AntPathRequestMatcher("/login/process", "POST"));
+                new AntPathRequestMatcher("/login/token", "POST"));
 
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;

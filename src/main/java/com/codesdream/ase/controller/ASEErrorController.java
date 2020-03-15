@@ -18,6 +18,7 @@ import java.util.List;
 
 @Controller
 public class ASEErrorController implements ErrorController {
+
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model){
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");

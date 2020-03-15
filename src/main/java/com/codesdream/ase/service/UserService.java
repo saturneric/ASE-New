@@ -82,6 +82,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public String getUsernameByStudentId(String studentId) {
+        return usernameEncoder.encode(studentId);
+    }
+
+    @Override
     public void generateRandomUsername(User user) {
         user.setUsername(usernameEncoder.encode(UUID.randomUUID().toString()));
     }

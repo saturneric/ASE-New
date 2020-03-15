@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Collection;
 
+// 普通用户名密码验证, 用户获得Token
 @Slf4j
 @Component
 public class ASESecurityAuthenticationProvider implements AuthenticationProvider {
@@ -63,6 +64,6 @@ public class ASESecurityAuthenticationProvider implements AuthenticationProvider
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return true;
+        return aClass.equals(UsernamePasswordAuthenticationToken.class);
     }
 }

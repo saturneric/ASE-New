@@ -10,7 +10,7 @@ public class UserLoginCheckerJSONRespond extends JSONBaseRespondObject {
     boolean loginStatus = false;
     boolean userBanned = false;
     String respondInformation = "";
-    String sessionId = "";
+    String token = "";
 
     public UserLoginCheckerJSONRespond(){
         super("success");
