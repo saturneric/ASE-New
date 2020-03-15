@@ -2,11 +2,10 @@ package com.codesdream.ase.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.json.request.UserLeaveRequest;
 import com.codesdream.ase.component.json.respond.FailedSONRespond;
 import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
 import com.codesdream.ase.component.permission.ASEUsernameEncoder;
-import com.codesdream.ase.component.json.request.UserLeaveChecker;
-import com.codesdream.ase.component.json.respond.UserLeaveCheckerJSONRespond;
 import com.codesdream.ase.service.LeavesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -41,31 +40,22 @@ public class LeavesController {
         return "Leave";
     }
 
+    //提交请假申请
     @RequestMapping(value = "/Leave/check", method = RequestMethod.POST)
     @ResponseBody
-    String checkLeave(HttpServletRequest request){
+    String requestLeave(HttpServletRequest request){
 
         // 检查是否为JSON
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
         if(!json.isPresent()) return jsonParameter.getJSONString(new FailedSONRespond());
 
 
-        UserLeaveChecker LeaveChecker = json.get().toJavaObject(UserLeaveChecker.class);
+        UserLeaveRequest LeaveChecker = json.get().toJavaObject(UserLeaveRequest.class);
         // 检查类型
-        if(LeaveChecker.getCheckType().equals("UsernameExistChecker")){
-            // 根据学号计算用户名
-            String user = usernameEncoder.encode(LeaveChecker.getUsername()) ;
-            // 查询用户名存在状态
-            boolean existStatus = userService.checkIfUserExists(user).getKey();
-            // 构造返回对象
-            UserLeaveCheckerJSONRespond respond = new UserLeaveCheckerJSONRespond();
-            respond.setUserExist(existStatus);
-            return jsonParameter.getJSONString(respond);
-        }
-        else {
-            // 返回失败对象
-            return jsonParameter.getJSONString(new JSONBaseRespondObject());
-        }
+
     }
+    //列出某辅导员待审核名单
+
+    //列出某人
 
 }
