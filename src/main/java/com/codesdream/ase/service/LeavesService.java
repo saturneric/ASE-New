@@ -13,40 +13,36 @@ public class LeavesService implements ILeavesService {
     @Resource
     private LeaveRepository leaveRepository;
 
+
     @Override
     public Optional<Leave> findLeaveByTitle(String title) {
-        return LeaveRepository.findByTitle(title);
+        return Optional.empty();
     }
 
     @Override
-    public Optional<leave> findLeaveByCreator(String creatorName) {
-        return LeaveRepository.findByCreator(creatorName);
+    public Optional<Leave> findLeaveByCreator(String creatorName) {
+        return Optional.empty();
     }
 
     @Override
-    public Leave save(Leave Leave) {
-        return LeaveRepository.save(Leave);
+    public Leave save(Leave leave) {
+        return leaveRepository.save(leave);
+    }
+
+
+    @Override
+    public void delete(Leave leave) {
+        leaveRepository.delete(leave);
     }
 
     @Override
-    public Leave addReport(Leave Leave, Report report) {
-        Leave.setReport(report);
-        return update(Leave);
+    public Leave update(Leave leave) {
+        return leaveRepository.save(leave);
     }
 
     @Override
-    public void delete(Leave Leave) {
-        LeaveRepository.delete(Leave);
-    }
-
-    @Override
-    public Leave update(Leave Leave) {
-        return LeaveRepository.save(Leave);
-    }
-
-    @Override
-    public Leave createLeave(Leave Leave) {
-        return LeaveRepository.save(Leave);
+    public Leave createLeave(Leave leave) {
+        return leaveRepository.save(leave);
     }
 
     /*@Override
