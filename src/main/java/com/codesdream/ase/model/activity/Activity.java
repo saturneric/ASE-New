@@ -129,6 +129,7 @@ public class Activity {
 
     //计划开始时间
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false)
     private Period planPeriod;
 
     //实际开始时间
@@ -154,11 +155,11 @@ public class Activity {
     private Set<User> assistManagers;
 
     //是否开始
-    @Column//(name = "is_on", nullable = false)
+    @Column(name = "is_on", nullable = false)
     boolean isOn;
 
     //是否结束
-    @Column//(name = "is_off", nullable = false)
+    @Column(name = "is_off", nullable = false)
     boolean isOff;
 
     //考勤安排
