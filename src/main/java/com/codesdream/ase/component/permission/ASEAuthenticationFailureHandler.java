@@ -23,16 +23,17 @@ public class ASEAuthenticationFailureHandler extends SimpleUrlAuthenticationFail
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
-            throws IOException, ServletException
+            throws IOException
     {
-        log.info("ASEAuthenticationSuccessHandler Login Fail!");
+        log.info("ASEAuthenticationFailureHandler Login Fail!");
         UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
-        respond.setUserExist(false);
+
+        respond.setUserExist(null);
+        respond.setUserBanned(null);
         respond.setLoginStatus(false);
-        respond.setUserBanned(true);
         respond.setRespondInformation("Authentication Failed");
 
         // 填充response对象
-        response.getWriter().write(jsonParameter.getJSONString(respond));
+        response.getWriter().write(jsonParameter.getJSONStandardRespond200(respond));
     }
 }

@@ -1,19 +1,15 @@
 package com.codesdream.ase.component.json.respond;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class UserLoginCheckerJSONRespond extends JSONBaseRespondObject {
-    boolean userExist = false;
-    boolean loginStatus = false;
-    boolean userBanned = false;
+public class UserLoginCheckerJSONRespond {
+    Boolean userExist = null;
+    Boolean userBanned = null;
+    Boolean loginStatus = null;
     String respondInformation = "";
-    String sessionId = "";
-
-    public UserLoginCheckerJSONRespond(){
-        super("success");
-    }
+    String token = null;
 
 }

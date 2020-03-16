@@ -2,7 +2,7 @@ package com.codesdream.ase.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.json.respond.FailedSONRespond;
+import com.codesdream.ase.component.json.respond.JSONStandardFailedRespond;
 import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
 import com.codesdream.ase.component.permission.ASEUsernameEncoder;
 import com.codesdream.ase.component.json.request.UserLoginChecker;
@@ -41,20 +41,21 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(value = "/login/check", method = RequestMethod.POST)
+    @RequestMapping(value = "/login/check_exists", method = RequestMethod.POST)
     @ResponseBody
-    String checkLogin(HttpServletRequest request){
+    String checkExists(HttpServletRequest request){
 
         // 检查是否为JSON
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
-        if(!json.isPresent()) return jsonParameter.getJSONString(new FailedSONRespond());
+        if(!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
 
 
         UserLoginChecker loginChecker = json.get().toJavaObject(UserLoginChecker.class);
-        // 检查类型
+
+        // 检查学号对应的用户名是否存在
         if(loginChecker.getCheckType().equals("UsernameExistChecker")){
             // 根据学号计算用户名
-            String user = usernameEncoder.encode(loginChecker.getUsername()) ;
+            String user = userService.getUsernameByStudentId(loginChecker.getUsername());
             // 查询用户名存在状态
             boolean existStatus = userService.checkIfUserExists(user).getKey();
             // 构造返回对象
@@ -64,8 +65,33 @@ public class LoginController {
         }
         else {
             // 返回失败对象
-            return jsonParameter.getJSONString(new JSONBaseRespondObject());
+            return jsonParameter.getJSONString(new JSONStandardFailedRespond());
         }
     }
+
+    // 根据学号计算对应的username
+    @RequestMapping(value = "/login/check_uid", method = RequestMethod.POST)
+    @ResponseBody
+    String checkUsernameByStudentID(HttpServletRequest request){
+        // 检查是否为JSON
+        Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
+        if(!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+
+        UserLoginChecker loginChecker = json.get().toJavaObject(UserLoginChecker.class);
+
+        if(loginChecker.getCheckType().equals("UIDGeneratorChecker")) {
+            UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
+            respond.setRespondInformation(userService.getUsernameByStudentId(loginChecker.getUsername()));
+            return jsonParameter.getJSONString(respond);
+        }
+        else {
+            // 返回失败对象
+            return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+        }
+
+
+    }
+
+
 
 }

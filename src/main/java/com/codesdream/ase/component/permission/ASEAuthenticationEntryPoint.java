@@ -1,6 +1,7 @@
 package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
 import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
@@ -23,18 +24,8 @@ public class ASEAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        log.info("ASEAuthenticationEntryPoint Found!");
-
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("text/javascript;charset=utf-8");
-        UserLoginCheckerJSONRespond checkerRespond = new UserLoginCheckerJSONRespond();
-        checkerRespond.setLoginStatus(false);
-        checkerRespond.setUserExist(false);
-        checkerRespond.setUserBanned(true);
-        checkerRespond.setRespondInformation("Anonymous user has no access to this resource");
-
-        // 对匿名用户返回
-        response.getWriter().print(jsonParameter.getJSONString(checkerRespond));
+        // 对匿名用户返回401
+        response.getWriter().print(jsonParameter.getJSONStandardRespond401());
 
     }
 }
