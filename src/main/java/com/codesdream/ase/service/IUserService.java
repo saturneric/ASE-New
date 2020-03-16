@@ -24,6 +24,7 @@ public interface IUserService {
 
    User findUserByUsername(String username);
 
+   // 查询用户是否存在
    public Pair<Boolean, User> checkIfUserExists(String username);
 
    // 获得用户所有的权限角色
@@ -37,6 +38,9 @@ public interface IUserService {
 
    // 根据学号生成随机用户名
    void generateRandomUsernameByStudentID(User user, String id);
+
+   // 更具学号获得对应的用户名
+   String getUsernameByStudentId(String studentId);
 
    // 随机生成一个用户名
    void generateRandomUsername(User user);
