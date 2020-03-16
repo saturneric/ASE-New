@@ -8,9 +8,6 @@ public class UserLoginChecker {
     private String checkType;
     private String username;
     private String password;
+    private String clientCode;
 
-//    // 客户端类型
-//    private String clientType;
-//    // JSON签名
-//    private String signed;
 }

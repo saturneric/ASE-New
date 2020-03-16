@@ -23,6 +23,9 @@ public class JSONToken {
     @Column(unique = true)
     private String token;
 
+    // 客户端标识口令
+    private String clientCode;
+
     // token过期时间
     private Date expiredDate;
 }

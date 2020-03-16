@@ -12,5 +12,5 @@ public interface IAuthService {
     boolean checkTokenIfExpired(JSONToken token);
 
     // 为用户获得一个新的API Token
-    Optional<String> userNewTokenGetter(String username);
+    Optional<String> userNewTokenGetter(String username, String clientCode);
 }

@@ -3,17 +3,12 @@ package com.codesdream.ase.component.json.respond;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class UserLoginCheckerJSONRespond extends JSONBaseRespondObject {
+public class UserLoginCheckerJSONRespond {
     boolean userExist = false;
     boolean loginStatus = false;
     boolean userBanned = false;
     String respondInformation = "";
     String token = "";
-
-    public UserLoginCheckerJSONRespond(){
-        super("success");
-    }
 
 }

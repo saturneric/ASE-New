@@ -1,5 +1,7 @@
 package com.codesdream.ase.component.permission;
 
+import com.codesdream.ase.component.auth.JSONTokenAuthenticationToken;
+import com.codesdream.ase.component.auth.JSONTokenUsernamePasswordAuthenticationToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -29,10 +31,15 @@ public class ASESecurityAuthenticationProvider implements AuthenticationProvider
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        JSONTokenUsernamePasswordAuthenticationToken authenticationToken =
+                (JSONTokenUsernamePasswordAuthenticationToken) authentication;
+
         // 获得登录表单中的学号
-        String username = usernameEncoder.encode(authentication.getName());
+        String username = usernameEncoder.encode((CharSequence) authenticationToken.getPrincipal());
         // 获得表单中的密码
-        String password = passwordEncoder.encode(authentication.getCredentials().toString());
+        String password = passwordEncoder.encode((CharSequence) authenticationToken.getCredentials());
+        // 获得
+        String clientCode = authenticationToken.getClientCode();
         // 判断用户是否存在
         UserDetails userInfo = userDetailsService.loadUserByUsername(username);
 
@@ -58,12 +65,14 @@ public class ASESecurityAuthenticationProvider implements AuthenticationProvider
             throw new  AccountExpiredException("User IS Expired");
         }
 
+        // 生成权限列表
         Collection<? extends GrantedAuthority> authorities = userInfo.getAuthorities();
-        return new UsernamePasswordAuthenticationToken(userInfo, password, authorities);
+
+        return new JSONTokenAuthenticationToken(userInfo, clientCode, authorities);
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return aClass.equals(UsernamePasswordAuthenticationToken.class);
+        return aClass.equals(JSONTokenUsernamePasswordAuthenticationToken.class);
     }
 }

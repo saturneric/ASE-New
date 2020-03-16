@@ -33,6 +33,6 @@ public class ASEAuthenticationFailureHandler extends SimpleUrlAuthenticationFail
         respond.setRespondInformation("Authentication Failed");
 
         // 填充response对象
-        response.getWriter().write(jsonParameter.getJSONString(respond));
+        response.getWriter().write(jsonParameter.getJSONStandardRespond200(respond));
     }
 }

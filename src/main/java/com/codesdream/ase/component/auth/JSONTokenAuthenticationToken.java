@@ -7,14 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-// 关联Token与其他用户的相关数据的认证对象
+// 关联Token与其他用户的相关数据的授权柄
 public class JSONTokenAuthenticationToken extends AbstractAuthenticationToken {
-    // token 产生的签名
-    String signed = null;
+    // 客户端签名
+    private String signed = null;
     // 用户名
-    Object principal = null;
-    // JSON 特征随机代码
-    String randomCode = null;
+    private Object principal = null;
+    // 客户端代码
+    private String clientCode = null;
+
 
     /**
      * Creates a token with the supplied array of authorities.
@@ -22,18 +23,21 @@ public class JSONTokenAuthenticationToken extends AbstractAuthenticationToken {
      * @param authorities the collection of <tt>GrantedAuthority</tt>s for the principal
      *                    represented by this authentication object.
      */
-    public JSONTokenAuthenticationToken(UserDetails principal, String signed, Collection<? extends GrantedAuthority> authorities) {
+    public JSONTokenAuthenticationToken(UserDetails principal,
+                                        String clientCode,
+                                        Collection<? extends GrantedAuthority> authorities)
+    {
         super(authorities);
         this.principal = principal;
-        this.randomCode = null;
-        this.signed = signed;
+        this.clientCode = clientCode;
+        this.signed = null;
         setAuthenticated(true);
     }
 
-    public JSONTokenAuthenticationToken(String principal, String randomCode, String signed) {
+    public JSONTokenAuthenticationToken(String principal, String clientCode, String signed) {
         super(null);
         this.principal = principal;
-        this.randomCode = randomCode;
+        this.clientCode = clientCode;
         this.signed = signed;
         setAuthenticated(false);
     }
@@ -48,11 +52,11 @@ public class JSONTokenAuthenticationToken extends AbstractAuthenticationToken {
         return principal;
     }
 
-    public String getRandomCode() {
-        return randomCode;
+    public String getClientCode() {
+        return clientCode;
     }
 
-    public void setRandomCode(String randomCode) {
-        this.randomCode = randomCode;
+    public void setClientCode(String clientCode) {
+        this.clientCode = clientCode;
     }
 }

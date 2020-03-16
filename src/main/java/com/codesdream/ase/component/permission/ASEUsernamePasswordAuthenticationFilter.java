@@ -1,6 +1,7 @@
 package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.component.auth.AJAXRequestChecker;
+import com.codesdream.ase.component.auth.JSONTokenUsernamePasswordAuthenticationToken;
 import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.component.json.request.UserLoginChecker;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -32,19 +34,19 @@ public class ASEUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
 
         // 判断是否为AJAX请求格式的数据
         if(!ajaxRequestChecker.checkAjaxPOSTRequest(request)) {
-            log.info("NOT AJAX POST Request.");
             throw new AuthenticationServiceException("Authentication method not supported: NOT Ajax Method.");
         }
 
         Optional<UserLoginChecker> checker = jsonParameter.getJavaObjectByRequest(request, UserLoginChecker.class);
         if(!checker.isPresent()) throw new BadCredentialsException("Invalid AJAX JSON Request");
-        log.info("JSON Object 2 Java Object Success.");
+
         if (!checker.get().getCheckType().equals("UsernamePasswordChecker"))
             throw new AuthenticationServiceException("Authentication not supported: NOT Username Password Type.");
 
         // 获得相应的用户名密码
         String username = checker.get().getUsername();
         String password = checker.get().getPassword();
+        String clientCode = checker.get().getClientCode();
 
         if (username == null) username = "";
         if (password == null) password = "";
@@ -53,15 +55,12 @@ public class ASEUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         username = username.trim();
         password = password.trim();
 
-        UsernamePasswordAuthenticationToken authRequest =
-                new UsernamePasswordAuthenticationToken(username, password);
 
+        JSONTokenUsernamePasswordAuthenticationToken authRequest =
+                new JSONTokenUsernamePasswordAuthenticationToken(username, password, clientCode);
 
-        log.info(String.format("User AJAX JSON Authentication: %s %s.", username, password));
-
-        setDetails(request, authRequest);
+        authRequest.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         return this.getAuthenticationManager().authenticate(authRequest);
-
     }
 }

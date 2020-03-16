@@ -2,7 +2,7 @@ package com.codesdream.ase.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.json.respond.FailedSONRespond;
+import com.codesdream.ase.component.json.respond.JSONStandardFailedRespond;
 import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
 import com.codesdream.ase.component.permission.ASEUsernameEncoder;
 import com.codesdream.ase.component.json.request.UserLoginChecker;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.Optional;
 
 
@@ -48,7 +47,7 @@ public class LoginController {
 
         // 检查是否为JSON
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
-        if(!json.isPresent()) return jsonParameter.getJSONString(new FailedSONRespond());
+        if(!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
 
 
         UserLoginChecker loginChecker = json.get().toJavaObject(UserLoginChecker.class);
@@ -66,7 +65,7 @@ public class LoginController {
         }
         else {
             // 返回失败对象
-            return jsonParameter.getJSONString(new JSONBaseRespondObject());
+            return jsonParameter.getJSONString(new JSONStandardFailedRespond());
         }
     }
 
@@ -76,7 +75,7 @@ public class LoginController {
     String checkUsernameByStudentID(HttpServletRequest request){
         // 检查是否为JSON
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
-        if(!json.isPresent()) return jsonParameter.getJSONString(new FailedSONRespond());
+        if(!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
 
         UserLoginChecker loginChecker = json.get().toJavaObject(UserLoginChecker.class);
 
@@ -87,7 +86,7 @@ public class LoginController {
         }
         else {
             // 返回失败对象
-            return jsonParameter.getJSONString(new JSONBaseRespondObject());
+            return jsonParameter.getJSONString(new JSONStandardFailedRespond());
         }
 
 

@@ -36,18 +36,24 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public Optional<String> userNewTokenGetter(String username) {
+    public Optional<String> userNewTokenGetter(String username, String clientCode) {
         Pair<Boolean, User> userPair = userService.checkIfUserExists(username);
         if(userPair.getKey()){
             Optional<JSONToken> jsonTokenOptional = jsonTokenRepository.findByUsername(username);
             JSONToken token = jsonTokenOptional.orElseGet(JSONToken::new);
+
             // 过期时间设置为三十分钟后
             long currentTime = System.currentTimeMillis();
             currentTime +=30*60*1000;
             token.setExpiredDate(new Date(currentTime));
             token.setToken(authTokenGenerator.generateAuthToken(username));
+
+
             // 设置用户名
             token.setUsername(username);
+            // 设置客户端代号
+            token.setClientCode(clientCode);
+
             // 在数据库中更新新的token
             token = jsonTokenRepository.save(token);
             return Optional.ofNullable(token.getToken());
