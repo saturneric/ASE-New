@@ -86,7 +86,13 @@ public class JSONParameter {
 
     // 获得标准的JSON响应字符串返回(403状态)
     public String getJSONStandardRespond403(){
-        JSONBaseRespondObject respondObject = new JSONBaseRespondObject(403, "forbidden");
+        JSONBaseRespondObject respondObject = new JSONBaseRespondObject(403, "Forbidden");
+        return getJSONString(respondObject);
+    }
+
+    // 获得标准的JSON响应字符串返回(401状态)
+    public String getJSONStandardRespond401(){
+        JSONBaseRespondObject respondObject = new JSONBaseRespondObject(401, "Unauthorized");
         return getJSONString(respondObject);
     }
 

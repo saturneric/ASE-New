@@ -24,8 +24,8 @@ public class ASEAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        // 对匿名用户返回403
-        response.getWriter().print(jsonParameter.getJSONStandardRespond403());
+        // 对匿名用户返回401
+        response.getWriter().print(jsonParameter.getJSONStandardRespond401());
 
     }
 }
