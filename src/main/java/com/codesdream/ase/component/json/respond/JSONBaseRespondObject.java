@@ -17,6 +17,9 @@ public class JSONBaseRespondObject extends JSONBaseObject {
     // 存放响应信息提示
     private String msg = "";
 
+    // 额外信息
+    private String info = null;
+
     // 状态
     private Integer status = 200;
 

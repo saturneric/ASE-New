@@ -49,16 +49,24 @@ public class ASEUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
             throw new AuthenticationServiceException("Authentication method not supported: NOT Ajax Method.");
         }
 
-        Optional<UserLoginChecker> checker = jsonParameter.getJavaObjectByRequest(request, UserLoginChecker.class);
-        if(!checker.isPresent()) throw new BadCredentialsException("Invalid AJAX JSON Request");
+        Optional<UserLoginChecker> checkerOptional = jsonParameter.getJavaObjectByRequest(request, UserLoginChecker.class);
+        if(!checkerOptional.isPresent()) throw new BadCredentialsException("Invalid AJAX JSON Request");
 
-        if (!checker.get().getCheckType().equals("UsernamePasswordChecker"))
+        UserLoginChecker checker = checkerOptional.get();
+
+        if(checker.getUsername() == null
+                || checker.getPassword() == null
+                || checker.getClientCode() == null
+                || checker.getCheckType() == null)
+            throw new AuthenticationServiceException("Request Data IS Incomplete");
+
+        if (!checker.getCheckType().equals("UsernamePasswordChecker"))
             throw new AuthenticationServiceException("Authentication not supported: NOT Username Password Type.");
 
         // 获得相应的用户名密码
-        String username = checker.get().getUsername();
-        String password = checker.get().getPassword();
-        String clientCode = checker.get().getClientCode();
+        String username = checker.getUsername();
+        String password = checker.getPassword();
+        String clientCode = checker.getClientCode();
 
         if (username == null) username = "";
         if (password == null) password = "";

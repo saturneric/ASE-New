@@ -2,6 +2,7 @@ package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.component.auth.JSONTokenAuthenticationToken;
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.datamanager.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
 import com.codesdream.ase.model.permission.User;
 
@@ -27,7 +28,7 @@ import java.util.Optional;
 @Component
 public class ASEAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     @Resource
-    private JSONParameter jsonParameter;
+    private QuickJSONRespond quickJSONRespond;
 
     @Resource
     private IAuthService authService;
@@ -40,7 +41,6 @@ public class ASEAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
         UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
         respond.setUserExist(authentication.isAuthenticated());
         respond.setLoginStatus(authentication.isAuthenticated());
-        respond.setRespondInformation("Authentication Success");
 
         // 获得 JSONTokenAuthenticationToken
         JSONTokenAuthenticationToken authenticationToken = (JSONTokenAuthenticationToken) authentication;
@@ -55,7 +55,8 @@ public class ASEAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
         }
         else respond.setToken("");
 
-        response.getWriter().write(jsonParameter.getJSONStandardRespond200(respond));
+        // 认证成功返回200
+        response.getWriter().write(quickJSONRespond.getRespond200("Authentication Success", respond));
 
     }
 }
