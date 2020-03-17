@@ -1,7 +1,9 @@
 package com.codesdream.ase.service;
 
 import com.codesdream.ase.component.permission.UserAuthoritiesGenerator;
+import com.codesdream.ase.exception.UserNotFoundException;
 import com.codesdream.ase.model.permission.User;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,9 +23,14 @@ public class ASEUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userService.findUserByUsername(s);
-        user.setAuthorities(userAuthoritiesGenerator.grantedAuthorities(user));
-        return user;
+    public UserDetails loadUserByUsername(String s) {
+        try {
+            User user = userService.findUserByUsername(s);
+            user.setAuthorities(userAuthoritiesGenerator.grantedAuthorities(user));
+            return user;
+        } catch (UserNotFoundException e){
+            throw  new AuthenticationServiceException("User Not Exist");
+        }
+
     }
 }
