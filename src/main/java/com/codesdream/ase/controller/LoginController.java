@@ -37,8 +37,6 @@ public class LoginController {
     @Resource
     private IUserService userService;
 
-    @Resource
-    private ASEUsernameEncoder usernameEncoder;
 
     @RequestMapping(value = "/login")
     String printLogin(Model model) {

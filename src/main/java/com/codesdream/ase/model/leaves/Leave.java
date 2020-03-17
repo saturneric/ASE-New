@@ -4,9 +4,10 @@ import com.codesdream.ase.model.permission.User;
 import lombok.Data;
 import java.util.*;
 import javax.persistence.*;
+
 @Data
 @Entity
-@Table(name = "leave")
+@Table(name = "leaves")
 public class Leave {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,15 +24,15 @@ public class Leave {
 
 
     //请假类型 病假，事假等
-    @Column(name = "type", nullable = false)
+    @Column(nullable = false)
     private String type;
     //批准状态
-    @Column(name = "Authentication", nullable = false)
-    private String Authentication;
+    @Column(nullable = false)
+    private String authentication;
 
     //审核备注
     @Column
-    private String Comment;
+    private String comment;
     //开始时间
     @Column(nullable = false)
     private Date startTime;
