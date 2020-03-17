@@ -40,7 +40,7 @@ public class ASEUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         String timestamp =  request.getHeader("timestamp");
 
         // 检查时间戳是否合理(60秒内)
-        if(!timestampExpiredChecker.checkTimestampBeforeMaxTime(timestamp, 60)){
+        if(timestamp == null || !timestampExpiredChecker.checkTimestampBeforeMaxTime(timestamp, 60)){
             throw new AuthenticationServiceException("Timestamp Expired.");
         }
 
