@@ -1,6 +1,7 @@
 package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.datamanager.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
 import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +20,13 @@ import java.io.IOException;
 @Component
 public class ASEAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Resource
-    private JSONParameter jsonParameter;
+    private QuickJSONRespond quickJSONRespond;
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
         // 对匿名用户返回401
-        response.getWriter().print(jsonParameter.getJSONStandardRespond401());
+        response.getWriter().print(quickJSONRespond.getRespond401(null));
 
     }
 }

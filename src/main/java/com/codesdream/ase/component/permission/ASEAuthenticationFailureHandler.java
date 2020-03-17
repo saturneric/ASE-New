@@ -1,6 +1,7 @@
 package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.datamanager.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
@@ -19,21 +20,15 @@ import java.io.IOException;
 public class ASEAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Resource
-    private JSONParameter jsonParameter;
+    private QuickJSONRespond quickJSONRespond;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException
     {
         log.info("ASEAuthenticationFailureHandler Login Fail!");
-        UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
 
-        respond.setUserExist(null);
-        respond.setUserBanned(null);
-        respond.setLoginStatus(false);
-        respond.setRespondInformation("Authentication Failed");
-
-        // 填充response对象
-        response.getWriter().write(jsonParameter.getJSONStandardRespond200(respond));
+        // 认证失败返回406
+        response.getWriter().write(quickJSONRespond.getRespond406("Authentication Failure"));
     }
 }
