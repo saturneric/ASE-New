@@ -6,7 +6,7 @@ import java.util.*;
 import javax.persistence.*;
 @Data
 @Entity
-@Table(name = "leaves_archive")
+@Table(name = "leave")
 public class Leave {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,15 +17,25 @@ public class Leave {
     //审批人容器
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Set <User> userTo;
+    //请假原因
+    @Column
+    private String reasonToLeave;
+
+
     //请假类型 病假，事假等
     @Column(name = "type", nullable = false)
     private String type;
     //批准状态
     @Column(name = "Authentication", nullable = false)
-    private Boolean Authentication;
+    private String Authentication;
+
+    //审核备注
+    @Column
+    private String Comment;
     //开始时间
     @Column(nullable = false)
     private Date startTime;
+
     @Column(nullable = false)
     private Date endTime;
     //申请时间

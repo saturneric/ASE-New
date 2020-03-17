@@ -18,7 +18,7 @@ public class UserActivity {
 
     //关联的用户
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY, mappedBy = "userActivity")
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, unique = true)
     private User user;
 
     //主要负责的活动

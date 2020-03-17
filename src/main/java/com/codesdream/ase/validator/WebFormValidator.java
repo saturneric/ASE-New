@@ -11,7 +11,7 @@ public class WebFormValidator {
     public boolean check(Collection<String> stdForm, Map<String, String[]> webFormMap){
 
         Collection<String> webForm = webFormMap.keySet();
-        if(stdForm.containsAll(webForm)){
+        if(webForm.containsAll(stdForm)){
             return true;
         }
         return false;
