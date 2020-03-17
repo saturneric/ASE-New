@@ -2,6 +2,7 @@ package com.codesdream.ase.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.datamanager.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.JSONStandardFailedRespond;
 import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
 import com.codesdream.ase.component.permission.ASEUsernameEncoder;
@@ -29,6 +30,9 @@ public class LoginController {
 
     @Resource
     private JSONParameter jsonParameter;
+
+    @Resource
+    private QuickJSONRespond quickJSONRespond;
 
     @Resource
     private IUserService userService;
@@ -61,11 +65,11 @@ public class LoginController {
             // 构造返回对象
             UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
             respond.setUserExist(existStatus);
-            return jsonParameter.getJSONString(respond);
+            return quickJSONRespond.getRespond200(null, respond);
         }
         else {
             // 返回失败对象
-            return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+            return quickJSONRespond.getRespond400("CheckType Mismatch");
         }
     }
 
@@ -81,12 +85,12 @@ public class LoginController {
 
         if(loginChecker.getCheckType().equals("UIDGeneratorChecker")) {
             UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
-            respond.setRespondInformation(userService.getUsernameByStudentId(loginChecker.getUsername()));
-            return jsonParameter.getJSONString(respond);
+            respond.setUid(userService.getUsernameByStudentId(loginChecker.getUsername()));
+            return quickJSONRespond.getRespond200(null, respond);
         }
         else {
             // 返回失败对象
-            return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+            return quickJSONRespond.getRespond400("CheckType Mismatch");
         }
 
 

@@ -14,6 +14,6 @@ public class JSONRandomCodeGenerator {
 
     public String generateRandomCode(String username, Date date, String clientCode){
         return encoder.encode(String.format("RandomCode [%s][%s][%s]",
-                username, date.toString(), clientCode));
+                username, Long.toString(date.getTime()), clientCode));
     }
 }

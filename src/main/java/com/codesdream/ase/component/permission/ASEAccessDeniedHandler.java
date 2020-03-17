@@ -1,6 +1,7 @@
 package com.codesdream.ase.component.permission;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.datamanager.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,22 +20,16 @@ import java.io.IOException;
 public class ASEAccessDeniedHandler implements AccessDeniedHandler {
 
     @Resource
-    private JSONParameter jsonParameter;
+    private QuickJSONRespond quickJSONRespond;
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
             throws IOException, ServletException {
         log.info("ASEAccessDeniedHandler Found!");
 
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("text/javascript;charset=utf-8");
-        UserLoginCheckerJSONRespond checkerRespond = new UserLoginCheckerJSONRespond();
-        checkerRespond.setLoginStatus(true);
-        checkerRespond.setUserExist(true);
-        checkerRespond.setRespondInformation("Authenticated user has no access to this resource");
+        // 对无权限操作返回403
+        response.getWriter().print(quickJSONRespond.getRespond403(null));
 
-        // 对匿名用户返回
-        response.getWriter().print(jsonParameter.getJSONString(checkerRespond));
 
     }
 }
