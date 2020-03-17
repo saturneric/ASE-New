@@ -61,11 +61,11 @@ public class LoginController {
             // 构造返回对象
             UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
             respond.setUserExist(existStatus);
-            return jsonParameter.getJSONString(respond);
+            return jsonParameter.getJSONStandardRespond200(respond);
         }
         else {
             // 返回失败对象
-            return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+            return jsonParameter.getJSONStandardRespond500("Error");
         }
     }
 
@@ -82,11 +82,11 @@ public class LoginController {
         if(loginChecker.getCheckType().equals("UIDGeneratorChecker")) {
             UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
             respond.setRespondInformation(userService.getUsernameByStudentId(loginChecker.getUsername()));
-            return jsonParameter.getJSONString(respond);
+            return jsonParameter.getJSONStandardRespond200(respond);
         }
         else {
             // 返回失败对象
-            return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+            return jsonParameter.getJSONStandardRespond500("Error");
         }
 
 

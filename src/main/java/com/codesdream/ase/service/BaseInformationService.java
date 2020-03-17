@@ -20,25 +20,25 @@ import java.util.Vector;
 public class BaseInformationService implements IBaseInformationService {
 
     @Resource
-    BaseAdministrativeDivisionRepository administrativeDivisionRepository;
+    private BaseAdministrativeDivisionRepository administrativeDivisionRepository;
 
     @Resource
-    BaseCandidateCategoryRepository candidateCategoryRepository;
+    private BaseCandidateCategoryRepository candidateCategoryRepository;
 
     @Resource
-    BaseCollegeRepository collegeRepository;
+    private BaseCollegeRepository collegeRepository;
 
     @Resource
-    BaseEthnicRepository ethnicRepository;
+    private BaseEthnicRepository ethnicRepository;
 
     @Resource
-    BaseMajorRepository majorRepository;
+    private BaseMajorRepository majorRepository;
 
     @Resource
-    BasePoliticalStatusRepository politicalStatusRepository;
+    private BasePoliticalStatusRepository politicalStatusRepository;
 
     @Resource
-    BaseStudentInfoRepository studentInfoRepository;
+    private BaseStudentInfoRepository studentInfoRepository;
 
     @Override
     public boolean checkAdministrativeDivision(String name) {

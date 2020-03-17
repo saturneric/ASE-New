@@ -26,15 +26,9 @@ public class ASEAccessDeniedHandler implements AccessDeniedHandler {
             throws IOException, ServletException {
         log.info("ASEAccessDeniedHandler Found!");
 
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("text/javascript;charset=utf-8");
-        UserLoginCheckerJSONRespond checkerRespond = new UserLoginCheckerJSONRespond();
-        checkerRespond.setLoginStatus(true);
-        checkerRespond.setUserExist(true);
-        checkerRespond.setRespondInformation("Authenticated user has no access to this resource");
+        // 对无权限操作返回403
+        response.getWriter().print(jsonParameter.getJSONStandardRespond403());
 
-        // 对匿名用户返回
-        response.getWriter().print(jsonParameter.getJSONString(checkerRespond));
 
     }
 }

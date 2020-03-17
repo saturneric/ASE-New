@@ -16,10 +16,10 @@ import java.util.Map;
 @Controller
 public class RegisterController {
     @Resource
-    UserService userService;
+    private UserService userService;
 
     @Resource
-    BaseInformationService baseInformationService;
+    private BaseInformationService baseInformationService;
 
     @RequestMapping(value = "/register")
     String registerView(Model model){
