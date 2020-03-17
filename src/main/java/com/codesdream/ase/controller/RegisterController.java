@@ -67,7 +67,12 @@ public class RegisterController {
 
         // 检查用户的基本信息是否录入系统
         if(!baseInformationService.checkStudentInfo(student_id))
+            return quickJSONRespond.getRespond500("StudentID Base Information Not Found");
+
+        // 检查学号是否已被注册
+        if(userService.checkIfUserExists(userService.getUsernameByStudentId(student_id)).getKey()){
             return quickJSONRespond.getRespond500("StudentID Already Used");
+        }
 
         // 查找对应的基本信息
         BaseStudentInfo studentInfo = baseInformationService.findStudentInfoByStudentId(student_id);
