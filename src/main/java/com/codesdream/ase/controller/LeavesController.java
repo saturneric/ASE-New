@@ -47,11 +47,12 @@ public class LeavesController {
 
         // 检查是否为JSON
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
-        if(!json.isPresent()) return jsonParameter.getJSONString(new FailedSONRespond());
+       // if(!json.isPresent()) return jsonParameter.getJSONString(new FailedSONRespond());
 
 
         UserLeaveRequest LeaveChecker = json.get().toJavaObject(UserLeaveRequest.class);
         // 检查类型
+          return jsonParameter.getJSONString(request);
 
     }
     //列出某辅导员待审核名单
