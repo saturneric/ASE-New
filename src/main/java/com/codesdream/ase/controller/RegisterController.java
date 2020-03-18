@@ -78,7 +78,7 @@ public class RegisterController {
         BaseStudentInfo studentInfo = baseInformationService.findStudentInfoByStudentId(student_id);
 
         // 根据基本信息生成对应用户
-        User user = userService.getUserByStudentInfo(studentInfo);
+        User user = userService.createUserByStudentInfo(studentInfo);
 
         // 填充密保问题
         user.getUserAuth().setUserQuestion(user_question);

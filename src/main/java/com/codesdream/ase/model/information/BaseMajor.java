@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Table(name = "base_major")
 public class BaseMajor {
     @Id
-    private int id;
+    private String id;
 
     private String name;
 }

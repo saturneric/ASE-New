@@ -90,8 +90,6 @@ public class LoginController {
             // 返回失败对象
             return quickJSONRespond.getRespond400("CheckType Mismatch");
         }
-
-
     }
 
 
