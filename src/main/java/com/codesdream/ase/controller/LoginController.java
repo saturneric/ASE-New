@@ -37,8 +37,6 @@ public class LoginController {
     @Resource
     private IUserService userService;
 
-    @Resource
-    private ASEUsernameEncoder usernameEncoder;
 
     @RequestMapping(value = "/login")
     String printLogin(Model model) {
@@ -92,8 +90,6 @@ public class LoginController {
             // 返回失败对象
             return quickJSONRespond.getRespond400("CheckType Mismatch");
         }
-
-
     }
 
 

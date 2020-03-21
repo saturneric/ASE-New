@@ -31,13 +31,7 @@ import java.util.Optional;
 public class ASEJSONTokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Resource
-    private JSONParameter jsonParameter;
-
-    @Resource
     private JSONRandomCodeGenerator randomCodeGenerator;
-
-    @Resource
-    private AJAXRequestChecker ajaxRequestChecker;
 
     @Resource
     private AuthService authService;
