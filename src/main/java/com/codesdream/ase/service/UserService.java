@@ -97,14 +97,13 @@ public class UserService implements IUserService {
         if(userRepository.findByUsername(user.getUsername()).isPresent())
             throw new UsernameAlreadyExistException(user.getUsername());
 
-        // 用户信息一般性规范检查
+        // 用户关键信息一般性规范检查
         if(user.getUserAuth().getUserAnswer() == null
                 || user.getUserAuth().getUserQuestion() == null
                 || user.getUserAuth().getStudentID() == null
                 || user.getUserDetail().getRealName() == null
                 || user.getUserAuth().getMail() == null){
-
-            throw new RuntimeException("Key Information IS NULL");
+            throw new RuntimeException("Some Key Information IS NULL");
         }
 
 
@@ -145,7 +144,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getUserByStudentInfo(BaseStudentInfo studentInfo) {
+    public User createUserByStudentInfo(BaseStudentInfo studentInfo) {
         User user = getDefaultUser();
         // 根据学生id生成用户名
         generateRandomUsernameByStudentID(user, studentInfo.getStudentId());

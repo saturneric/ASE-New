@@ -16,7 +16,7 @@ public interface IUserService {
    User getDefaultUser();
 
    // 由学生基本信息生成对应用户
-   User getUserByStudentInfo(BaseStudentInfo studentInfo);
+   User createUserByStudentInfo(BaseStudentInfo studentInfo);
 
    List<User> findAll();
 

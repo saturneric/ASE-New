@@ -7,6 +7,5 @@ import java.util.Optional;
 
 public interface LeaveRepository extends CrudRepository<Leave, Integer>{
 
-    Optional<Leave> findByTitle(String title) ;
-    Optional<Leave> findByCreator(String creatorName);
+
 }

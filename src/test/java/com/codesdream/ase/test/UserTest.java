@@ -10,9 +10,12 @@ import javafx.util.Pair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 /**
  * 用户基本表单元测试
@@ -20,6 +23,7 @@ import javax.annotation.Resource;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ActiveProfiles("test")
 public class UserTest {
 
     @Resource
@@ -30,12 +34,6 @@ public class UserTest {
      */
     @Test
     public void UserBaseTest_1(){
-        // 查找数据库中是否有重复项
-        Pair<Boolean, User> checker = userService.checkIfUserExists("Tim");
-        if(checker.getKey()){
-            userService.delete(checker.getValue());
-        }
-
         User user = userService.getDefaultUser();
         user.setUsername("Tim");
         user.setPassword("123456");
@@ -44,6 +42,7 @@ public class UserTest {
         user.getUserAuth().setUserQuestion("Your favourite animal?");
         user.getUserAuth().setUserAnswer("Cat");
         user.getUserDetail().setAtSchool(true);
+        user.getUserDetail().setRealName("提姆");
         userService.save(user);
 
         user = userService.findUserByUsername("Tim");
@@ -51,6 +50,7 @@ public class UserTest {
         assertEquals(user.getUsername(), "Tim");
         assertEquals(user.getPassword(),
                 "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92");
+
         // 检查账号状态
         assertTrue(user.isEnabled());
         assertFalse(user.isDeleted());
@@ -65,7 +65,19 @@ public class UserTest {
 
     @Test
     public void UserBaseTest_2(){
+        User user = userService.findUserByUsername("Tim");
 
+        assertNotNull(user);
+
+        user.setEnabled(false);
+        user.getUserAuth().setMail("saturneric@163.com");
+        user.getUserDetail().setRealName("张三丰");
+
+        user =  userService.update(user);
+
+        assertEquals(user.getUserAuth().getMail(), "saturneric@163.com");
+        assertEquals(user.getUserDetail().getRealName(), "张三丰");
+        assertFalse(user.isEnabled());
 
     }
 }
