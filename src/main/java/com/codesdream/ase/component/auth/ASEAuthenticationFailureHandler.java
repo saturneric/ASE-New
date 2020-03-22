@@ -1,4 +1,4 @@
-package com.codesdream.ase.component.permission;
+package com.codesdream.ase.component.auth;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.component.datamanager.QuickJSONRespond;

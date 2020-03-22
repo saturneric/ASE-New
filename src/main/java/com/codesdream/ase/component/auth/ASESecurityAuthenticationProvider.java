@@ -1,7 +1,5 @@
-package com.codesdream.ase.component.permission;
+package com.codesdream.ase.component.auth;
 
-import com.codesdream.ase.component.auth.JSONTokenAuthenticationToken;
-import com.codesdream.ase.component.auth.JSONTokenUsernamePasswordAuthenticationToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;

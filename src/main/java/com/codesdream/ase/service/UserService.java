@@ -1,7 +1,7 @@
 package com.codesdream.ase.service;
 
-import com.codesdream.ase.component.permission.ASEPasswordEncoder;
-import com.codesdream.ase.component.permission.ASEUsernameEncoder;
+import com.codesdream.ase.component.auth.ASEPasswordEncoder;
+import com.codesdream.ase.component.auth.ASEUsernameEncoder;
 import com.codesdream.ase.component.permission.UserRolesListGenerator;
 import com.codesdream.ase.exception.UserInformationIllegalException;
 import com.codesdream.ase.exception.UserNotFoundException;

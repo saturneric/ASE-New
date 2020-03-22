@@ -39,4 +39,5 @@ public class AppConfigure {
     public String getOrganization() {
         return "全员育人WEB端开发组";
     }
+
 }

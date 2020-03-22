@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.component.datamanager.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.JSONStandardFailedRespond;
-import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
-import com.codesdream.ase.component.permission.ASEUsernameEncoder;
 import com.codesdream.ase.component.json.request.UserLoginChecker;
 import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
 import com.codesdream.ase.service.IUserService;
@@ -49,7 +47,7 @@ public class LoginController {
 
         // 检查是否为JSON
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
-        if(!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+        if(!json.isPresent()) return quickJSONRespond.getRespond400("Invalid JSON Form");
 
 
         UserLoginChecker loginChecker = json.get().toJavaObject(UserLoginChecker.class);
