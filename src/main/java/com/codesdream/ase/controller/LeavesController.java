@@ -3,7 +3,7 @@ package com.codesdream.ase.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.component.json.request.UserLeaveRequest;
-import com.codesdream.ase.component.permission.ASEUsernameEncoder;
+import com.codesdream.ase.component.auth.ASEUsernameEncoder;
 import com.codesdream.ase.service.LeavesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
