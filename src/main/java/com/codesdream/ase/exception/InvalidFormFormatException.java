@@ -9,7 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 @Data
 public class InvalidFormFormatException extends Throwable {
 
-    private String message = "";
+    private String message = "Invalid form format";
 
     public InvalidFormFormatException(){
         super();
