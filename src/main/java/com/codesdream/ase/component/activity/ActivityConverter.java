@@ -44,14 +44,14 @@ public class ActivityConverter {
         JSONObject jsonObject = json.get();
 
         String username = (String) jsonObject.get("creator");
-        User creator = userService.findUserByUsername(username);
-        activity.setCreator(creator);
+        Optional<User> creator = userService.findUserByUsername(username);
+        activity.setCreator(creator.get());
 
         List<String> participateGroupFromJson = (List) jsonObject.get("participate-group");
         Set<User> participateGroup = new HashSet<>();
         for (String name : participateGroupFromJson) {
-            User user = userService.findUserByUsername(name);
-            participateGroup.add(user);
+            Optional<User> user = userService.findUserByUsername(name);
+            participateGroup.add(user.get());
         }
         activity.setParticipateGroup(participateGroup);
 
@@ -59,14 +59,14 @@ public class ActivityConverter {
         activity.setTitle(title);
 
         String chiefManagerName = (String) jsonObject.get("chief-manager");
-        User chiefManager = userService.findUserByUsername(chiefManagerName);
-        activity.setChiefManager(chiefManager);
+        Optional<User> chiefManager = userService.findUserByUsername(chiefManagerName);
+        activity.setChiefManager(chiefManager.get());
 
         List<String> assistManagerFromJSON = (List) jsonObject.get("assist-manager");
         Set<User> assistManager = new HashSet<>();
         for (String name : assistManagerFromJSON) {
-            User user = userService.findUserByUsername(name);
-            assistManager.add(user);
+            Optional<User> user = userService.findUserByUsername(name);
+            assistManager.add(user.get());
         }
         activity.setAssistManagers(assistManager);
 
@@ -91,24 +91,24 @@ public class ActivityConverter {
         List<String> signGroupFromJSON = (List) jsonObject.get("sign-group");
         Set<User> signGroup = new HashSet<>();
         for (String name : signGroupFromJSON) {
-            User user = userService.findUserByUsername(name);
-            signGroup.add(user);
+            Optional<User> user = userService.findUserByUsername(name);
+            signGroup.add(user.get());
         }
         activity.setSignGroup(signGroup);
 
         List<String> informGroupFromJSON = (List) jsonObject.get("inform-group");
         Set<User> informGroup = new HashSet<>();
         for (String name : informGroupFromJSON) {
-            User user = userService.findUserByUsername(name);
-            informGroup.add(user);
+            Optional<User> user = userService.findUserByUsername(name);
+            informGroup.add(user.get());
         }
         activity.setInformGroup(informGroup);
 
         List<String> visibleGroupFromJSON = (List) jsonObject.get("visible-group");
         Set<User> visibleGroup = new HashSet<>();
         for (String name : visibleGroupFromJSON) {
-            User user = userService.findUserByUsername(name);
-            visibleGroup.add(user);
+            Optional<User> user = userService.findUserByUsername(name);
+            visibleGroup.add(user.get());
         }
         activity.setVisibleGroup(informGroup);
 

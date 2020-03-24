@@ -34,4 +34,8 @@ public class Period {
         this.endTime = endTime;
     }
 
+    public Period(){
+        
+    }
+
 }
