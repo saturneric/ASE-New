@@ -22,7 +22,7 @@ public interface IUserService {
 
    Optional<User> findUserById(int id);
 
-   User findUserByUsername(String username);
+   Optional<User> findUserByUsername(String username);
 
    // 查询用户是否存在
    public Pair<Boolean, User> checkIfUserExists(String username);

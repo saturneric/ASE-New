@@ -1,16 +1,19 @@
 package com.codesdream.ase.service;
 
 import com.codesdream.ase.component.auth.AuthTokenGenerator;
+import com.codesdream.ase.component.auth.TimestampExpiredChecker;
 import com.codesdream.ase.model.auth.JSONToken;
+import com.codesdream.ase.model.auth.PreValidationCode;
 import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.repository.auth.JSONTokenRepository;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.codesdream.ase.repository.auth.PreValidationCodeRepository;
 import javafx.util.Pair;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 // 认证服务
 @Service
@@ -24,6 +27,12 @@ public class AuthService implements IAuthService {
 
     @Resource
     private AuthTokenGenerator authTokenGenerator;
+
+    @Resource
+    private PreValidationCodeRepository preValidationCodeRepository;
+
+    @Resource
+    private TimestampExpiredChecker timestampExpiredChecker;
 
     @Override
     public Optional<JSONToken> findTokenByUserName(String username) {
@@ -59,5 +68,25 @@ public class AuthService implements IAuthService {
             return Optional.ofNullable(token.getToken());
         }
         else return Optional.empty();
+    }
+
+    @Override
+    public String preValidationCodeGetter() {
+        PreValidationCode preValidationCode = new
+                PreValidationCode();
+        preValidationCode.setValue(UUID.randomUUID().toString());
+        preValidationCode = preValidationCodeRepository.save(preValidationCode);
+        return preValidationCode.getValue();
+    }
+
+    @Override
+    public boolean preValidationCodeChecker(String pvc) {
+        Optional<PreValidationCode> preValidationCode =
+                preValidationCodeRepository.findByValue(pvc);
+        if(preValidationCode.filter(validationCode -> timestampExpiredChecker.checkDateBeforeMaxTime(validationCode.getDate(), 60)).isPresent()){
+            preValidationCodeRepository.delete(preValidationCode.get());
+            return true;
+        }
+        else return false;
     }
 }

@@ -12,9 +12,7 @@ import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PermissionService implements IPermissionService {
@@ -63,6 +61,11 @@ public class PermissionService implements IPermissionService {
     @Override
     public Optional<Tag> findTag(String name) {
         return tagRepository.findByName(name);
+    }
+
+    @Override
+    public Optional<Tag> findTag(Integer id) {
+        return tagRepository.findById(id);
     }
 
     @Override
@@ -117,8 +120,8 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public Collection<User> getUsersFromTag(Tag tag) {
-        return new ArrayList<>(tag.getUsers());
+    public Set<User> getUsersFromTag(Tag tag) {
+        return new HashSet<>(tag.getUsers());
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.codesdream.ase.component.datamanager.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.JSONStandardFailedRespond;
 import com.codesdream.ase.component.json.request.UserLoginChecker;
 import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
+import com.codesdream.ase.service.IAuthService;
 import com.codesdream.ase.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,9 @@ public class LoginController {
 
     @Resource
     private IUserService userService;
+
+    @Resource
+    private IAuthService authService;
 
 
     @RequestMapping(value = "/login")
@@ -73,11 +77,21 @@ public class LoginController {
     @RequestMapping(value = "/login/check_uid", method = RequestMethod.POST)
     @ResponseBody
     String checkUsernameByStudentID(HttpServletRequest request){
+
+        String preValidationCode = request.getHeader("pvc");
+
+        // 检查随机预验证码
+        if(preValidationCode == null || !authService.preValidationCodeChecker(preValidationCode))
+            return quickJSONRespond.getRespond403("Invalid PreValidationCode");
+
         // 检查是否为JSON
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
         if(!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
 
         UserLoginChecker loginChecker = json.get().toJavaObject(UserLoginChecker.class);
+
+        if(loginChecker.getUsername() == null || loginChecker.getCheckType() == null)
+            return quickJSONRespond.getRespond406("Request Violates The Interface Protocol");
 
         if(loginChecker.getCheckType().equals("UIDGeneratorChecker")) {
             UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();

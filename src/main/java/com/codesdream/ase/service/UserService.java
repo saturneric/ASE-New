@@ -45,10 +45,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User findUserByUsername(String username) {
+    public Optional<User> findUserByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         if(!user.isPresent()) throw new UsernameNotFoundException(username);
-        return user.get();
+        return user;
     }
 
     @Override

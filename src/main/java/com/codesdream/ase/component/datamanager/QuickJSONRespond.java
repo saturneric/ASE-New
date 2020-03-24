@@ -76,5 +76,10 @@ public class QuickJSONRespond {
         return getJSONStandardRespond(400, "Bad Request", info);
     }
 
+    // 获得标准的JSON响应字符串返回(400状态)
+    public String getRespond409(String info){
+        return getJSONStandardRespond(409, "Conflict", info);
+    }
+
 
 }

@@ -5,6 +5,7 @@ import javafx.util.Pair;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
 public interface IPermissionService {
 
@@ -18,6 +19,9 @@ public interface IPermissionService {
 
     // 查找用户标签
     Optional<Tag> findTag(String name);
+
+    // 查找用户标签
+    Optional<Tag> findTag(Integer id);
 
     // 查找功能性权限容器
     Optional<FunctionalPermissionContainer> findFPC(String name);
@@ -41,12 +45,13 @@ public interface IPermissionService {
     // 查找用户下的所有标签列表
     Collection<Tag> getTagsFromUser(User user);
 
+
     // 查找功能性权限容器下的所有范围性权限容器列表
     Collection<FunctionalPermissionContainer> getFPCs(
             PermissionContainersCollection pcc);
 
     // 查找标签下的所有用户
-    Collection<User> getUsersFromTag(Tag tag);
+    Set<User> getUsersFromTag(Tag tag);
 
     // 指定一对功能性权限容器与对应的范围性权限容器并添加到指定权限容器集合中
     PermissionContainersCollection addRelationItemToPCC(

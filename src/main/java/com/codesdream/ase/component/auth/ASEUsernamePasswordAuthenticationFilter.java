@@ -63,6 +63,7 @@ public class ASEUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
 
         // 获得相应的用户名密码
         String username = checker.getUsername();
+        // 得到加密密码
         String password = checker.getPassword();
         String clientCode = checker.getClientCode();
 

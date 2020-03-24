@@ -41,6 +41,7 @@ public class ASEAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
         UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
         respond.setUserExist(authentication.isAuthenticated());
         respond.setLoginStatus(authentication.isAuthenticated());
+        respond.setPvc(authService.preValidationCodeGetter());
 
         // 获得 JSONTokenAuthenticationToken
         JSONTokenAuthenticationToken authenticationToken = (JSONTokenAuthenticationToken) authentication;
