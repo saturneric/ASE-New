@@ -1,26 +1,17 @@
 package com.codesdream.ase.controller;
 
 import com.codesdream.ase.component.api.QuickJSONRespond;
-import com.codesdream.ase.component.error.ErrorResponse;
 import com.codesdream.ase.component.json.respond.ErrorInfoJSONRespond;
+import com.codesdream.ase.exception.badrequest.AlreadyExistException;
+import com.codesdream.ase.exception.conflict.RelatedObjectsExistException;
 import com.codesdream.ase.exception.notfound.NotFoundException;
-import com.sun.xml.bind.v2.model.annotation.Quick;
-import org.apache.poi.openxml4j.opc.internal.ContentType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @RestControllerAdvice
 public class ASEControllerAdvice {
@@ -28,17 +19,37 @@ public class ASEControllerAdvice {
     @Resource
     private QuickJSONRespond quickJSONRespond;
 
-    @ExceptionHandler(value = {NullPointerException.class})
+    @ExceptionHandler(value = {
+            NullPointerException.class,
+            AlreadyExistException.class
+    })
     public ResponseEntity<Object> handleBadRequest(Exception ex) {
-
-        String json = quickJSONRespond.getRespond400(null, getJSONRespondObject(ex));
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
+        return getResponse(HttpStatus.BAD_REQUEST, ex);
     }
 
     @ExceptionHandler(value = {NotFoundException.class})
     public ResponseEntity<Object> handleNotFound(Exception ex) {
-        String json = quickJSONRespond.getRespond404(null, getJSONRespondObject(ex));
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+
+        return getResponse(HttpStatus.NOT_FOUND, ex);
+    }
+
+    @ExceptionHandler(value = {})
+    public ResponseEntity<Object> handleNotAcceptable(Exception ex) {
+        return getResponse(HttpStatus.NOT_ACCEPTABLE, ex);
+    }
+
+    @ExceptionHandler(value = {RelatedObjectsExistException.class})
+    public ResponseEntity<Object> handleConflict(Exception ex) {
+        return getResponse(HttpStatus.CONFLICT, ex);
+    }
+
+    private ResponseEntity<Object> getResponse(HttpStatus status, Exception ex){
+        return ResponseEntity.status(status).body(getJSON(status, ex));
+
+    }
+
+    private String getJSON(HttpStatus status, Exception ex){
+        return quickJSONRespond.getJSONStandardRespond(status, getJSONRespondObject(ex));
     }
 
     private Object getJSONRespondObject(Exception ex){
