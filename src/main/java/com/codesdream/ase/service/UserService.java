@@ -4,7 +4,7 @@ import com.codesdream.ase.component.auth.ASEPasswordEncoder;
 import com.codesdream.ase.component.auth.ASEUsernameEncoder;
 import com.codesdream.ase.component.permission.UserRolesListGenerator;
 import com.codesdream.ase.exception.UserInformationIllegalException;
-import com.codesdream.ase.exception.UserNotFoundException;
+import com.codesdream.ase.exception.notfound.UserNotFoundException;
 import com.codesdream.ase.exception.UsernameAlreadyExistException;
 import com.codesdream.ase.model.information.BaseStudentInfo;
 import com.codesdream.ase.model.permission.User;

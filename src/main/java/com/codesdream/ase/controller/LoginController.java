@@ -2,15 +2,17 @@ package com.codesdream.ase.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.datamanager.QuickJSONRespond;
+import com.codesdream.ase.component.api.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.JSONStandardFailedRespond;
 import com.codesdream.ase.component.json.request.UserLoginChecker;
 import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
 import com.codesdream.ase.service.IAuthService;
 import com.codesdream.ase.service.IUserService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +27,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Controller
+@Api(tags = "用户登录有关接口")
 public class LoginController {
 
     @Resource
@@ -39,13 +42,7 @@ public class LoginController {
     @Resource
     private IAuthService authService;
 
-
-    @RequestMapping(value = "/login")
-    String printLogin(Model model) {
-        return "login";
-    }
-
-    @RequestMapping(value = "/login/check_exists", method = RequestMethod.POST)
+    @PostMapping(value = "/login/check_exists")
     @ResponseBody
     String checkExists(HttpServletRequest request){
 

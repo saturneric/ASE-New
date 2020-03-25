@@ -87,7 +87,13 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/forget/**",
                         "/not_found/**",
                         "/error/**",
-                        "/login/**");
+                        "/login/**",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/swagger-resources/**",
+                        "/v2/api-docs",
+                        "/configuration/ui",
+                        "/configuration/security");
     }
 
     //注册自定义的UsernamePasswordAuthenticationFilter

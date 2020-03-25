@@ -1,5 +1,6 @@
-package com.codesdream.ase.component.datamanager;
+package com.codesdream.ase.component.api;
 
+import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.component.json.respond.EmptyDataObjectRespond;
 import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,11 @@ public class QuickJSONRespond {
     // 获得标准的JSON响应字符串返回(404状态)
     public String getRespond404(String info){
         return getJSONStandardRespond(404, "Not Found", info);
+    }
+
+    // 获得标准的JSON响应字符串返回(404状态)
+    public String getRespond404(String info, Object object){
+        return getJSONStandardRespond(404, "Not Found", info, object);
     }
 
     // 获得标准的JSON响应字符串返回(500状态)
@@ -74,6 +80,11 @@ public class QuickJSONRespond {
     // 获得标准的JSON响应字符串返回(400状态)
     public String getRespond400(String info){
         return getJSONStandardRespond(400, "Bad Request", info);
+    }
+
+    // 获得标准的JSON响应字符串返回(404状态)
+    public String getRespond400(String info, Object object){
+        return getJSONStandardRespond(400, "Bad Request", info, object);
     }
 
     // 获得标准的JSON响应字符串返回(400状态)

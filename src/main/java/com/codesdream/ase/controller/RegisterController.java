@@ -1,7 +1,7 @@
 package com.codesdream.ase.controller;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.datamanager.QuickJSONRespond;
+import com.codesdream.ase.component.api.QuickJSONRespond;
 import com.codesdream.ase.component.json.request.UserRegisterChecker;
 import com.codesdream.ase.model.information.BaseStudentInfo;
 import com.codesdream.ase.model.permission.User;

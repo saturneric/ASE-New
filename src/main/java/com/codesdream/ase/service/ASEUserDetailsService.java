@@ -1,12 +1,11 @@
 package com.codesdream.ase.service;
 
 import com.codesdream.ase.component.permission.UserAuthoritiesGenerator;
-import com.codesdream.ase.exception.UserNotFoundException;
+import com.codesdream.ase.exception.notfound.UserNotFoundException;
 import com.codesdream.ase.model.permission.User;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -2,16 +2,19 @@ package com.codesdream.ase.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.datamanager.QuickJSONRespond;
+import com.codesdream.ase.component.api.QuickJSONRespond;
+import com.codesdream.ase.component.json.model.JsonableTag;
 import com.codesdream.ase.component.json.respond.PermissionJSONRespond;
+import com.codesdream.ase.exception.notfound.TagNotFoundException;
 import com.codesdream.ase.model.permission.Tag;
 import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.service.IUserService;
 import com.codesdream.ase.service.PermissionService;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +24,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("pmt")
+@Api(tags = "权限管理接口")
 public class PermissionController {
 
     @Resource
@@ -36,80 +40,34 @@ public class PermissionController {
     private QuickJSONRespond jsonRespond;
 
     // 根据名字创建新的标签
-    @PostMapping("tag/create")
-    public String createTag(HttpServletRequest request){
-        Optional<JSONObject> jsonObjectOptional = jsonParameter.getJSONByRequest(request);
-        if(!jsonObjectOptional.isPresent()) return jsonRespond.getRespond400("Illegal JSON Format");
-        JSONObject jsonObject = jsonObjectOptional.get();
+    @PostMapping("tag")
+    @ApiOperation(value = "创建新的标签", notes = "创建标签时其ID自动分配，指定ID无效")
+    public JsonableTag createTag(@RequestBody JsonableTag tag){
 
-        String tagName = jsonObject.getString("name");
-        if(tagName == null) return jsonRespond.getRespond406("Missing Tag Name");
-        // 检查JSON是否合法
+        String tagName = tag.getName();
+/*        if(tagName == null) return jsonRespond.getRespond406("Missing Tag Name");*/
+
         Optional<Tag> tagOptional = permissionService.findTag(tagName);
-        if(tagOptional.isPresent()) return jsonRespond.getRespond409("Tag Name Already Exist");
+/*        if(tagOptional.isPresent()) return jsonRespond.getRespond409("Tag Name Already Exist");*/
 
         Tag newTag = permissionService.getDefaultTag(tagName);
-        newTag = permissionService.save(newTag);
-
-        PermissionJSONRespond respond = new PermissionJSONRespond();
-        respond.setActionSuccess(true);
-        respond.setTagId(newTag.getId());
-        respond.setTagName(newTag.getName());
-
-        return jsonRespond.getRespond200(null, respond);
+        if(tag.getDescription() != null) {
+            newTag.setDescription(tag.getDescription());
+        }
+        return new JsonableTag(permissionService.save(newTag));
     }
 
 
     // 根据名字搜索标签的简要信息
-    @PostMapping("tag/search")
-    public String checkTag(HttpServletRequest request){
-        Optional<JSONObject> jsonObjectOptional = jsonParameter.getJSONByRequest(request);
-        if(!jsonObjectOptional.isPresent()) return jsonRespond.getRespond400("Illegal JSON Format");
-
-        JSONObject jsonObject = jsonObjectOptional.get();
-        String tagName = jsonObject.getString("name");
-        if(tagName == null) return jsonRespond.getRespond406("Problem With Tag Name");
-        Optional<Tag> tagOptional = permissionService.findTag(tagName);
-
-        PermissionJSONRespond respond = new PermissionJSONRespond();
-        respond.setActionSuccess(true);
-
+    @GetMapping("tag")
+    @ApiOperation("搜索标签信息")
+    @ApiImplicitParam(name = "name", value = "标签名")
+    public JsonableTag checkTag(@RequestParam(value = "name") String name){
+        Optional<Tag> tagOptional = permissionService.findTag(name);
         if(tagOptional.isPresent()){
-            respond.setTagExist(true);
-            respond.setTagId(tagOptional.get().getId());
-            respond.setTagName(tagOptional.get().getName());
+            return new JsonableTag(tagOptional.get());
         }
-        else respond.setTagExist(false);
-
-        return jsonRespond.getRespond200(null, respond);
-    }
-
-    // 由标签ID找到用户ID列表
-    @PostMapping("tag/get/users")
-    public String getUsersTag(HttpServletRequest request){
-        Optional<JSONObject> jsonObjectOptional = jsonParameter.getJSONByRequest(request);
-        if(!jsonObjectOptional.isPresent()) return jsonRespond.getRespond400("Illegal JSON Format");
-
-        JSONObject jsonObject = jsonObjectOptional.get();
-        Integer tagId = jsonObject.getInteger("id");
-        if(tagId == null) return jsonRespond.getRespond406("Problem With Tag ID");
-        Optional<Tag> tagOptional = permissionService.findTag(tagId);
-
-        PermissionJSONRespond respond = new PermissionJSONRespond();
-        respond.setActionSuccess(true);
-
-        if(tagOptional.isPresent()){
-            respond.setTagExist(true);
-            respond.setTagId(tagOptional.get().getId());
-            Set<Integer> userIds = new HashSet<>();
-            for(User user : permissionService.getUsersFromTag(tagOptional.get())) {
-                userIds.add(user.getId());
-            }
-            respond.setUsers(userIds);
-        }
-        else respond.setTagExist(false);
-
-        return jsonRespond.getRespond200(null, respond);
+        else throw new TagNotFoundException(name);
     }
 
     // 将用户添加到Tag中
