@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import java.util.Optional;
 
 @Service
-public class LeavesService implements ILeavesService {
+public class  LeavesService implements ILeavesService {
 
     @Resource
     private LeaveRepository leaveRepository;
@@ -25,9 +25,15 @@ public class LeavesService implements ILeavesService {
     }
 
     @Override
-    public Leave save(Leave leave) {
+    public Leave save( Leave leave) {
         return leaveRepository.save(leave);
     }
+
+    @Override
+    public Optional<Leave> findLeaveById(int id) {
+        return leaveRepository.findById(id);
+    }
+
 
 
     @Override
@@ -45,7 +51,8 @@ public class LeavesService implements ILeavesService {
         return leaveRepository.save(leave);
     }
 
-    /*@Override
+
+/*@Override
     public Leave findActivitiesInTheCharge(User user) {
 
     }*/
