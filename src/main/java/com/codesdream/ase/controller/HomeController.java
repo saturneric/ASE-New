@@ -17,7 +17,9 @@ public class HomeController {
 
     @RequestMapping(value = "/home")
     public String  showHomeView(Model model, Principal principal){
-        User user = userService.findUserByUsername(principal.getName());
+        Optional<User> userOptional = userService.findUserByUsername(principal.getName());
+        if(!userOptional.isPresent()) return "error";
+        User user = userOptional.get();
         // 为视图模板指定参数
         model.addAttribute("username", user.getUsername().substring(0, 18));
         model.addAttribute("real_name", user.getUserDetail().getRealName());

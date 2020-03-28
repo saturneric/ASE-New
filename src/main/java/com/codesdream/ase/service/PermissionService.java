@@ -2,6 +2,7 @@ package com.codesdream.ase.service;
 
 import com.codesdream.ase.component.permission.UserFPCListGenerator;
 import com.codesdream.ase.component.permission.UserFSRGenerator;
+import com.codesdream.ase.exception.notfound.NotFoundException;
 import com.codesdream.ase.model.permission.*;
 import com.codesdream.ase.repository.permission.FunctionalPermissionContainerRepository;
 import com.codesdream.ase.repository.permission.PermissionContainersCollectionRepository;
@@ -12,9 +13,7 @@ import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PermissionService implements IPermissionService {
@@ -63,6 +62,27 @@ public class PermissionService implements IPermissionService {
     @Override
     public Optional<Tag> findTag(String name) {
         return tagRepository.findByName(name);
+    }
+
+    @Override
+    public Optional<Tag> findTag(Integer id) {
+        return tagRepository.findById(id);
+    }
+
+    @Override
+    public Iterable<Tag> findAllTag() {
+        return tagRepository.findAll();
+    }
+
+    @Override
+    public Set<Tag> findTags(List<String> names) {
+        Set<Tag> tagSet = new HashSet<>();
+        for(String name : names){
+            Optional<Tag> tag = findTag(name);
+            if(!tag.isPresent()) throw new NotFoundException(name);
+            tagSet.add(tag.get());
+        }
+        return tagSet;
     }
 
     @Override
@@ -117,8 +137,8 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public Collection<User> getUsersFromTag(Tag tag) {
-        return new ArrayList<>(tag.getUsers());
+    public Set<User> getUsersFromTag(Tag tag) {
+        return new HashSet<>(tag.getUsers());
     }
 
     @Override
@@ -218,6 +238,11 @@ public class PermissionService implements IPermissionService {
         if(tagRepository.findByName(tag.getName()).isPresent())
             throw new RuntimeException("Tag Already Exist");
         return tagRepository.save(tag);
+    }
+
+    @Override
+    public void delete(Tag tag) {
+        tagRepository.delete(tag);
     }
 
     @Override

@@ -12,5 +12,6 @@ public class UserLoginCheckerJSONRespond {
     String respondInformation = null;
     String token = null;
     String uid = null;
+    String pvc = null;
 
 }

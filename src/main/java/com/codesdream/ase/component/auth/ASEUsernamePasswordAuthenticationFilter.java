@@ -1,4 +1,4 @@
-package com.codesdream.ase.component.permission;
+package com.codesdream.ase.component.auth;
 
 import com.codesdream.ase.component.auth.AJAXRequestChecker;
 import com.codesdream.ase.component.auth.JSONTokenUsernamePasswordAuthenticationToken;
@@ -8,19 +8,17 @@ import com.codesdream.ase.component.json.request.UserLoginChecker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-// 登录验证过滤器
+// 普通登录验证过滤器
 @Slf4j
 public class ASEUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -65,6 +63,7 @@ public class ASEUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
 
         // 获得相应的用户名密码
         String username = checker.getUsername();
+        // 得到加密密码
         String password = checker.getPassword();
         String clientCode = checker.getClientCode();
 

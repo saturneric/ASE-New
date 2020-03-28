@@ -45,7 +45,10 @@ public class UserTest {
         user.getUserDetail().setRealName("提姆");
         userService.save(user);
 
-        user = userService.findUserByUsername("Tim");
+        Optional<User> userOptional = userService.findUserByUsername("Tim");
+
+        assertTrue(userOptional.isPresent());
+        user = userOptional.get();
 
         assertEquals(user.getUsername(), "Tim");
         assertEquals(user.getPassword(),
@@ -65,9 +68,9 @@ public class UserTest {
 
     @Test
     public void UserBaseTest_2(){
-        User user = userService.findUserByUsername("Tim");
-
-        assertNotNull(user);
+        Optional<User> userOptional = userService.findUserByUsername("Tim");
+        assertTrue(userOptional.isPresent());
+        User user = userOptional.get();
 
         user.setEnabled(false);
         user.getUserAuth().setMail("saturneric@163.com");

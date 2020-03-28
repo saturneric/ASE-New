@@ -1,24 +1,16 @@
 package com.codesdream.ase.controller;
 
-import com.codesdream.ase.component.datamanager.QuickJSONRespond;
-import com.codesdream.ase.component.error.ErrorResponse;
+import com.codesdream.ase.component.api.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.ErrorInfoJSONRespond;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 public class ASEErrorController implements ErrorController {
@@ -80,7 +72,7 @@ public class ASEErrorController implements ErrorController {
 
         return quickJSONRespond.getJSONStandardRespond(
                 statusCode,
-                "Error Controller Handle",
+                "Internal Server Error",
                 null,
                 errorInfoJSONRespond);
     }

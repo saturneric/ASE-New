@@ -17,13 +17,15 @@ import java.security.Principal;
 @Controller
 public class ActivityViewerController {
 
+    private final String url = "/forget/activity";
+
     @Resource
     ActivityService activityService;
 
     @Resource
     ActivityRepository activityRepository;
 
-    @RequestMapping(value = "/my/participated", method = RequestMethod.GET)
+    @RequestMapping(value = url + "/my/participated", method = RequestMethod.GET)
     String showParticipated(Model model, HttpServletRequest request){
         Principal principal = request.getUserPrincipal();
         String username = principal.getName();

@@ -13,4 +13,10 @@ public interface IAuthService {
 
     // 为用户获得一个新的API Token
     Optional<String> userNewTokenGetter(String username, String clientCode);
+
+    // 获得一个新的预验证码
+    String preValidationCodeGetter();
+
+    // 检验预验证码
+    boolean preValidationCodeChecker(String pvc);
 }

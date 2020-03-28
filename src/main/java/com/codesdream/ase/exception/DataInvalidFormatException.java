@@ -12,4 +12,8 @@ public class DataInvalidFormatException extends RuntimeException {
         super();
         information = e.getMessage();
     }
+
+    public DataInvalidFormatException(){
+        super();
+    }
 }

