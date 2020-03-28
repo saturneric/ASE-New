@@ -1,7 +1,6 @@
-package com.codesdream.ase.component.permission;
+package com.codesdream.ase.component.auth;
 
-import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
+import com.codesdream.ase.component.api.QuickJSONRespond;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -19,7 +18,7 @@ import java.io.IOException;
 public class ASEAccessDeniedHandler implements AccessDeniedHandler {
 
     @Resource
-    private JSONParameter jsonParameter;
+    private QuickJSONRespond quickJSONRespond;
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
@@ -27,7 +26,7 @@ public class ASEAccessDeniedHandler implements AccessDeniedHandler {
         log.info("ASEAccessDeniedHandler Found!");
 
         // 对无权限操作返回403
-        response.getWriter().print(jsonParameter.getJSONStandardRespond403());
+        response.getWriter().print(quickJSONRespond.getRespond403(null));
 
 
     }

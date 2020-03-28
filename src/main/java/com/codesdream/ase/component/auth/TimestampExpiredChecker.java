@@ -15,4 +15,10 @@ public class TimestampExpiredChecker {
         return timestampDate.before(maxDate);
     }
 
+    public boolean checkDateBeforeMaxTime(Date date, int seconds){
+        long currentTime = System.currentTimeMillis();
+        Date maxDate = new Date(currentTime + seconds * 1000);
+        return date.before(maxDate);
+    }
+
 }

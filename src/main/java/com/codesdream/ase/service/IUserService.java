@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 public interface IUserService {
@@ -16,13 +17,13 @@ public interface IUserService {
    User getDefaultUser();
 
    // 由学生基本信息生成对应用户
-   User getUserByStudentInfo(BaseStudentInfo studentInfo);
+   User createUserByStudentInfo(BaseStudentInfo studentInfo);
 
    List<User> findAll();
 
    Optional<User> findUserById(int id);
 
-   User findUserByUsername(String username);
+   Optional<User> findUserByUsername(String username);
 
    // 查询用户是否存在
    public Pair<Boolean, User> checkIfUserExists(String username);
@@ -41,6 +42,8 @@ public interface IUserService {
 
    // 更具学号获得对应的用户名
    String getUsernameByStudentId(String studentId);
+
+   Set<User> findUsersById(Set<Integer> usersId);
 
    // 随机生成一个用户名
    void generateRandomUsername(User user);

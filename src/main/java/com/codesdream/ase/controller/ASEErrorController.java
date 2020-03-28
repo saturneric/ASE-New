@@ -1,25 +1,21 @@
 package com.codesdream.ase.controller;
 
-import com.codesdream.ase.component.error.ErrorResponse;
+import com.codesdream.ase.component.api.QuickJSONRespond;
+import com.codesdream.ase.component.json.respond.ErrorInfoJSONRespond;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 public class ASEErrorController implements ErrorController {
 
-    @RequestMapping("/error")
+/*    @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model){
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
@@ -49,7 +45,36 @@ public class ASEErrorController implements ErrorController {
             model.addAttribute("exception_date", new Date());
         }
         return "error";
+    }*/
 
+    @Resource
+    private QuickJSONRespond quickJSONRespond;
+
+    @RequestMapping("/error")
+    @ResponseBody
+    public String handleError(HttpServletRequest request){
+        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+        Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
+
+        // 检查返回的状态
+        if (statusCode == HttpStatus.NOT_FOUND.value()) return quickJSONRespond.getRespond404(null);
+        ErrorInfoJSONRespond errorInfoJSONRespond  = new ErrorInfoJSONRespond();
+
+        // 检查是否含有引发异常
+        if (exception.getCause() == null) {
+            errorInfoJSONRespond.setException(exception.getClass().getName());
+            errorInfoJSONRespond.setExceptionMessage(exception.getMessage());
+        } else {
+            errorInfoJSONRespond.setException(exception.getCause().getClass().getName());
+            errorInfoJSONRespond.setExceptionMessage(exception.getCause().getMessage());
+        }
+        errorInfoJSONRespond.setDate(new Date());
+
+        return quickJSONRespond.getJSONStandardRespond(
+                statusCode,
+                "Internal Server Error",
+                null,
+                errorInfoJSONRespond);
     }
 
     @Override

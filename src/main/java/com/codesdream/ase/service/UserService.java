@@ -1,11 +1,11 @@
 package com.codesdream.ase.service;
 
-import com.codesdream.ase.component.permission.ASEPasswordEncoder;
-import com.codesdream.ase.component.permission.ASEUsernameEncoder;
+import com.codesdream.ase.component.auth.ASEPasswordEncoder;
+import com.codesdream.ase.component.auth.ASEUsernameEncoder;
 import com.codesdream.ase.component.permission.UserRolesListGenerator;
 import com.codesdream.ase.exception.UserInformationIllegalException;
-import com.codesdream.ase.exception.UserNotFoundException;
-import com.codesdream.ase.exception.UsernameAlreadyExistException;
+import com.codesdream.ase.exception.notfound.UserNotFoundException;
+import com.codesdream.ase.exception.badrequest.UsernameAlreadyExistException;
 import com.codesdream.ase.model.information.BaseStudentInfo;
 import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.repository.permission.UserRepository;
@@ -15,10 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
@@ -45,10 +42,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User findUserByUsername(String username) {
+    public Optional<User> findUserByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         if(!user.isPresent()) throw new UsernameNotFoundException(username);
-        return user.get();
+        return user;
     }
 
     @Override
@@ -87,6 +84,17 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public Set<User> findUsersById(Set<Integer> usersId) {
+        Set<User> userSet = new  HashSet<>();
+        for(Integer id : usersId){
+            Optional<User> user = findUserById(id);
+            if(!user.isPresent()) throw new UserNotFoundException(String.format("ID: %d", id));
+            userSet.add(user.get());
+        }
+        return userSet;
+    }
+
+    @Override
     public void generateRandomUsername(User user) {
         user.setUsername(usernameEncoder.encode(UUID.randomUUID().toString()));
     }
@@ -97,14 +105,13 @@ public class UserService implements IUserService {
         if(userRepository.findByUsername(user.getUsername()).isPresent())
             throw new UsernameAlreadyExistException(user.getUsername());
 
-        // 用户信息一般性规范检查
+        // 用户关键信息一般性规范检查
         if(user.getUserAuth().getUserAnswer() == null
                 || user.getUserAuth().getUserQuestion() == null
                 || user.getUserAuth().getStudentID() == null
                 || user.getUserDetail().getRealName() == null
                 || user.getUserAuth().getMail() == null){
-
-            throw new RuntimeException("Key Information IS NULL");
+            throw new RuntimeException("Some Key Information IS NULL");
         }
 
 
@@ -145,7 +152,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getUserByStudentInfo(BaseStudentInfo studentInfo) {
+    public User createUserByStudentInfo(BaseStudentInfo studentInfo) {
         User user = getDefaultUser();
         // 根据学生id生成用户名
         generateRandomUsernameByStudentID(user, studentInfo.getStudentId());

@@ -1,9 +1,9 @@
 package com.codesdream.ase.service;
 
 import com.codesdream.ase.component.datamanager.DataTable;
-import com.codesdream.ase.exception.BaseInformationAlreadyExistException;
+import com.codesdream.ase.exception.badrequest.BaseInformationAlreadyExistException;
 import com.codesdream.ase.exception.BaseInformationIllegalException;
-import com.codesdream.ase.exception.BaseInformationNotExistException;
+import com.codesdream.ase.exception.notfound.BaseInformationNotFoundException;
 import com.codesdream.ase.model.information.*;
 import com.codesdream.ase.repository.information.*;
 import lombok.extern.slf4j.Slf4j;
@@ -20,25 +20,25 @@ import java.util.Vector;
 public class BaseInformationService implements IBaseInformationService {
 
     @Resource
-    BaseAdministrativeDivisionRepository administrativeDivisionRepository;
+    private BaseAdministrativeDivisionRepository administrativeDivisionRepository;
 
     @Resource
-    BaseCandidateCategoryRepository candidateCategoryRepository;
+    private BaseCandidateCategoryRepository candidateCategoryRepository;
 
     @Resource
-    BaseCollegeRepository collegeRepository;
+    private BaseCollegeRepository collegeRepository;
 
     @Resource
-    BaseEthnicRepository ethnicRepository;
+    private BaseEthnicRepository ethnicRepository;
 
     @Resource
-    BaseMajorRepository majorRepository;
+    private BaseMajorRepository majorRepository;
 
     @Resource
-    BasePoliticalStatusRepository politicalStatusRepository;
+    private BasePoliticalStatusRepository politicalStatusRepository;
 
     @Resource
-    BaseStudentInfoRepository studentInfoRepository;
+    private BaseStudentInfoRepository studentInfoRepository;
 
     @Override
     public boolean checkAdministrativeDivision(String name) {
@@ -103,7 +103,7 @@ public class BaseInformationService implements IBaseInformationService {
             if(administrativeDivision.isPresent()) {
                 return administrativeDivision.get();
             }
-            else throw new BaseInformationNotExistException(BaseAdministrativeDivision.class, name);
+            else throw new BaseInformationNotFoundException(BaseAdministrativeDivision.class, name);
 
         }
         return administrativeDivision.get();
@@ -114,7 +114,7 @@ public class BaseInformationService implements IBaseInformationService {
         Optional<BaseCollege> college =
                 collegeRepository.findByName(name);
         // 检查
-        if(!college.isPresent()) throw new BaseInformationNotExistException(BaseCollege.class, name);
+        if(!college.isPresent()) throw new BaseInformationNotFoundException(BaseCollege.class, name);
         return college.get();
     }
 
@@ -122,7 +122,7 @@ public class BaseInformationService implements IBaseInformationService {
     public BaseEthnic findEthnicByName(String name) {
         Optional<BaseEthnic> ethnic =
                 ethnicRepository.findByName(name);
-        if(!ethnic.isPresent()) throw new BaseInformationNotExistException(BaseEthnic.class, name);
+        if(!ethnic.isPresent()) throw new BaseInformationNotFoundException(BaseEthnic.class, name);
         return ethnic.get();
     }
 
@@ -130,7 +130,7 @@ public class BaseInformationService implements IBaseInformationService {
     public BaseMajor findMajorByName(String name) {
         Optional<BaseMajor> major =
                 majorRepository.findByName(name);
-        if(!major.isPresent()) throw new BaseInformationNotExistException(BaseMajor.class, name);
+        if(!major.isPresent()) throw new BaseInformationNotFoundException(BaseMajor.class, name);
         return major.get();
     }
 
@@ -139,7 +139,7 @@ public class BaseInformationService implements IBaseInformationService {
         Optional<BasePoliticalStatus> politicalStatus =
                 politicalStatusRepository.findByName(name);
         if(!politicalStatus.isPresent())
-            throw new BaseInformationNotExistException(BasePoliticalStatus.class, name);
+            throw new BaseInformationNotFoundException(BasePoliticalStatus.class, name);
         return politicalStatus.get();
     }
 
@@ -148,7 +148,7 @@ public class BaseInformationService implements IBaseInformationService {
         Optional<BaseCandidateCategory> candidateCategory =
                 candidateCategoryRepository.findByName(name);
         if(!candidateCategory.isPresent())
-            throw new BaseInformationNotExistException(BaseCandidateCategory.class, name);
+            throw new BaseInformationNotFoundException(BaseCandidateCategory.class, name);
         return candidateCategory.get();
     }
 
@@ -157,7 +157,7 @@ public class BaseInformationService implements IBaseInformationService {
         Optional<BaseStudentInfo> studentInfo =
                 studentInfoRepository.findByStudentId(studentId);
         if(!studentInfo.isPresent())
-            throw new BaseInformationNotExistException(BaseStudentInfo.class, studentId);
+            throw new BaseInformationNotFoundException(BaseStudentInfo.class, studentId);
         return studentInfo.get();
     }
 
@@ -202,7 +202,7 @@ public class BaseInformationService implements IBaseInformationService {
                                 row.elementAt(infoIndex.elementAt(7)),
                                 row.elementAt(infoIndex.elementAt(8)));
                 save(studentInfo);
-            } catch (BaseInformationNotExistException e){
+            } catch (BaseInformationNotFoundException e){
                 String log_info = String.format("一项学生信息的某项基本信息未在数据库找到, 该项数据无效." +
                         " %s: %s",e.getClassName(), e.getValue());
                 log.warn(log_info);
@@ -281,7 +281,7 @@ public class BaseInformationService implements IBaseInformationService {
     public BaseStudentInfo update(BaseStudentInfo baseStudentInfo) {
         // 更新前检查
         if(!checkStudentInfo(baseStudentInfo.getStudentId()))
-            throw new BaseInformationNotExistException(BaseStudentInfo.class, baseStudentInfo.getStudentId());
+            throw new BaseInformationNotFoundException(BaseStudentInfo.class, baseStudentInfo.getStudentId());
         return studentInfoRepository.save(baseStudentInfo);
     }
 }

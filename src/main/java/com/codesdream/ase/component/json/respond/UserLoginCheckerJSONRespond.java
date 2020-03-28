@@ -9,7 +9,9 @@ public class UserLoginCheckerJSONRespond {
     Boolean userExist = null;
     Boolean userBanned = null;
     Boolean loginStatus = null;
-    String respondInformation = "";
+    String respondInformation = null;
     String token = null;
+    String uid = null;
+    String pvc = null;
 
 }

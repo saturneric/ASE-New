@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 public class ActivityViewerController {
+
+    private final String url = "/forget/activity";
 
     @Resource
     ActivityService activityService;
@@ -24,7 +25,7 @@ public class ActivityViewerController {
     @Resource
     ActivityRepository activityRepository;
 
-    @RequestMapping(value = "/my/participated", method = RequestMethod.GET)
+    @RequestMapping(value = url + "/my/participated", method = RequestMethod.GET)
     String showParticipated(Model model, HttpServletRequest request){
         Principal principal = request.getUserPrincipal();
         String username = principal.getName();

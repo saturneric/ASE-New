@@ -2,15 +2,17 @@ package com.codesdream.ase.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.codesdream.ase.component.datamanager.JSONParameter;
+import com.codesdream.ase.component.api.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.JSONStandardFailedRespond;
-import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
-import com.codesdream.ase.component.permission.ASEUsernameEncoder;
 import com.codesdream.ase.component.json.request.UserLoginChecker;
 import com.codesdream.ase.component.json.respond.UserLoginCheckerJSONRespond;
+import com.codesdream.ase.service.IAuthService;
 import com.codesdream.ase.service.IUserService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,29 +27,28 @@ import java.util.Optional;
  */
 @Slf4j
 @Controller
+@Api(tags = "用户登录有关接口")
 public class LoginController {
 
     @Resource
     private JSONParameter jsonParameter;
 
     @Resource
+    private QuickJSONRespond quickJSONRespond;
+
+    @Resource
     private IUserService userService;
 
     @Resource
-    private ASEUsernameEncoder usernameEncoder;
+    private IAuthService authService;
 
-    @RequestMapping(value = "/login")
-    String printLogin(Model model) {
-        return "login";
-    }
-
-    @RequestMapping(value = "/login/check_exists", method = RequestMethod.POST)
+    @PostMapping(value = "/login/check_exists")
     @ResponseBody
     String checkExists(HttpServletRequest request){
 
         // 检查是否为JSON
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
-        if(!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+        if(!json.isPresent()) return quickJSONRespond.getRespond400("Invalid JSON Form");
 
 
         UserLoginChecker loginChecker = json.get().toJavaObject(UserLoginChecker.class);
@@ -61,11 +62,11 @@ public class LoginController {
             // 构造返回对象
             UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
             respond.setUserExist(existStatus);
-            return jsonParameter.getJSONString(respond);
+            return quickJSONRespond.getRespond200(null, respond);
         }
         else {
             // 返回失败对象
-            return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+            return quickJSONRespond.getRespond400("CheckType Mismatch");
         }
     }
 
@@ -73,23 +74,31 @@ public class LoginController {
     @RequestMapping(value = "/login/check_uid", method = RequestMethod.POST)
     @ResponseBody
     String checkUsernameByStudentID(HttpServletRequest request){
+
+        String preValidationCode = request.getHeader("pvc");
+
+        // 检查随机预验证码
+        if(preValidationCode == null || !authService.preValidationCodeChecker(preValidationCode))
+            return quickJSONRespond.getRespond403("Invalid PreValidationCode");
+
         // 检查是否为JSON
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
         if(!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
 
         UserLoginChecker loginChecker = json.get().toJavaObject(UserLoginChecker.class);
 
+        if(loginChecker.getUsername() == null || loginChecker.getCheckType() == null)
+            return quickJSONRespond.getRespond406("Request Violates The Interface Protocol");
+
         if(loginChecker.getCheckType().equals("UIDGeneratorChecker")) {
             UserLoginCheckerJSONRespond respond = new UserLoginCheckerJSONRespond();
-            respond.setRespondInformation(userService.getUsernameByStudentId(loginChecker.getUsername()));
-            return jsonParameter.getJSONString(respond);
+            respond.setUid(userService.getUsernameByStudentId(loginChecker.getUsername()));
+            return quickJSONRespond.getRespond200(null, respond);
         }
         else {
             // 返回失败对象
-            return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+            return quickJSONRespond.getRespond400("CheckType Mismatch");
         }
-
-
     }
 
 

@@ -58,44 +58,6 @@ public class JSONParameter {
         return JSON.toJSONString(object);
     }
 
-    // 根据对象构造获得标准的JSON响应字符串返回
-    public String getJSONStandardRespond(Integer status, String msg, Object dataObject){
-        JSONBaseRespondObject respondObject = new JSONBaseRespondObject(status, msg);
-        respondObject.setData(dataObject);
-        return getJSONString(respondObject);
-    }
-
-    // 获得标准的JSON响应字符串返回(404状态)
-    public String getJSONStandardRespond404(String msg){
-        JSONBaseRespondObject respondObject = new JSONBaseRespondObject(404, msg);
-        return getJSONString(respondObject);
-    }
-
-    // 获得标准的JSON响应字符串返回(500状态)
-    public String getJSONStandardRespond500(String msg){
-        JSONBaseRespondObject respondObject = new JSONBaseRespondObject(500, msg);
-        return getJSONString(respondObject);
-    }
-
-    // 获得标准的JSON响应字符串返回(200状态)
-    public String getJSONStandardRespond200(Object dataObject){
-        JSONBaseRespondObject respondObject = new JSONBaseRespondObject(200, "ok");
-        respondObject.setData(dataObject);
-        return getJSONString(respondObject);
-    }
-
-    // 获得标准的JSON响应字符串返回(403状态)
-    public String getJSONStandardRespond403(){
-        JSONBaseRespondObject respondObject = new JSONBaseRespondObject(403, "Forbidden");
-        return getJSONString(respondObject);
-    }
-
-    // 获得标准的JSON响应字符串返回(401状态)
-    public String getJSONStandardRespond401(){
-        JSONBaseRespondObject respondObject = new JSONBaseRespondObject(401, "Unauthorized");
-        return getJSONString(respondObject);
-    }
-
     // 由JSON对象获得对应的Java对象
     public <T> T getJavaObject(JSONObject json, Class<T> type){
         return json.toJavaObject(type);

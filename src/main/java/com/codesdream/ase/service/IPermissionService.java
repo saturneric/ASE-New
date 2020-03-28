@@ -4,7 +4,9 @@ import com.codesdream.ase.model.permission.*;
 import javafx.util.Pair;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface IPermissionService {
 
@@ -18,6 +20,14 @@ public interface IPermissionService {
 
     // 查找用户标签
     Optional<Tag> findTag(String name);
+
+    // 查找用户标签
+    Optional<Tag> findTag(Integer id);
+
+    // 列出所有的标签
+    Iterable<Tag> findAllTag();
+
+    Set<Tag> findTags(List<String> names);
 
     // 查找功能性权限容器
     Optional<FunctionalPermissionContainer> findFPC(String name);
@@ -41,12 +51,13 @@ public interface IPermissionService {
     // 查找用户下的所有标签列表
     Collection<Tag> getTagsFromUser(User user);
 
+
     // 查找功能性权限容器下的所有范围性权限容器列表
     Collection<FunctionalPermissionContainer> getFPCs(
             PermissionContainersCollection pcc);
 
     // 查找标签下的所有用户
-    Collection<User> getUsersFromTag(Tag tag);
+    Set<User> getUsersFromTag(Tag tag);
 
     // 指定一对功能性权限容器与对应的范围性权限容器并添加到指定权限容器集合中
     PermissionContainersCollection addRelationItemToPCC(
@@ -89,6 +100,8 @@ public interface IPermissionService {
     Tag addPCCsToTag(Tag tag, Collection<PermissionContainersCollection> pccs);
 
     Tag save(Tag tag);
+
+    void delete(Tag tag);
 
     FunctionalPermissionContainer save(FunctionalPermissionContainer fpc);
 

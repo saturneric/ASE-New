@@ -1,4 +1,4 @@
-package com.codesdream.ase.component.permission;
+package com.codesdream.ase.component.auth;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;

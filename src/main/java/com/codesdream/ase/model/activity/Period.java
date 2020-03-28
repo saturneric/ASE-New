@@ -29,4 +29,13 @@ public class Period {
     @Column(name = "enabled")//, nullable = false)
     private boolean enabled;
 
+    public Period(LocalDateTime startTime, LocalDateTime endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public Period(){
+
+    }
+
 }
