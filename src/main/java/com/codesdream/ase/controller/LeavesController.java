@@ -7,11 +7,9 @@ import com.codesdream.ase.component.datamanager.JSONParameter;
 
 import com.codesdream.ase.component.json.request.UserLeaveAuth;
 import com.codesdream.ase.component.json.request.UserLeaveRequest;
-import com.codesdream.ase.component.json.request.UserLoginChecker;
 import com.codesdream.ase.component.json.request.UserSGettudentLeaveListRequest;
-import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
 import com.codesdream.ase.component.json.respond.JSONStandardFailedRespond;
-import com.codesdream.ase.exception.InvalidFormFormatException;
+import com.codesdream.ase.exception.innerservererror.InvalidFormFormatException;
 import com.codesdream.ase.exception.notfound.NotFoundException;
 import com.codesdream.ase.model.leaves.Leave;
 import com.codesdream.ase.service.LeavesService;
@@ -21,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -49,10 +46,10 @@ public class LeavesController {
     @Resource
     private ASEUsernameEncoder usernameEncoder;
 
-    @RequestMapping(value = "/")
+/*    @RequestMapping(value = "/")
     String printLeave(Model model) {
         return "Leave";
-    }
+    }*/
 
     //提交请假申请
     @RequestMapping(value = "/Leave/check", method = RequestMethod.POST)
