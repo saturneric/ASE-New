@@ -12,23 +12,22 @@ import com.codesdream.ase.model.activity.Activity;
 import com.codesdream.ase.model.activity.UserActivity;
 import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.repository.activity.UserActivityRepository;
-import com.codesdream.ase.repository.permission.UserRepository;
 import com.codesdream.ase.service.ActivityService;
+import com.codesdream.ase.service.UserService;
 import com.codesdream.ase.validator.ActivityValidator;
 import com.codesdream.ase.validator.NullValueValidator;
 import com.codesdream.ase.validator.JSONFormValidator;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -59,7 +58,7 @@ public class ActivityCreatorController {
     ActivityValidator activityValidator;
 
     @Resource
-    UserRepository userRepository;
+    UserService userService;
 
     @Resource
     UserActivityRepository userActivityRepository;
@@ -69,12 +68,25 @@ public class ActivityCreatorController {
 
     private final String url = "/forget/activity";
 
-    @RequestMapping(value = url + "/activity_creator")
-    String activityCreatorView(Model model){return "activity_creator";}
-
 
     @PostMapping(value = url + "/activity_creator")
     @ResponseBody
+    @ApiOperation(value = "创建活动", notes = "所有有关用户的数据传递均使用id，类型为int")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "title", value = "活动标题", required = true),
+            @ApiImplicitParam(name = "type", value = "活动类型", required = true),
+            @ApiImplicitParam(name = "start-time", value = "活动开始时间，格式为yyyy-MM-dd HH:mm:ss", required = true),
+            @ApiImplicitParam(name = "end-time", value = "活动结束时间，格式为yyyy-MM-dd HH:mm:ss", required = true),
+            @ApiImplicitParam(name = "chief-manager", value = "主要负责人", required = true),
+            @ApiImplicitParam(name = "assist-managers", value = "次要负责人"),
+            @ApiImplicitParam(name = "description", value = "活动描述"),
+            @ApiImplicitParam(name = "cycle", value = "活动周期，格式为阿拉伯数字数字+单位，0表示无周期"),
+            @ApiImplicitParam(name = "participate-group", value = "预定参与人员"),
+            @ApiImplicitParam(name = "sign-group", value = "可参与人员"),
+            @ApiImplicitParam(name = "inform-group", value = "通知人群，若为空，则默认为预定参与人员和可报名人员的并集"),
+            @ApiImplicitParam(name = "visible-group", value = "活动可见人群，若为空，则默认为负责人、活动创建者预定参和可报名人员以及通知人员的并集"),
+            @ApiImplicitParam(name = "remind-time", defaultValue = "30m", value = "活动提醒时间，格式为数字+单位，可接受的单位从大到小有:w,d,h,m,s"),
+    })
     String activityCreator(HttpServletRequest request) throws InvalidFormFormatException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         JSONObject error = new JSONObject();
@@ -82,19 +94,16 @@ public class ActivityCreatorController {
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
         if (!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
 
-        //WebFormValidator webFormValidator = aseSpringUtil.getBean(WebFormValidator.class);
         List<String> formatCheckResult = jsonFormValidator.check(activityFormConfigure.getStdActivityForm(), json.get());
+
         if (!formatCheckResult.isEmpty()) {
             error.put("error", formatCheckResult);
             return error.toJSONString();
         }
         // 需要检查JSON是否合法
-
         Activity activity = activityConverter.convertToActivity(json);
-
-        //NullValueValidator nullValueValidator = aseSpringUtil.getBean(NullValueValidator.class);
         List<String> nullValues = nullValueValidator.checkNullValues(activity);
-        //= aseSpringUtil.getBean(NullValueAttributes.class);
+
         for (String str : nullValues){
             if(str.equals("title")){
                 nullValueAttributes.getNullValueAttributes().add("title");
@@ -113,9 +122,8 @@ public class ActivityCreatorController {
             }
         }
         //如果为空，存下此活动并跳转至成功创建页面
-        if(nullValueAttributes.getNullValueAttributes().isEmpty()){
+        if (!nullValueAttributes.getNullValueAttributes().isEmpty()) {
 
-            //ActivityValidator activityValidator = aseSpringUtil.getBean(ActivityValidator.class);
             String[] errorParameters = activityValidator.check(json);
             if(errorParameters != null){
                 JSONObject invalidParameters = new JSONObject();
@@ -124,12 +132,9 @@ public class ActivityCreatorController {
 
             }
             else{
-                //UserRepository userRepository = aseSpringUtil.getBean(UserRepository.class);
-                //activityService = aseSpringUtil.getBean(ActivityService.class);
                 activity = activityService.createActivity(activity);
                 String username = json.get().get("creator").toString();
-                Optional<User> user = userRepository.findByUsername(username);
-                //UserActivityRepository userActivityRepository = aseSpringUtil.getBean(UserActivityRepository.class);
+                Optional<User> user = userService.findUserByUsername(username);
                 UserActivity userActivity = userActivityRepository.findByUser(user.get());
                 userActivity.getCreatedActivities().add(activity);
                 userActivityRepository.save(userActivity);
