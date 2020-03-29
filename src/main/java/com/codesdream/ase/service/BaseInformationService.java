@@ -2,7 +2,7 @@ package com.codesdream.ase.service;
 
 import com.codesdream.ase.component.datamanager.DataTable;
 import com.codesdream.ase.exception.badrequest.BaseInformationAlreadyExistException;
-import com.codesdream.ase.exception.BaseInformationIllegalException;
+import com.codesdream.ase.exception.badrequest.BaseInformationIllegalException;
 import com.codesdream.ase.exception.notfound.BaseInformationNotFoundException;
 import com.codesdream.ase.model.information.*;
 import com.codesdream.ase.repository.information.*;

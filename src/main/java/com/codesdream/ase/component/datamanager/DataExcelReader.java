@@ -2,6 +2,9 @@ package com.codesdream.ase.component.datamanager;
 
 
 import com.codesdream.ase.exception.*;
+import com.codesdream.ase.exception.innerservererror.DataIOException;
+import com.codesdream.ase.exception.innerservererror.DataIllegalTableFormatException;
+import com.codesdream.ase.exception.innerservererror.DataInvalidFormatException;
 import com.codesdream.ase.exception.notfound.DataFileNotFoundException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -48,7 +51,7 @@ public class DataExcelReader implements DataReader {
         Row titleRow = sheet.getRow(0);
         colNumber = titleRow.getLastCellNum();
         // 表头项目个数不可为0
-        if(colNumber == 0) throw new  DataIllegalTableFormatException();
+        if(colNumber == 0) throw new DataIllegalTableFormatException();
         Collection<String> title = new ArrayList<>();
         for(int cellIdx = 0; cellIdx < colNumber; cellIdx++){
             title.add(readCell(titleRow.getCell(cellIdx)));

@@ -9,12 +9,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "leaves")
 public class Leave {
+    //请假的编号
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     //发出人
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private User userFrom;
+    @Column
+    private String userFrom;
     //审批人容器
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Set <User> userTo;
@@ -28,7 +29,7 @@ public class Leave {
     private String type;
     //批准状态
     @Column(nullable = false)
-    private String authentication;
+    private String authentication="Pending";
 
     //审核备注
     @Column

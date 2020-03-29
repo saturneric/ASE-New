@@ -44,6 +44,10 @@ public interface IPermissionService {
     // 标签下所有的获得权限容器集合列表
     Collection<PermissionContainersCollection> getPCCs(Tag tag);
 
+    Set<PermissionContainersCollection> findPCCs(Set<Integer> pccs);
+
+    Optional<PermissionContainersCollection> findPCC(Integer id);
+
     // 获得范围性权限容器下的所有标签列表
     Collection<Tag> getTagsFromSPC(
             ScopePermissionContainer spc);
