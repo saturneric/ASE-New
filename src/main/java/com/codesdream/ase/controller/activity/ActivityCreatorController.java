@@ -7,7 +7,7 @@ import com.codesdream.ase.component.activity.NullValueAttributes;
 import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.component.json.respond.JSONStandardFailedRespond;
 import com.codesdream.ase.configure.ActivityFormConfigure;
-import com.codesdream.ase.exception.InvalidFormFormatException;
+import com.codesdream.ase.exception.innerservererror.InvalidFormFormatException;
 import com.codesdream.ase.model.activity.Activity;
 import com.codesdream.ase.model.activity.UserActivity;
 import com.codesdream.ase.model.permission.User;
