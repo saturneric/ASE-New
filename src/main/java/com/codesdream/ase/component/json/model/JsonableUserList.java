@@ -12,13 +12,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @ApiModel("标签所属用户集合")
-public class JsonableTagUserList {
+public class JsonableUserList {
 
     @ApiModelProperty(name = "用户列表")
     private List<Integer> users;
 
 
-    public JsonableTagUserList(Tag tag){
+    public JsonableUserList(Tag tag){
         for(User user : tag.getUsers()){
             users.add(user.getId());
         }

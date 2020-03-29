@@ -1,30 +1,31 @@
 package com.codesdream.ase.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.api.QuickJSONRespond;
+import com.codesdream.ase.component.datamanager.JsonPathParameter;
+import com.codesdream.ase.component.json.model.JsonablePCCList;
 import com.codesdream.ase.component.json.model.JsonableTag;
-import com.codesdream.ase.component.json.model.JsonableTagUserList;
+import com.codesdream.ase.component.json.model.JsonableUserList;
 import com.codesdream.ase.component.json.model.JsonableUser;
-import com.codesdream.ase.component.json.respond.PermissionJSONRespond;
 import com.codesdream.ase.exception.badrequest.AlreadyExistException;
 import com.codesdream.ase.exception.conflict.RelatedObjectsExistException;
 import com.codesdream.ase.exception.notfound.NotFoundException;
-import com.codesdream.ase.exception.notfound.TagNotFoundException;
+import com.codesdream.ase.model.permission.PermissionContainersCollection;
 import com.codesdream.ase.model.permission.Tag;
 import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.service.IUserService;
 import com.codesdream.ase.service.PermissionService;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +41,9 @@ public class PermissionController {
 
     @Resource
     private IUserService userService;
+
+    @Resource
+    private JsonPathParameter pathParameter;
 
     // 根据名字创建新的标签
     @PostMapping("tag")
@@ -99,31 +103,51 @@ public class PermissionController {
         permissionService.delete(tag.get());
     }
 
+    // 根据名字搜索标签的简要信息
+    @PatchMapping(path = "tag", consumes = "application/json-patch+json")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("修改标签属性")
+    @ApiImplicitParam(name = "name", value = "标签名")
+    public JsonableTag updateTag(@RequestParam(value = "name") String name, @RequestBody JsonPatch patch){
+        Optional<Tag> tag = permissionService.findTag(name);
+        if(!tag.isPresent()) throw new NotFoundException(name);
+
+        JsonableTag jsonableTag = new JsonableTag(tag.get());
+        jsonableTag  = pathParameter.parsePathToObject(patch, jsonableTag);
+
+        tag.get().setName(jsonableTag.getName());
+        tag.get().setDescription(jsonableTag.getDescription());
+
+        return new JsonableTag(permissionService.save(tag.get()));
+
+    }
+
+
 
     @GetMapping("tag/users")
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation("搜索单个标签所属用户集合信息")
-    public JsonableTagUserList getUserTag(@RequestParam(value = "name") String name){
+    public JsonableUserList getUserTag(@RequestParam(value = "name") String name){
         Optional<Tag> tag = permissionService.findTag(name);
         if(!tag.isPresent()) throw new NotFoundException(name);
-        return new JsonableTagUserList(tag.get());
+        return new JsonableUserList(tag.get());
     }
 
     @PutMapping("tag/users")
     @ApiOperation("更新索单个标签所属用户集合信息")
-    public JsonableTagUserList setUserTag(@RequestParam String name, @RequestBody JsonableTagUserList userList){
+    public JsonableUserList setUserTag(@RequestParam String name, @RequestBody JsonableUserList userList){
         Optional<Tag> tag = permissionService.findTag(name);
         if(!tag.isPresent()) throw new NotFoundException(name);
 
         Set<Integer> userSet = new HashSet<>(userList.getUsers());
         tag.get().setUsers(userService.findUsersById(userSet));
 
-        return new JsonableTagUserList(permissionService.save(tag.get()));
+        return new JsonableUserList(permissionService.save(tag.get()));
     }
 
     @PostMapping("tag/users")
     @ApiOperation("更新单个标签所属用户集合中添加一个或多个用户")
-    public JsonableTagUserList addUserTag(@RequestParam String name, @RequestBody JsonableTagUserList userList){
+    public JsonableUserList addUserTag(@RequestParam String name, @RequestBody JsonableUserList userList){
         Optional<Tag> tag = permissionService.findTag(name);
         if(!tag.isPresent()) throw new NotFoundException(name);
         Set<User> newUserSet = userService.findUsersById(new HashSet<>(userList.getUsers()));
@@ -133,13 +157,14 @@ public class PermissionController {
         userSet.addAll(newUserSet);
         tag.get().setUsers(userSet);
 
-        return new JsonableTagUserList(permissionService.save(tag.get()));
+        return new JsonableUserList(permissionService.save(tag.get()));
     }
 
     @DeleteMapping("tag/users")
+    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("从单个标签所属用户集合中删除一个或多个用户")
     @ApiImplicitParam(name = "name", value = "标签名")
-    public JsonableTagUserList deleteUserTag(@RequestParam String name, @RequestBody JsonableTagUserList userList){
+    public JsonableUserList deleteUserTag(@RequestParam String name, @RequestBody JsonableUserList userList){
         Optional<Tag> tag = permissionService.findTag(name);
         if(!tag.isPresent()) throw new NotFoundException(name);
         Set<User> userSet = tag.get().getUsers();
@@ -148,7 +173,7 @@ public class PermissionController {
         userSet.removeAll(deleteUserSet);
         tag.get().setUsers(userSet);
 
-        return new JsonableTagUserList(permissionService.save(tag.get()));
+        return new JsonableUserList(permissionService.save(tag.get()));
     }
 
     @GetMapping("tags/users")
@@ -165,6 +190,31 @@ public class PermissionController {
             jsonableUsers.add(new JsonableUser(user));
         }
         return jsonableUsers;
+    }
+
+    @GetMapping("tag/pcc")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("获取标签所含权限容器集合列表")
+    public JsonablePCCList getPCCTag(@RequestParam(value = "name") String name){
+        Optional<Tag> tagOptional = permissionService.findTag(name);
+        if(!tagOptional.isPresent()) throw new NotFoundException(name);
+
+        return new JsonablePCCList(tagOptional.get());
+    }
+
+    @PostMapping("tag/pcc")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("在指定标签的权限列表中添加一个或多个权限容器")
+    public JsonablePCCList addPCCTag(@RequestParam(value = "name") String name, JsonablePCCList jsonablePCCList){
+        Optional<Tag> tagOptional = permissionService.findTag(name);
+        if(!tagOptional.isPresent()) throw new NotFoundException(name);
+
+        Set<PermissionContainersCollection> pccs = tagOptional.get().getPermissionContainersCollections();
+        pccs.addAll(permissionService.findPCCs(new HashSet<Integer>(jsonablePCCList.getPccIdList())));
+
+        tagOptional.get().setPermissionContainersCollections(pccs);
+
+        return new JsonablePCCList(permissionService.save(tagOptional.get()));
     }
 
 
