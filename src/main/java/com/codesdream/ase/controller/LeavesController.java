@@ -1,14 +1,18 @@
 package com.codesdream.ase.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.codesdream.ase.component.api.QuickJSONRespond;
+import com.codesdream.ase.component.auth.ASEUsernameEncoder;
 import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.datamanager.QuickJSONRespond;
+
 import com.codesdream.ase.component.json.request.UserLeaveAuth;
 import com.codesdream.ase.component.json.request.UserLeaveRequest;
 import com.codesdream.ase.component.json.request.UserLoginChecker;
+import com.codesdream.ase.component.json.request.UserSGettudentLeaveListRequest;
 import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
 import com.codesdream.ase.component.json.respond.JSONStandardFailedRespond;
-import com.codesdream.ase.component.permission.ASEUsernameEncoder;
+import com.codesdream.ase.exception.InvalidFormFormatException;
+import com.codesdream.ase.exception.notfound.NotFoundException;
 import com.codesdream.ase.model.leaves.Leave;
 import com.codesdream.ase.service.LeavesService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -76,6 +81,8 @@ public class LeavesController {
         // 检查类型
 
     }
+    @RequestMapping(value = "/Leave/auth", method = RequestMethod.POST)
+    @ResponseBody
     String getLeaveAuth(HttpServletRequest request){
 
         // 检查是否为JSON
@@ -91,9 +98,19 @@ public class LeavesController {
         newLeave.setAuthentication(userLeaveAuth.getNewStat());
         return quickJSONRespond.getRespond200("Authentication status updated");
     }
-    String getLeavelist(HttpServletRequest request){
+
+    @RequestMapping(value = "/Leave/getStuLeaveList", method = RequestMethod.POST)
+    @ResponseBody
+    Leave getStuLeavelist(HttpServletRequest request) throws InvalidFormFormatException {
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
-        if(!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
+        if(!json.isPresent()) throw new InvalidFormFormatException("json request not recognized");
+        UserSGettudentLeaveListRequest userSGettudentLeaveListRequest=json.get().toJavaObject(UserSGettudentLeaveListRequest.class);
+        if(leavesService.findLeaveById(userSGettudentLeaveListRequest.getStudentId()).isPresent()){
+            Leave leave =leavesService.findLeaveById(userSGettudentLeaveListRequest.getStudentId()).get();
+            return leave;
+        }else{
+            throw new NotFoundException("Student Does not exist");
+        }
 
     }
 
