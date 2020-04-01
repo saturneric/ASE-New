@@ -1,11 +1,11 @@
-package com.codesdream.ase.exception;
+package com.codesdream.ase.exception.badrequest;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class BaseInformationIllegalException extends RuntimeException {
+public class BaseInformationIllegalException extends IllegalException {
     String type;
     String value;
 

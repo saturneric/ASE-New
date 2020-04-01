@@ -1,11 +1,9 @@
 package com.codesdream.ase.component.datamanager;
 
-import com.codesdream.ase.exception.DataIllegalTableFormatException;
+import com.codesdream.ase.exception.innerservererror.DataIllegalTableFormatException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Table;
-import javax.swing.text.html.Option;
 import java.util.*;
 
 // 描述一张数据表

@@ -3,7 +3,11 @@ package com.codesdream.ase.controller;
 import com.codesdream.ase.component.api.QuickJSONRespond;
 import com.codesdream.ase.component.json.respond.ErrorInfoJSONRespond;
 import com.codesdream.ase.exception.badrequest.AlreadyExistException;
+import com.codesdream.ase.exception.badrequest.IllegalException;
 import com.codesdream.ase.exception.conflict.RelatedObjectsExistException;
+import com.codesdream.ase.exception.innerservererror.FormatException;
+import com.codesdream.ase.exception.innerservererror.HandlingErrorsException;
+import com.codesdream.ase.exception.innerservererror.RuntimeIOException;
 import com.codesdream.ase.exception.notfound.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +25,8 @@ public class ASEControllerAdvice {
 
     @ExceptionHandler(value = {
             NullPointerException.class,
-            AlreadyExistException.class
+            AlreadyExistException.class,
+            IllegalException.class
     })
     public ResponseEntity<Object> handleBadRequest(Exception ex) {
         return getResponse(HttpStatus.BAD_REQUEST, ex);
@@ -41,6 +46,14 @@ public class ASEControllerAdvice {
     @ExceptionHandler(value = {RelatedObjectsExistException.class})
     public ResponseEntity<Object> handleConflict(Exception ex) {
         return getResponse(HttpStatus.CONFLICT, ex);
+    }
+
+    @ExceptionHandler(value = {
+            HandlingErrorsException.class,
+            FormatException.class,
+            RuntimeIOException.class})
+    public ResponseEntity<Object> handleInnerServerError(Exception ex){
+        return getResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex);
     }
 
     private ResponseEntity<Object> getResponse(HttpStatus status, Exception ex){

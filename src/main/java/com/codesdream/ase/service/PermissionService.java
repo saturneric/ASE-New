@@ -111,6 +111,22 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
+    public Set<PermissionContainersCollection> findPCCs(Set<Integer> pccs) {
+        Set<PermissionContainersCollection> set = new HashSet<>();
+        for(Integer id : pccs){
+            Optional<PermissionContainersCollection> pcc = findPCC(id);
+            if(!pcc.isPresent()) throw new NotFoundException(String.format("PCCId: %d",id));
+            set.add(pcc.get());
+        }
+        return set;
+    }
+
+    @Override
+    public Optional<PermissionContainersCollection> findPCC(Integer id) {
+        return pccRepository.findById(id);
+    }
+
+    @Override
     public Collection<Tag> getTagsFromSPC(ScopePermissionContainer spc) {
         return new ArrayList<>(spc.getTags());
     }
