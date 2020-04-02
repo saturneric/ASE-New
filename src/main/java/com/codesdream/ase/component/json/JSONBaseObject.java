@@ -8,5 +8,5 @@ import java.util.Date;
 @Slf4j
 public class JSONBaseObject {
     Date time = new Date();
-    
+
 }
