@@ -9,7 +9,6 @@ import com.codesdream.ase.repository.permission.PermissionContainersCollectionRe
 import com.codesdream.ase.repository.permission.ScopePermissionContainerRepository;
 import com.codesdream.ase.repository.permission.TagRepository;
 import javafx.util.Pair;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -75,11 +74,11 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public Set<Tag> findTags(List<String> names) {
+    public Set<Tag> findTags(List<Integer> ids) {
         Set<Tag> tagSet = new HashSet<>();
-        for(String name : names){
-            Optional<Tag> tag = findTag(name);
-            if(!tag.isPresent()) throw new NotFoundException(name);
+        for(Integer id : ids){
+            Optional<Tag> tag = findTag(id);
+            if(!tag.isPresent()) throw new NotFoundException(id.toString());
             tagSet.add(tag.get());
         }
         return tagSet;
@@ -90,6 +89,10 @@ public class PermissionService implements IPermissionService {
         return fpcRepository.findByName(name);
     }
 
+    public Iterable<FunctionalPermissionContainer> findAllFPC() {
+        return fpcRepository.findAll();
+    }
+
     @Override
     public Optional<ScopePermissionContainer> findSPC(String name) {
         return spcRepository.findByName(name);
@@ -98,6 +101,11 @@ public class PermissionService implements IPermissionService {
     @Override
     public Optional<FunctionalPermissionContainer> findFPC(int id) {
         return fpcRepository.findById(id);
+    }
+
+    @Override
+    public Iterable<ScopePermissionContainer> findALLSPC() {
+        return spcRepository.findAll();
     }
 
     @Override
