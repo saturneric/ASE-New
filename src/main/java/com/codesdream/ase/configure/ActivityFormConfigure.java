@@ -30,6 +30,7 @@ public class ActivityFormConfigure {
        add("attendance");
     }};
 
+
     public HashSet<String> getStdActivityForm() {
         return stdActivityForm;
     }
