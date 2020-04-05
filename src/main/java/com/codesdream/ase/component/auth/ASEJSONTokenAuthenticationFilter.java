@@ -1,10 +1,5 @@
 package com.codesdream.ase.component.auth;
 
-import com.codesdream.ase.component.auth.AJAXRequestChecker;
-import com.codesdream.ase.component.auth.JSONRandomCodeGenerator;
-import com.codesdream.ase.component.auth.JSONSignedGenerator;
-import com.codesdream.ase.component.auth.JSONTokenAuthenticationToken;
-import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.model.auth.JSONToken;
 import com.codesdream.ase.service.AuthService;
 import lombok.extern.slf4j.Slf4j;

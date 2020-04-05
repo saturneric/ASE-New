@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
@@ -48,6 +49,9 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     ASEAccessDeniedHandler accessDeniedHandler;
 
+    @Resource
+    ASESecurityInterceptor securityInterceptor;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -64,7 +68,8 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 替换掉原有的UsernamePasswordAuthenticationFilter
         http.addFilterAt(aseUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(asejsonTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(asejsonTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterAt(securityInterceptor, FilterSecurityInterceptor.class);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

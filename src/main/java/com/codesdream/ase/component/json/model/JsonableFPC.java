@@ -27,4 +27,12 @@ public class JsonableFPC {
         this.enabled = fpc.isEnabled();
         this.deleted = fpc.isDeleted();
     }
+
+    public FunctionalPermissionContainer parseObject(FunctionalPermissionContainer fpc){
+        fpc.setName(this.name);
+        fpc.setDescription(this.description);
+        fpc.setEnabled(this.enabled);
+        fpc.setDeleted(this.deleted);
+        return fpc;
+    }
 }

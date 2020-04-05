@@ -27,4 +27,13 @@ public class JsonableSPC {
         this.deleted = spc.isDeleted();
     }
 
+    public ScopePermissionContainer parseObject(ScopePermissionContainer spc){
+        spc.setName(this.name);
+        spc.setDescription(this.description);
+        spc.setEnabled(this.enabled);
+        spc.setDeleted(this.deleted);
+
+        return spc;
+    }
+
 }

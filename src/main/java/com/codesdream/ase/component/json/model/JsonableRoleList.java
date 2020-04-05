@@ -1,5 +1,6 @@
 package com.codesdream.ase.component.json.model;
 
+import com.codesdream.ase.model.permission.Function;
 import com.codesdream.ase.model.permission.FunctionalPermissionContainer;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -13,12 +14,13 @@ import java.util.Set;
 @ApiModel("功能性权限容器所属角色集合")
 public class JsonableRoleList {
     private Integer id;
-    private Set<String> roles = new HashSet<>();
+    private Set<Integer> functions = new HashSet<>();
 
     public JsonableRoleList(FunctionalPermissionContainer fpc){
         this.id = fpc.getId();
-        if(fpc.getRoles() != null) {
-            this.roles.addAll(fpc.getRoles());
+        if(fpc.getFunctions() != null) {
+            for(Function function : fpc.getFunctions())
+            this.functions.add(function.getId());
         }
     }
 }

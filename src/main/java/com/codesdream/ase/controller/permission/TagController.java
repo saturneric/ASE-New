@@ -1,9 +1,8 @@
 package com.codesdream.ase.controller.permission;
 
-import com.codesdream.ase.component.datamanager.JsonPathParameter;
+import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.component.json.model.JsonablePCCList;
 import com.codesdream.ase.component.json.model.JsonableTag;
-import com.codesdream.ase.component.json.model.JsonableUserList;
 import com.codesdream.ase.component.json.model.JsonableUser;
 import com.codesdream.ase.exception.badrequest.AlreadyExistException;
 import com.codesdream.ase.exception.conflict.RelatedObjectsExistException;
@@ -16,15 +15,11 @@ import com.codesdream.ase.service.PermissionService;
 
 import com.github.fge.jsonpatch.JsonPatch;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.annotation.Resource;
-import javax.jws.soap.SOAPBinding;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +37,7 @@ public class TagController {
     private IUserService userService;
 
     @Resource
-    private JsonPathParameter pathParameter;
+    private JSONParameter jsonParameter;
 
     // 根据名字创建新的标签
     @PostMapping("tag")
@@ -52,11 +47,8 @@ public class TagController {
         String tagName = tag.getName();
         Optional<Tag> tagOptional = permissionService.findTag(tagName);
         if(tagOptional.isPresent()) throw new AlreadyExistException(tagName);
-        Tag newTag = permissionService.getDefaultTag(tagName);
-        if(tag.getDescription() != null) {
-            newTag.setDescription(tag.getDescription());
-        }
-        return new JsonableTag(permissionService.save(newTag));
+
+        return new JsonableTag(permissionService.save(tag.parseObject(permissionService.getDefaultTag(tag.getName()))));
     }
 
     // 根据名字搜索标签的简要信息
@@ -108,12 +100,9 @@ public class TagController {
         if(!tag.isPresent()) throw new NotFoundException(id.toString());
 
         JsonableTag jsonableTag = new JsonableTag(tag.get());
-        jsonableTag  = pathParameter.parsePathToObject(patch, jsonableTag);
+        jsonableTag  = jsonParameter.parsePathToObject(patch, jsonableTag);
 
-        tag.get().setName(jsonableTag.getName());
-        tag.get().setDescription(jsonableTag.getDescription());
-
-        return new JsonableTag(permissionService.save(tag.get()));
+        return new JsonableTag(permissionService.update(jsonableTag.parseObject(tag.get())));
 
     }
 
@@ -131,29 +120,29 @@ public class TagController {
     }
 
     @PutMapping("tag/users")
-    @ApiOperation("更新索单个标签所属用户集合信息")
+    @ApiOperation("搜索单个标签所属用户集合信息")
     public Set<JsonableUser> setUserTag(@RequestParam(value = "id") Integer id,
-                                        @RequestBody JsonableUserList userList){
+                                        @RequestBody List<Integer> userIdList){
         Optional<Tag> tag = permissionService.findTag(id);
         if(!tag.isPresent()) throw new NotFoundException(id.toString());
 
-        Set<Integer> userSet = new HashSet<>(userList.getUsers());
+        Set<Integer> userSet = new HashSet<>(userIdList);
         tag.get().setUsers(userService.findUsersById(userSet));
 
         Set<JsonableUser> jsonableUsers = new HashSet<>();
-        for(User user : tag.get().getUsers()){
+        for(User user : permissionService.update(tag.get()).getUsers()){
             jsonableUsers.add(new JsonableUser(user));
         }
         return jsonableUsers;
     }
 
     @PostMapping("tag/users")
-    @ApiOperation("更新单个标签所属用户集合中添加一个或多个用户")
+    @ApiOperation("从单个标签所属用户集合中添加一个或多个用户")
     public Set<JsonableUser> addUserTag(@RequestParam(value = "id") Integer id,
-                                        @RequestBody JsonableUserList userList){
+                                        @RequestBody List<Integer> userIdList){
         Optional<Tag> tag = permissionService.findTag(id);
         if(!tag.isPresent()) throw new NotFoundException(id.toString());
-        Set<User> newUserSet = userService.findUsersById(new HashSet<>(userList.getUsers()));
+        Set<User> newUserSet = userService.findUsersById(new HashSet<>(userIdList));
 
         Set<User> userSet = tag.get().getUsers();
 
@@ -161,7 +150,7 @@ public class TagController {
         tag.get().setUsers(userSet);
 
         Set<JsonableUser> jsonableUsers = new HashSet<>();
-        for(User user : tag.get().getUsers()){
+        for(User user : permissionService.update(tag.get()).getUsers()){
             jsonableUsers.add(new JsonableUser(user));
         }
         return jsonableUsers;
@@ -171,17 +160,17 @@ public class TagController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation("从单个标签所属用户集合中删除一个或多个用户")
     public Set<JsonableUser> deleteUserTag(@RequestParam Integer id,
-                                           @RequestBody JsonableUserList userList){
+                                           @RequestBody List<Integer> userIdList){
         Optional<Tag> tag = permissionService.findTag(id);
         if(!tag.isPresent()) throw new NotFoundException(id.toString());
         Set<User> userSet = tag.get().getUsers();
-        Set<User> deleteUserSet = userService.findUsersById(new HashSet<>(userList.getUsers()));
+        Set<User> deleteUserSet = userService.findUsersById(new HashSet<>(userIdList));
 
         userSet.removeAll(deleteUserSet);
         tag.get().setUsers(userSet);
 
         Set<JsonableUser> jsonableUsers = new HashSet<>();
-        for(User user : tag.get().getUsers()){
+        for(User user : permissionService.update(tag.get()).getUsers()){
             jsonableUsers.add(new JsonableUser(user));
         }
         return jsonableUsers;
@@ -205,7 +194,7 @@ public class TagController {
 
     @GetMapping("tag/pcc")
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation("获取标签所含权限容器集合列表")
+    @ApiOperation("获取标签所含权力列表")
     public JsonablePCCList getPCCTag(@RequestParam(value = "id") Integer id){
         Optional<Tag> tagOptional = permissionService.findTag(id);
         if(!tagOptional.isPresent()) throw new NotFoundException(id.toString());
@@ -221,7 +210,7 @@ public class TagController {
         if(!tagOptional.isPresent()) throw new NotFoundException(id.toString());
 
         Set<PermissionContainersCollection> pccs = tagOptional.get().getPermissionContainersCollections();
-        pccs.addAll(permissionService.findPCCs(new HashSet<Integer>(jsonablePCCList.getPccIdList())));
+        pccs.addAll(permissionService.findPCCs(new HashSet<>(jsonablePCCList.getPccIdList())));
 
         tagOptional.get().setPermissionContainersCollections(pccs);
 

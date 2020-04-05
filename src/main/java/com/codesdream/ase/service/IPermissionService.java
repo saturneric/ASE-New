@@ -49,6 +49,17 @@ public interface IPermissionService {
 
     Optional<PermissionContainersCollection> findPCC(Integer id);
 
+    // 查找功能
+    Optional<Function> findFunction(Integer id);
+
+    // 查找功能
+    Optional<Function> findFunction(String name);
+
+    // 根据序号列表寻找功能
+    Set<Function> findFunctions(Set<Integer> funcs);
+
+    Iterable<Function> findAllFunction();
+
     // 获得范围性权限容器下的所有标签列表
     Collection<Tag> getTagsFromSPC(
             ScopePermissionContainer spc);
@@ -85,12 +96,12 @@ public interface IPermissionService {
     // 为功能性权限容器添加一个访问控制角色
     FunctionalPermissionContainer addRoleToFPC(
             FunctionalPermissionContainer fpc,
-            String role);
+            Function function);
 
     // 为功能性权限容器添加多个访问控制角色
     FunctionalPermissionContainer addRolesToFPC(
             FunctionalPermissionContainer fpc,
-            Collection<String> roles);
+            Collection<Function> functions);
 
     // 为范围性权限容器添加一个标签
     ScopePermissionContainer addTagToSPC(ScopePermissionContainer spc, Tag tag);
@@ -106,6 +117,8 @@ public interface IPermissionService {
 
     Tag save(Tag tag);
 
+    Function save(Function tag);
+
     void delete(Tag tag);
 
     FunctionalPermissionContainer save(FunctionalPermissionContainer fpc);
@@ -115,6 +128,8 @@ public interface IPermissionService {
     PermissionContainersCollection save(PermissionContainersCollection pcc);
 
     Tag update(Tag tag);
+
+    Function update(Function function);
 
     FunctionalPermissionContainer update(FunctionalPermissionContainer fpc);
 
