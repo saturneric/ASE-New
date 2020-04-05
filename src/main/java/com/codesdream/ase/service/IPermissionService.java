@@ -3,10 +3,7 @@ package com.codesdream.ase.service;
 import com.codesdream.ase.model.permission.*;
 import javafx.util.Pair;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public interface IPermissionService {
 
@@ -27,16 +24,20 @@ public interface IPermissionService {
     // 列出所有的标签
     Iterable<Tag> findAllTag();
 
-    Set<Tag> findTags(List<String> names);
+    Set<Tag> findTags(List<Integer> ids);
 
     // 查找功能性权限容器
     Optional<FunctionalPermissionContainer> findFPC(String name);
+
+    Iterable<FunctionalPermissionContainer> findAllFPC();
 
     // 查找范围性权限容器
     Optional<ScopePermissionContainer> findSPC(String name);
 
     // 根据id查找功能性权限容器
     Optional<FunctionalPermissionContainer> findFPC(int id);
+
+    Iterable<ScopePermissionContainer> findALLSPC();
 
     // 根据id查找范围性权限容器
     Optional<ScopePermissionContainer> findSPC(int id);

@@ -1,9 +1,7 @@
 package com.codesdream.ase.component.api;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.json.respond.EmptyDataObjectRespond;
 import com.codesdream.ase.component.json.respond.JSONBaseRespondObject;
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
