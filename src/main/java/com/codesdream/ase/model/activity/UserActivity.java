@@ -23,33 +23,33 @@ public class UserActivity {
 
     //主要负责的活动
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<Activity> manageActivities;
+    private List<Activity> mainResponsibleActs;
 
     //次要负责的活动
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<Activity> assistActivities;
+    private List<Activity> secondaryResponsibleActs;
 
     //可见的活动
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<Activity> visibleActivities;
+    private List<Activity> visibleActs;
 
     //创建的活动
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<Activity> createdActivities;
+    private List<Activity> createdActs;
 
     //可报名的活动
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<Activity> signUpActivities;
+    private List<Activity> signUpActs;
 
     //已经参与的活动
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<Activity> participatedActivities;
+    private List<Activity> participatedActs;
 
     //正在（将要）参与的活动
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<Activity> participatingActivities;
+    private List<Activity> participatingActs;
 
     //打卡签到活动
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<Activity> clockIn;
+    private List<Activity> clockIns;
 }
