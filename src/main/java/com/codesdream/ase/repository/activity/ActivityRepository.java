@@ -18,6 +18,4 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
     Optional<Activity> findByCreator(String creatorName);
 
-    List<Activity> findByUserAndType(User user, String type);
-
 }

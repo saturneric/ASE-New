@@ -35,7 +35,15 @@ public class ActivityService implements IActivityService {
 
     @Override
     public List<Activity> findActivityByType(User user, String type) {
-        return activityRepository.findByUserAndType(user, type);
+
+        List<Activity> activities = this.findAll(user);
+        List<Activity> actsByType = new ArrayList<>();
+        for (Activity activity : activities) {
+            if (activity.getType().equals(type)) {
+                actsByType.add(activity);
+            }
+        }
+        return actsByType;
     }
 
     @Override
