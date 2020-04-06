@@ -17,7 +17,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-//将合法的JSON对象转化为Activity对象
+/**
+ * JSONObject-Activity转化类
+ */
 @Component
 public class ActivityConverter {
 
@@ -30,6 +32,10 @@ public class ActivityConverter {
     @Resource
     AttendanceService attendanceService;
 
+    /**
+     * @param json 一个Optional的json对象，用以转化为Activity对象，此过程中进行值的合法校验
+     * @return 一个可以被直接存储在数据库中的合法的Activity对象
+     */
     public Activity convertToActivity(Optional<JSONObject> json) {
         if (!json.isPresent()) {
             throw new NullPointerException();
@@ -37,10 +43,12 @@ public class ActivityConverter {
         Activity activity = new Activity();
         JSONObject jsonObject = json.get();
 
+        //设置活动创建人
         int userId = (int) jsonObject.get("creator");
         Optional<User> creator = userService.findUserById(userId);
         activity.setCreator(creator.get());
 
+        //设置参与人员
         List<Integer> participateGroupFromJson = (List<Integer>) jsonObject.get("participate-group");
         Set<User> participateGroup = new HashSet<>();
         for (int id : participateGroupFromJson) {
@@ -49,13 +57,16 @@ public class ActivityConverter {
         }
         activity.setParticipateGroup(participateGroup);
 
+        //设置活动标题
         String title = (String) jsonObject.get("title");
         activity.setTitle(title);
 
+        //设置主要负责人
         int chiefManagerId = (int) jsonObject.get("chief-manager");
         Optional<User> chiefManager = userService.findUserById(chiefManagerId);
         activity.setChiefManager(chiefManager.get());
 
+        //设置次要负责人
         List<Integer> assistManagersFromJSON = (List<Integer>) jsonObject.get("assist-managers");
         Set<User> assistManager = new HashSet<>();
         for (int id : assistManagersFromJSON) {
@@ -64,9 +75,11 @@ public class ActivityConverter {
         }
         activity.setAssistManagers(assistManager);
 
+        //设置活动类型
         String type = (String) jsonObject.get("type");
         activity.setType(type);
 
+        //设置
         String startTimeFromJSON = (String) jsonObject.get("start-time");
         String endTimeFromJSON = (String) jsonObject.get("end-time");
         LocalDateTime startTime = LocalDateTime.parse(startTimeFromJSON, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -152,9 +165,7 @@ public class ActivityConverter {
         Attendance attendance = new Attendance();
         attendance.setClockInPeriods(periods);
         attendance.setOnline(attendanceOnLine);
-        /**
-         * 二维码模块未完成
-         */
+
         attendance = attendanceService.save(attendance);
         activity.setAttendance(attendance);
 

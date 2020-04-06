@@ -4,6 +4,7 @@ import com.codesdream.ase.model.activity.Activity;
 import com.codesdream.ase.model.activity.Report;
 import com.codesdream.ase.model.permission.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IActivityService {
@@ -12,6 +13,9 @@ public interface IActivityService {
 
     //通过创建人姓名查找活动
     Optional<Activity> findActivityByCreator(String creatorName);
+
+    //通过活动类型查找活动
+    List<Activity> findActivityByType(User user, String type);
 
     //活动持久化
     Activity save(Activity activity);
@@ -29,6 +33,27 @@ public interface IActivityService {
     Activity createActivity(Activity activity);
 
     //查询主要负责的活动
-    //Activity findActivitiesInTheCharge(User user);
+    List<Activity> findMainResponsibleActs(User user);
+
+    //查询次要负责的活动
+    List<Activity> findSecondaryResponsibleActs(User user);
+
+    //查询所有可见活动（即可报名活动、主次要负责的活动、参与过的活动等等之外却仍然可见的活动并集）
+    List<Activity> findVisibleActs(User user);
+
+    //查找可报名的活动
+    List<Activity> findSignActs(User user);
+
+    //查询参与过的活动
+    List<Activity> findParticipatedActs(User user);
+
+    //查询将要参与的活动
+    List<Activity> findParticipatingActs(User user);
+
+    //查询创建的活动
+    List<Activity> findCreatedActs(User user);
+
+    //查询所有活动（权限内）
+    List<Activity> findAll(User user);
 
 }
