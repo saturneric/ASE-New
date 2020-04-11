@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * 功能性权限容器与范围性权限容器关联对
+ * 功能性权限容器与范围性权限容器关联对 (单项权力)
  */
 @Data
 @Entity
@@ -16,6 +16,10 @@ public class FunctionalScopeRelation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    private String name;
+
+    private String description;
 
     // 对应功能性权限容器
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

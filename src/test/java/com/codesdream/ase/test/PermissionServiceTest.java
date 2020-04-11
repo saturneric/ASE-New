@@ -41,9 +41,9 @@ public class PermissionServiceTest {
         pcc = permissionService.save(pcc);
 
         // 给活动管理权赋予添加/参与/管理的权力
-        fpc = permissionService.addRoleToFPC(fpc, "activity_create");
+/*        fpc = permissionService.addRoleToFPC(fpc, "activity_create");
         fpc = permissionService.addRoleToFPC(fpc, "activity_participate");
-        fpc = permissionService.addRoleToFPC(fpc, "activity_manage");
+        fpc = permissionService.addRoleToFPC(fpc, "activity_manage");*/
 
         // 把九班班委加入到九班全体学生中
         spc = permissionService.addTagToSPC(spc, tag2);

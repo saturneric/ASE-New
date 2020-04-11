@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/forget/act")
 public class ActivityCreatorController {
 
     @Resource
@@ -66,41 +68,40 @@ public class ActivityCreatorController {
     @Resource
     ActivityConverter activityConverter;
 
-    private final String url = "/forget/activity";
 
-
-    @PostMapping(value = url + "/activity_creator")
+    @PostMapping(value = "/creator")
     @ResponseBody
     @ApiOperation(value = "创建活动", notes = "所有有关用户的数据传递均使用id，类型为int")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "title", value = "活动标题", required = true),
-            @ApiImplicitParam(name = "type", value = "活动类型", required = true),
+            @ApiImplicitParam(name = "title", value = "活动标题", dataType = "String", required = true),
+            @ApiImplicitParam(name = "type", value = "活动类型", dataType = "String", required = true),
             @ApiImplicitParam(name = "start-time", value = "活动开始时间，格式为yyyy-MM-dd HH:mm:ss", required = true),
             @ApiImplicitParam(name = "end-time", value = "活动结束时间，格式为yyyy-MM-dd HH:mm:ss", required = true),
-            @ApiImplicitParam(name = "chief-manager", value = "主要负责人", required = true),
-            @ApiImplicitParam(name = "assist-managers", value = "次要负责人"),
-            @ApiImplicitParam(name = "description", value = "活动描述"),
-            @ApiImplicitParam(name = "cycle", value = "活动周期，格式为阿拉伯数字数字+单位，0表示无周期"),
+            @ApiImplicitParam(name = "chief-manager", dataType = "int", value = "主要负责人", required = true),
+            @ApiImplicitParam(name = "assist-managers", dataType = "int", value = "次要负责人"),
+            @ApiImplicitParam(name = "description", dataType = "String", value = "活动描述"),
+            @ApiImplicitParam(name = "cycle", dataType = "String", value = "活动周期，格式为阿拉伯数字数字+单位，0表示无周期"),
             @ApiImplicitParam(name = "participate-group", value = "预定参与人员"),
-            @ApiImplicitParam(name = "sign-group", value = "可参与人员"),
-            @ApiImplicitParam(name = "inform-group", value = "通知人群，若为空，则默认为预定参与人员和可报名人员的并集"),
-            @ApiImplicitParam(name = "visible-group", value = "活动可见人群，若为空，则默认为负责人、活动创建者预定参和可报名人员以及通知人员的并集"),
-            @ApiImplicitParam(name = "remind-time", defaultValue = "30m", value = "活动提醒时间，格式为数字+单位，可接受的单位从大到小有:w,d,h,m,s"),
+            @ApiImplicitParam(name = "sign-group", dataType = "List<int>", value = "可参与人员"),
+            @ApiImplicitParam(name = "inform-group", dataType = "List<int>", value = "通知人群，若为空，则默认为预定参与人员和可报名人员的并集"),
+            @ApiImplicitParam(name = "visible-group", dataType = "List<int>", value = "活动可见人群，若为空，则默认为负责人、活动创建者预定参和可报名人员以及通知人员的并集"),
+            @ApiImplicitParam(name = "remind-time", dataType = "String", defaultValue = "30m", value = "活动提醒时间，格式为数字+单位，可接受的单位从大到小有:w,d,h,m,s"),
     })
     String activityCreator(HttpServletRequest request) throws InvalidFormFormatException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         JSONObject error = new JSONObject();
         aseSpringUtil = new ASESpringUtil();
+        //判断是否为JSON对象
         Optional<JSONObject> json = jsonParameter.getJSONByRequest(request);
         if (!json.isPresent()) return jsonParameter.getJSONString(new JSONStandardFailedRespond());
 
         List<String> formatCheckResult = jsonFormValidator.check(activityFormConfigure.getStdActivityForm(), json.get());
 
+        //检验JSON格式是否有误
         if (!formatCheckResult.isEmpty()) {
             error.put("error", formatCheckResult);
-            return error.toJSONString();
+            throw new InvalidFormFormatException(error.toJSONString());
         }
-        // 需要检查JSON是否合法
         Activity activity = activityConverter.convertToActivity(json);
         List<String> nullValues = nullValueValidator.checkNullValues(activity);
 
@@ -136,7 +137,7 @@ public class ActivityCreatorController {
                 String username = json.get().get("creator").toString();
                 Optional<User> user = userService.findUserByUsername(username);
                 UserActivity userActivity = userActivityRepository.findByUser(user.get());
-                userActivity.getCreatedActivities().add(activity);
+                userActivity.getCreatedActs().add(activity);
                 userActivityRepository.save(userActivity);
             }
         }
@@ -146,7 +147,8 @@ public class ActivityCreatorController {
             nullParameters.put("null_values",nullValueAttributes.getNullValueAttributes());
             return nullParameters.toJSONString();
         }
-        return url + "/act_created";
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(activity);
+        return jsonObject.toJSONString();
     }
 }
 

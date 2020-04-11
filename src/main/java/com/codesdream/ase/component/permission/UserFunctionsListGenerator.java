@@ -1,5 +1,6 @@
 package com.codesdream.ase.component.permission;
 
+import com.codesdream.ase.model.permission.Function;
 import com.codesdream.ase.model.permission.FunctionalPermissionContainer;
 import com.codesdream.ase.model.permission.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +15,7 @@ import java.util.Collection;
  * 生成用户访问权限角色列表
  */
 @Component
-public class UserRolesListGenerator {
+public class UserFunctionsListGenerator {
     @Resource
     private UserFPCListGenerator fpcListGenerator;
 
@@ -22,8 +23,8 @@ public class UserRolesListGenerator {
             Collection<FunctionalPermissionContainer> fpcs){
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         for(FunctionalPermissionContainer fpc :fpcs){
-            for(String role :fpc.getRoles()){
-                authorities.add(new SimpleGrantedAuthority(role));
+            for(Function function :fpc.getFunctions()){
+                authorities.add(new SimpleGrantedAuthority(function.getName()));
             }
         }
         return authorities;

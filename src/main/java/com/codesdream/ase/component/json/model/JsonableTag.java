@@ -24,11 +24,25 @@ public class JsonableTag {
     @ApiModelProperty(value = "标签说明", example = "该系统的管理员")
     private String description;
 
+    private boolean enabled;
+
+    private boolean deleted;
+
 
     public JsonableTag(Tag tag){
         this.id = tag.getId();
         this.name = tag.getName();
         this.description = tag.getDescription();
+        this.enabled = tag.isEnabled();
+        this.deleted = tag.isDeleted();
+    }
+
+    public Tag parseObject(Tag tag){
+        tag.setName(this.name);
+        tag.setDescription(this.description);
+        tag.setDeleted(this.deleted);
+        tag.setEnabled(this.enabled);
+        return tag;
     }
 
 }

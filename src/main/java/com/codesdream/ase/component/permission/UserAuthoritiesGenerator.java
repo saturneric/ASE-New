@@ -10,10 +10,10 @@ import java.util.Collection;
 @Component
 public class UserAuthoritiesGenerator {
     @Resource
-    UserRolesListGenerator userRolesListGenerator;
+    UserFunctionsListGenerator userFunctionsListGenerator;
 
     public Collection<? extends GrantedAuthority> grantedAuthorities(User user){
-        return userRolesListGenerator.generateRoles(user);
+        return userFunctionsListGenerator.generateRoles(user);
     }
 
 }

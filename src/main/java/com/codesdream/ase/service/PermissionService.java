@@ -2,14 +2,11 @@ package com.codesdream.ase.service;
 
 import com.codesdream.ase.component.permission.UserFPCListGenerator;
 import com.codesdream.ase.component.permission.UserFSRGenerator;
+import com.codesdream.ase.exception.badrequest.AlreadyExistException;
 import com.codesdream.ase.exception.notfound.NotFoundException;
 import com.codesdream.ase.model.permission.*;
-import com.codesdream.ase.repository.permission.FunctionalPermissionContainerRepository;
-import com.codesdream.ase.repository.permission.PermissionContainersCollectionRepository;
-import com.codesdream.ase.repository.permission.ScopePermissionContainerRepository;
-import com.codesdream.ase.repository.permission.TagRepository;
+import com.codesdream.ase.repository.permission.*;
 import javafx.util.Pair;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,6 +35,9 @@ public class PermissionService implements IPermissionService {
 
     @Resource
     private UserFSRGenerator userFSRGenerator;
+
+    @Resource
+    private FunctionRepository functionRepository;
 
     @Override
     public FunctionalPermissionContainer getDefaultFPC(String name) {
@@ -75,11 +75,11 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public Set<Tag> findTags(List<String> names) {
+    public Set<Tag> findTags(List<Integer> ids) {
         Set<Tag> tagSet = new HashSet<>();
-        for(String name : names){
-            Optional<Tag> tag = findTag(name);
-            if(!tag.isPresent()) throw new NotFoundException(name);
+        for(Integer id : ids){
+            Optional<Tag> tag = findTag(id);
+            if(!tag.isPresent()) throw new NotFoundException(id.toString());
             tagSet.add(tag.get());
         }
         return tagSet;
@@ -90,6 +90,10 @@ public class PermissionService implements IPermissionService {
         return fpcRepository.findByName(name);
     }
 
+    public Iterable<FunctionalPermissionContainer> findAllFPC() {
+        return fpcRepository.findAll();
+    }
+
     @Override
     public Optional<ScopePermissionContainer> findSPC(String name) {
         return spcRepository.findByName(name);
@@ -98,6 +102,11 @@ public class PermissionService implements IPermissionService {
     @Override
     public Optional<FunctionalPermissionContainer> findFPC(int id) {
         return fpcRepository.findById(id);
+    }
+
+    @Override
+    public Iterable<ScopePermissionContainer> findALLSPC() {
+        return spcRepository.findAll();
     }
 
     @Override
@@ -124,6 +133,32 @@ public class PermissionService implements IPermissionService {
     @Override
     public Optional<PermissionContainersCollection> findPCC(Integer id) {
         return pccRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Function> findFunction(Integer id) {
+        return functionRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Function> findFunction(String name) {
+        return functionRepository.findByName(name);
+    }
+
+    @Override
+    public Set<Function> findFunctions(Set<Integer> funcs) {
+        Set<Function> set = new HashSet<>();
+        for(Integer id : funcs){
+            Optional<Function> function = findFunction(id);
+            if(!function.isPresent()) throw new NotFoundException(id.toString());
+            set.add(function.get());
+        }
+        return set;
+    }
+
+    @Override
+    public Iterable<Function> findAllFunction() {
+        return functionRepository.findAll();
     }
 
     @Override
@@ -204,15 +239,15 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public FunctionalPermissionContainer addRoleToFPC(FunctionalPermissionContainer fpc, String role) {
-        fpc.getRoles().add(role);
+    public FunctionalPermissionContainer addRoleToFPC(FunctionalPermissionContainer fpc, Function function) {
+        fpc.getFunctions().add(function);
         return update(fpc);
     }
 
     @Override
-    public FunctionalPermissionContainer addRolesToFPC(FunctionalPermissionContainer fpc, Collection<String> roles) {
-        for(String role : roles){
-            fpc = addRoleToFPC(fpc, role);
+    public FunctionalPermissionContainer addRolesToFPC(FunctionalPermissionContainer fpc, Collection<Function> functions) {
+        for(Function function : functions){
+            fpc = addRoleToFPC(fpc, function);
         }
         return fpc;
     }
@@ -252,8 +287,15 @@ public class PermissionService implements IPermissionService {
     @Override
     public Tag save(Tag tag) {
         if(tagRepository.findByName(tag.getName()).isPresent())
-            throw new RuntimeException("Tag Already Exist");
+            throw new AlreadyExistException(tag.getName());
         return tagRepository.save(tag);
+    }
+
+    @Override
+    public Function save(Function function) {
+        if(functionRepository.findByName(function.getName()).isPresent())
+            throw new AlreadyExistException(function.getName());
+        return functionRepository.save(function);
     }
 
     @Override
@@ -264,49 +306,56 @@ public class PermissionService implements IPermissionService {
     @Override
     public FunctionalPermissionContainer save(FunctionalPermissionContainer fpc) {
         if(fpcRepository.findByName(fpc.getName()).isPresent())
-            throw new RuntimeException("FPC Already Exist");
+            throw new AlreadyExistException(fpc.getName());
         return fpcRepository.save(fpc);
     }
 
     @Override
     public ScopePermissionContainer save(ScopePermissionContainer spc) {
         if(spcRepository.findByName(spc.getName()).isPresent())
-            throw new RuntimeException("SPC Already Exist");
+            throw new AlreadyExistException(spc.getName());
         return spcRepository.save(spc);
     }
 
     @Override
     public PermissionContainersCollection save(PermissionContainersCollection pcc) {
         if(pccRepository.findByName(pcc.getName()).isPresent())
-            throw new  RuntimeException("PCC Already Exist");
+            throw new  RuntimeException(pcc.getName());
         return pccRepository.save(pcc);
     }
 
     @Override
     public Tag update(Tag tag) {
         if(!tagRepository.findByName(tag.getName()).isPresent())
-            throw new RuntimeException(("Tag Not Exist"));
+            throw new NotFoundException(tag.getName());
         return tagRepository.save(tag);
+    }
+
+    @Override
+    public Function update(Function function) {
+        if(!functionRepository.findByName(function.getName()).isPresent())
+            throw new NotFoundException(function.getName());
+        return functionRepository.save(function);
     }
 
     @Override
     public FunctionalPermissionContainer update(FunctionalPermissionContainer fpc) {
         if(!fpcRepository.findByName(fpc.getName()).isPresent())
-            throw new RuntimeException("FPC Not Exist");
+            throw new NotFoundException(fpc.getName());
         return fpcRepository.save(fpc);
     }
 
     @Override
     public ScopePermissionContainer update(ScopePermissionContainer spc) {
         if(!spcRepository.findByName(spc.getName()).isPresent())
-            throw new RuntimeException("SPC Not Exist");
+            throw new NotFoundException(spc.getName());
         return spcRepository.save(spc);
     }
 
     @Override
     public PermissionContainersCollection update(PermissionContainersCollection pcc) {
         if(!pccRepository.findByName(pcc.getName()).isPresent())
-            throw new RuntimeException("PCC Not Exist");
+            throw new NotFoundException(pcc.getName());
         return pccRepository.save(pcc);
     }
 }

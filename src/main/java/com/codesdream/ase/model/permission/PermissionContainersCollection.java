@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 权限容器集合
+ * 权限容器集合（多项权力）
  */
 @Data
 @Entity
