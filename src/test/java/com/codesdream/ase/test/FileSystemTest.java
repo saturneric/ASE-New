@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -63,13 +64,9 @@ public class FileSystemTest {
 
 
         InputStream inputStream = fileSystem.getFile(id1);
-        byte[] bytes = new byte[200];
-        try {
-            inputStream.read(bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(bytes.toString());
+        Scanner scanner = new Scanner(inputStream, "UTF-8");
+        String text = scanner.useDelimiter("\\A").next();
+        System.out.println(text);
     }
 
 }
