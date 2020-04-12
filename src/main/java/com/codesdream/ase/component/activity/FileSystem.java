@@ -137,7 +137,7 @@ public class FileSystem {
      * 根据id获取一个文件的条目，其中包含文件信息
      * @param id 要寻找条目的id
      */
-    public AppendixFile getFileData(int id)
+    public AppendixFile getFileData(int id)throws AppendixFileNotFoundException
     {
         Optional<AppendixFile> optionalAppendixFile = appendixFileService.findById(id);
         if(!optionalAppendixFile.isPresent())

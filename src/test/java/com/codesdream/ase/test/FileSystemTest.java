@@ -1,6 +1,7 @@
 package com.codesdream.ase.test;
 
 import com.codesdream.ase.component.activity.FileSystem;
+import com.codesdream.ase.exception.notfound.AppendixFileNotFoundException;
 import com.codesdream.ase.model.activity.AppendixFile;
 import com.codesdream.ase.repository.activity.AppendixFileRespository;
 import com.codesdream.ase.service.AppendixFileService;
@@ -48,6 +49,38 @@ public class FileSystemTest {
     }
 
     @Test
+    public void wrongIDTest()
+    {
+        int id = 1;
+        try {
+            InputStream inputStream = fileSystem.getFile(id);
+        } catch (AppendixFileNotFoundException e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+
+    @Test
+    public void fileNotExistErrorTest()
+    {
+        int id = 268;
+        try {
+            InputStream inputStream = fileSystem.getFile(id);
+        } catch (AppendixFileNotFoundException e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+
+    @Test
+    public void refreshDataBaseTest()
+    {
+        fileSystem.databaseRefresh();
+    }
+    @Test
+    public void refreshDiskTest()
+    {
+        fileSystem.diskRefresh();
+    }
+    @Test
     public void createFile()
     {
         int id1 = 0;
@@ -63,7 +96,12 @@ public class FileSystemTest {
         }
 
 
-        InputStream inputStream = fileSystem.getFile(id1);
+        InputStream inputStream = null;
+        try {
+            inputStream = fileSystem.getFile(id1);
+        } catch (AppendixFileNotFoundException e) {
+            e.printStackTrace();
+        }
         Scanner scanner = new Scanner(inputStream, "UTF-8");
         String text = scanner.useDelimiter("\\A").next();
         System.out.println(text);
