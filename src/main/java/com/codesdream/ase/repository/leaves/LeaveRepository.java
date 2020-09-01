@@ -1,5 +1,4 @@
 package com.codesdream.ase.repository.leaves;
-import com.codesdream.ase.model.activity.Report;
 import com.codesdream.ase.model.leaves.Leave;
 import org.springframework.data.repository.CrudRepository;
 

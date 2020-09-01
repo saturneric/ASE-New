@@ -1,13 +1,9 @@
 package com.codesdream.ase.controller.permission;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
-import com.codesdream.ase.component.json.model.JsonableFunction;
 import com.codesdream.ase.component.json.model.JsonableUser;
-import com.codesdream.ase.exception.badrequest.AlreadyExistException;
 import com.codesdream.ase.exception.notfound.NotFoundException;
-import com.codesdream.ase.model.permission.Function;
 import com.codesdream.ase.model.permission.User;
-import com.codesdream.ase.service.PermissionService;
 import com.codesdream.ase.service.UserService;
 import com.github.fge.jsonpatch.JsonPatch;
 import io.swagger.annotations.Api;

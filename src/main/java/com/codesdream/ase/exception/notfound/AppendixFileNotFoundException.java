@@ -1,7 +1,5 @@
 package com.codesdream.ase.exception.notfound;
 
-import com.codesdream.ase.model.activity.AppendixFile;
-
 import java.io.IOException;
 
 public class AppendixFileNotFoundException extends IOException {

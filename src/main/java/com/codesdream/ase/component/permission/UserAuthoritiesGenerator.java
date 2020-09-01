@@ -5,15 +5,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Component
 public class UserAuthoritiesGenerator {
-    @Resource
-    UserFunctionsListGenerator userFunctionsListGenerator;
 
     public Collection<? extends GrantedAuthority> grantedAuthorities(User user){
-        return userFunctionsListGenerator.generateRoles(user);
+        return new ArrayList<>();
     }
 
 }

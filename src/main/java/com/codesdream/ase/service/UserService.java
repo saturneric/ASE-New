@@ -2,7 +2,6 @@ package com.codesdream.ase.service;
 
 import com.codesdream.ase.component.auth.ASEPasswordEncoder;
 import com.codesdream.ase.component.auth.ASEUsernameEncoder;
-import com.codesdream.ase.component.permission.UserFunctionsListGenerator;
 import com.codesdream.ase.exception.badrequest.UserInformationIllegalException;
 import com.codesdream.ase.exception.notfound.UserNotFoundException;
 import com.codesdream.ase.exception.badrequest.UsernameAlreadyExistException;
@@ -19,8 +18,6 @@ import java.util.*;
 
 @Service
 public class UserService implements IUserService {
-    @Resource
-    private UserFunctionsListGenerator userFunctionsListGenerator;
 
     @Resource
     private UserRepository userRepository;
@@ -56,7 +53,7 @@ public class UserService implements IUserService {
 
     @Override
     public Collection<? extends GrantedAuthority> getUserAuthorities(User user) {
-        return userFunctionsListGenerator.generateRoles(user);
+        return new ArrayList<>();
     }
 
     @Override

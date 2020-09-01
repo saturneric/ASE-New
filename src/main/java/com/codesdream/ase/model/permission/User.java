@@ -1,6 +1,5 @@
 package com.codesdream.ase.model.permission;
 
-import com.codesdream.ase.model.activity.UserActivity;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,16 +45,9 @@ public class User implements UserDetails {
     // 访问控制角色(不在数据表中) Spring Security
     private transient Collection<?extends GrantedAuthority> authorities;
 
-    // 用户关联标签
-    @ManyToMany(cascade = CascadeType.ALL, fetch =  FetchType.LAZY)
-    private Set<Tag> tags;
-
     // 用户详细信息
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserDetail userDetail;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private UserActivity userActivity;
 
     // 用户认证表
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -84,7 +76,6 @@ public class User implements UserDetails {
         this.credentialsNonExpired = true;
         this.deleted = false;
         this.enabled = true;
-        this.tags = new HashSet<>();
         this.userDetail = new UserDetail();
         this.userAuth = new UserAuth();
         this.authorities = new ArrayList<>();
