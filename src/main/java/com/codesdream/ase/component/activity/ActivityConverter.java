@@ -7,8 +7,6 @@ import com.codesdream.ase.model.activity.Attendance;
 import com.codesdream.ase.model.activity.Period;
 import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.service.ActivityService;
-import com.codesdream.ase.service.AttendanceService;
-import com.codesdream.ase.service.PeriodService;
 import com.codesdream.ase.service.UserService;
 import org.springframework.stereotype.Component;
 
