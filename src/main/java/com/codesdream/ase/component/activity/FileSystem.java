@@ -5,14 +5,11 @@ import com.codesdream.ase.exception.notfound.AppendixFileNotFoundException;
 import com.codesdream.ase.model.activity.Activity;
 import com.codesdream.ase.model.activity.AppendixFile;
 import com.codesdream.ase.repository.activity.ActivityRepository;
-import com.codesdream.ase.service.AppendixFileService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Optional;
 
 @Component
