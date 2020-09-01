@@ -20,16 +20,16 @@ import java.util.*;
 @Service
 public class UserService implements IUserService {
     @Resource
-    UserFunctionsListGenerator userFunctionsListGenerator;
+    private UserFunctionsListGenerator userFunctionsListGenerator;
 
     @Resource
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Resource
-    ASEPasswordEncoder passwordEncoder;
+    private ASEPasswordEncoder passwordEncoder;
 
     @Resource
-    ASEUsernameEncoder usernameEncoder;
+    private ASEUsernameEncoder usernameEncoder;
 
     @Override
     public List<User> findAll() {

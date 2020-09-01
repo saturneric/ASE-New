@@ -14,7 +14,9 @@ import java.util.Optional;
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
-    Optional<Activity> findByTitle(String Title);
+    Optional<Activity> findActivityByTitleAndType(String title,String type);
+
+    Optional<Activity> findActivityByTitle(String title);
 
     Optional<Activity> findByCreator(String creatorName);
 
