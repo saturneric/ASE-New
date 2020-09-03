@@ -1,17 +1,22 @@
-package com.codesdream.ase.model.mark;
+package com.codesdream.ase.model.file;
 
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Entity
 @Table
 @Data
-public class Tag {
+public class File {
     @Id
     int id;
 
-    String tagName;
+    String title;
+
+    String url;
+
+    Date creationTime;
 }

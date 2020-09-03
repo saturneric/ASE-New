@@ -9,6 +9,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
+    @Lob
     byte[] data;
 
     String description;

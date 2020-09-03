@@ -1,6 +1,7 @@
 package com.codesdream.ase.model.student;
 
 import com.codesdream.ase.model.file.Image;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 // 动态/说说
 @Entity
 @Table
+@Data
 public class Moment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

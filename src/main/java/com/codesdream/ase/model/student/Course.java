@@ -7,14 +7,12 @@ import javax.persistence.*;
 @Entity
 @Table
 @Data
-public class Comment {
+public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
-    // 发出此评论的用户
-    int userId;
+    String name;
 
-    // 评论内容
-    String context;
+    float credit;
 }
