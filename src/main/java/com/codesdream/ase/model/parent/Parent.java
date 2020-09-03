@@ -1,4 +1,4 @@
-package com.codesdream.ase.model.student;
+package com.codesdream.ase.model.parent;
 
 import com.codesdream.ase.model.mark.Tag;
 import com.codesdream.ase.model.permission.User;
@@ -13,17 +13,11 @@ import java.util.List;
 @Table
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Student extends User {
+public class Parent extends User {
     @Column(nullable = false)
-    String studentId;
+    String parentId;
 
     @Column(nullable = false)
     String name;
-
-    String profilePicture;
-
-    @Column(nullable = false)
-    Boolean is_showgrade;
-
 
 }

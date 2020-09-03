@@ -23,6 +23,8 @@ public class StudentCourse {
 
     boolean isFailed;
 
+    int term;
+
     Date finishedDate;
 
 }
