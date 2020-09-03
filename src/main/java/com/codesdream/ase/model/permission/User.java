@@ -1,14 +1,12 @@
 package com.codesdream.ase.model.permission;
 
+import com.codesdream.ase.model.mark.Tag;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -52,6 +50,9 @@ public class User implements UserDetails {
     // 用户认证表
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserAuth userAuth;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    List<Tag> tags;
 
 
     public User(String username, String password) {
