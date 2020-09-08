@@ -15,6 +15,8 @@ public class Honor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
+    String studentId;
+
     // 荣誉描述
     String description;
 

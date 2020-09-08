@@ -5,12 +5,9 @@ import com.codesdream.ase.model.permission.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Student extends User {
