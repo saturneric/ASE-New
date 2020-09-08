@@ -41,4 +41,7 @@ public class Activity {
 
     @ManyToMany(cascade = CascadeType.MERGE)
     List<Tag> tags = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    Report report;
 }

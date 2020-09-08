@@ -15,6 +15,8 @@ public class Report {
     @Id
     int id;
 
+    int activityId;
+
     String title;
 
     @ManyToOne(cascade = CascadeType.MERGE)
