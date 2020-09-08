@@ -12,15 +12,14 @@ public class StudentCourse {
     @Id
     int id;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    Student student;
+    String studentId;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    Course course;
+    String courseId;
 
     @Column(nullable = false)
     float score;
 
+    @Column(nullable = false)
     boolean isFailed;
 
     Date finishedDate;
