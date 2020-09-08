@@ -22,6 +22,8 @@ public class StudentCourse {
     @Column(nullable = false)
     boolean isFailed;
 
+    int term;
+
     Date finishedDate;
 
 }
