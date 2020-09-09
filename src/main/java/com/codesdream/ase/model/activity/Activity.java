@@ -20,10 +20,10 @@ public class Activity {
     String title;
 
     @ManyToOne
-    User Creator;
+    User creator;
 
-    @ManyToOne
-    User Manager;
+    @ManyToMany
+    List<User> manager;
 
     @ElementCollection
     List<Integer> participantIds = new ArrayList<>();

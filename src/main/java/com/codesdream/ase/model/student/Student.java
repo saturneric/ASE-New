@@ -6,21 +6,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Student extends User {
-    @Column(nullable = false)
-    String studentId;
-
-    @Column(nullable = false)
-    String name;
 
     String profilePicture;
 
-    @Column(nullable = false)
-    Boolean is_showgrade;
+    Boolean isShowGrade = true;
 
+    @ElementCollection
+    Map<String, Boolean> privacy = new HashMap<String, Boolean>(){{
+        put("score", true);
+        put("attendance", true);
+        put("step", true);
+        put("honor", true);
+    }};
 
 }

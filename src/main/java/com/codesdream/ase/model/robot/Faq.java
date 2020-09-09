@@ -13,8 +13,13 @@ import java.util.List;
 @Table
 @Data
 public class Faq {
+    @Id
+    int id;
+
     String answer;
     String question;
+
+    @ElementCollection
     List<String> tag;
 
 }

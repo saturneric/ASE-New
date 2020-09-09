@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("register")
 public class RegisterController {
     @Resource
     private UserService userService;
@@ -31,13 +32,22 @@ public class RegisterController {
     @Resource
     private QuickJSONRespond quickJSONRespond;
 
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "")
     String registerView(Model model){
         return "register";
     }
 
+    @PostMapping(value="baseinfo")
+    @ResponseBody
+    String addBaseInfo(){
+        BaseStudentInfo bsi = baseInformationService.constructStudentInfo("2018303209", "14011809", "Jack",
+                "男","软件学院","软件工程","汉族","群众","未知");
+        baseInformationService.save(bsi);
+
+        return "OK";
+    }
     // 处理注册表单
-    @PostMapping(value = "/register/do_register")
+    @PostMapping(value = "user")
     @ResponseBody
     String doRegister(HttpServletRequest request){
 

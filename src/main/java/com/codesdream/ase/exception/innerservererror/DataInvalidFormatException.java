@@ -16,4 +16,8 @@ public class DataInvalidFormatException extends FormatException {
     public DataInvalidFormatException(){
         super();
     }
+
+    public DataInvalidFormatException(String s) {
+        information = s;
+    }
 }

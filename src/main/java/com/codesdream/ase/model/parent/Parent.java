@@ -14,10 +14,5 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Parent extends User {
-    @Column(nullable = false)
-    String parentId;
-
-    @Column(nullable = false)
-    String name;
 
 }

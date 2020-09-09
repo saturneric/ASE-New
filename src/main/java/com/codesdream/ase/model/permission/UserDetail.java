@@ -1,5 +1,6 @@
 package com.codesdream.ase.model.permission;
 
+import com.codesdream.ase.model.file.Image;
 import com.codesdream.ase.model.information.*;
 import lombok.Data;
 
@@ -47,4 +48,13 @@ public class UserDetail {
 
     // 在校认证状态
     private boolean atSchool = false;
+
+    // 电话
+    private String telNum;
+
+    // 邮箱
+    private String email;
+
+    @OneToOne
+    private Image profilePic;
 }

@@ -1,5 +1,6 @@
 package com.codesdream.ase.model.permission;
 
+import com.codesdream.ase.model.file.Image;
 import com.codesdream.ase.model.mark.Tag;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

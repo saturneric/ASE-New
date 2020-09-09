@@ -1,10 +1,13 @@
 package com.codesdream.ase.model.student;
 
+import com.codesdream.ase.model.file.File;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table
@@ -17,5 +20,7 @@ public class Notification {
 
     String title;
 
+    @ManyToMany
+    List<File> files;
 
 }

@@ -14,7 +14,7 @@ public class Comment {
     int id;
 
     // 发出此评论的用户
-    int userId;
+    String userId;
 
     // 评论内容
     String context;

@@ -19,8 +19,8 @@ public class JpaTest {
     @Test
     public void test() throws InterruptedException {
 
-        CommentRepository commentRepository = aseSpringUtil.getBean(CommentRepository.class);
-        int userId = 1;
+        /*CommentRepository commentRepository = aseSpringUtil.getBean(CommentRepository.class);
+        String userId = "1";
         for (int i = 0;i < 10; i++){
             Comment comment = new Comment();
             comment.setUserId(userId);
@@ -30,6 +30,6 @@ public class JpaTest {
         }
         Thread.sleep(1000);
         List<Comment> comments = commentRepository.findByUserId(new Integer(userId).toString(),
-                Sort.by(Sort.Direction.ASC, "date"));
+                Sort.by(Sort.Direction.ASC, "date"));*/
     }
 }

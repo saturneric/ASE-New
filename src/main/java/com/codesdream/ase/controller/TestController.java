@@ -4,24 +4,23 @@ import com.codesdream.ase.model.student.Comment;
 import com.codesdream.ase.repository.student.CommentRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-@RestController("test")
+@RestController
+@RequestMapping("test")
 public class TestController {
 
     @Resource
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
-    @RequestMapping
+    @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     public boolean test() throws InterruptedException {
 
-        int userId = 1;
+        String userId = "1";
         for (int i = 0;i < 10; i++){
             Comment comment = new Comment();
             comment.setUserId(userId);
@@ -30,8 +29,11 @@ public class TestController {
             Thread.sleep(20);
         }
         Thread.sleep(1000);
-        List<Comment> comments = commentRepository.findByUserId(new Integer(userId).toString(),
-                Sort.by(Sort.Direction.ASC, "date"));
+        List<Comment> comments = commentRepository.findByUserId(userId,
+                Sort.by(Sort.Direction.DESC, "date"));
+        if(!comments.isEmpty()){
+            System.out.println(comments.toString());
+        }
         return true;
     }
 }

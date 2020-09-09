@@ -25,6 +25,6 @@ public class Message {
     int type;
 
     @OneToMany
-    User Receiver;
+    List<User> Receiver;
 
 }
