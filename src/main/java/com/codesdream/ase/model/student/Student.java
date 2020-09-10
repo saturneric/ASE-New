@@ -1,11 +1,11 @@
 package com.codesdream.ase.model.student;
 
-import com.codesdream.ase.model.mark.Tag;
 import com.codesdream.ase.model.permission.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +18,7 @@ public class Student extends User {
 
     Boolean isShowGrade = true;
 
+    // 请务必确保此属性的初始化 @Todo
     @ElementCollection
     Map<String, Boolean> privacy = new HashMap<String, Boolean>(){{
         put("score", true);
