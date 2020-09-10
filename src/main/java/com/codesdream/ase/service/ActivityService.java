@@ -1,5 +1,6 @@
 package com.codesdream.ase.service;
 
+import com.codesdream.ase.component.student.MemberInfo;
 import com.codesdream.ase.exception.notfound.NotFoundException;
 import com.codesdream.ase.model.activity.Activity;
 import com.codesdream.ase.model.message.Message;
@@ -104,11 +105,7 @@ public class ActivityService {
      */
     public boolean sendDDLToGroup(int activityId){
 
-        Optional<Activity> optionalActivity = activityRepository.findById(activityId);
-        if(!optionalActivity.isPresent()){
-            throw new NotFoundException("No such activity.");
-        }
-        Activity activity = optionalActivity.get();
+        Activity activity = getActivity(activityId);
         List<User> targets = new ArrayList<>();
         List<Integer> memberIds = activity.getParticipantIds();
         for(Integer memberId : memberIds){
@@ -127,7 +124,61 @@ public class ActivityService {
 
 
         return messageService.sendMessage(message, targets);
+    }
 
+    /**
+     * 获取指定活动的成员信息
+     * @see MemberInfo
+     * @param activityId 活动id
+     * @return 成员信息表
+     */
+    public List<MemberInfo> getMemberInfo(int activityId){
+
+        Activity activity = getActivity(activityId);
+        List<MemberInfo> memberInfoList = new ArrayList<>();
+        memberInfoList.add(new MemberInfo(activity.getCreatorId(), -1));
+        for (Integer manager : activity.getManagerIds()){
+            memberInfoList.add(new MemberInfo(manager, 0));
+        }
+        for (Integer participant : activity.getParticipantIds()){
+            memberInfoList.add(new MemberInfo(participant, 1));
+        }
+        return memberInfoList;
+    }
+
+    /**
+     * 获取缺勤人员信息
+     * @param activityId 活动id
+     * @return 缺勤人员id列表
+     */
+    public List<Integer> getAbsentStudents(int activityId){
+        Activity activity = getActivity(activityId);
+        return activity.getAbsentees();
+    }
+
+    /**
+     * 获取指定活动的出勤人员
+     * @param activityId 活动id
+     * @return 出勤人员id列表
+     */
+    public List<Integer> getAttendants(int activityId){
+        Activity activity = getActivity(activityId);
+        return new ArrayList<>(activity.getAttendance().keySet());
+    }
+
+    /**
+     * 对于给定activityId获取数据库中的一个活动实例，若不存在则抛出异常
+     * @exception NotFoundException 对应activityId在数据库中无记录
+     * @see NotFoundException
+     * @param activityId
+     * @return
+     */
+    private Activity getActivity(int activityId){
+        Optional<Activity> optionalActivity = activityRepository.findById(activityId);
+        if(!optionalActivity.isPresent()){
+            throw new NotFoundException("No such activity.");
+        }
+        return optionalActivity.get();
     }
 
 }

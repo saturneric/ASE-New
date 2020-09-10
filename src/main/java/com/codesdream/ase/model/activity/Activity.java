@@ -5,9 +5,7 @@ import com.codesdream.ase.model.mark.Tag;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table
@@ -26,8 +24,16 @@ public class Activity {
     @ElementCollection
     List<Integer> participantIds = new ArrayList<>();
 
+    @ElementCollection
+    List<Integer> absentees = new ArrayList<>();
+
+    // 活动出勤情况，对应人员是否出勤
+    @ElementCollection
+    Map<Integer, Boolean> attendance = new HashMap<>();
+
     @OneToMany(cascade = CascadeType.MERGE)
     List<File> appendixes = new ArrayList<>();
+
 
     Date registrationDDL;
 
