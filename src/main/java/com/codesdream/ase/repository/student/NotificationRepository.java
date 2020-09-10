@@ -1,6 +1,6 @@
 package com.codesdream.ase.repository.student;
 
-import com.codesdream.ase.model.student.Notification;
+import com.codesdream.ase.model.message.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.codesdream.ase.service.student;
+package com.codesdream.ase.service;
 
 import com.codesdream.ase.exception.innerservererror.DataInvalidFormatException;
 import com.codesdream.ase.exception.innerservererror.InvalidDataException;
@@ -8,12 +8,11 @@ import com.codesdream.ase.model.file.File;
 import com.codesdream.ase.model.file.Image;
 import com.codesdream.ase.model.permission.UserDetail;
 import com.codesdream.ase.model.student.Honor;
-import com.codesdream.ase.model.student.Notification;
+import com.codesdream.ase.model.message.Notification;
 import com.codesdream.ase.model.student.Student;
 import com.codesdream.ase.repository.student.HonorRepository;
 import com.codesdream.ase.repository.student.NotificationRepository;
 import com.codesdream.ase.repository.student.StudentRepository;
-import com.codesdream.ase.service.activity.ActivityService;
 import com.codesdream.ase.validator.GeneralValidator;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +38,7 @@ public class StudentService {
 
     /**
      * 用于创建一个公告
+     * @see Notification
      * @param title 公告标题
      * @param description 公告内容
      * @param files 公告所需附件
@@ -84,6 +84,7 @@ public class StudentService {
     /**
      * 创建并持久化一个荣誉
      * @see Image
+     * @see Honor
      * @param studentId 荣誉所对应的学生id
      * @param description 荣誉的描述
      * @param images 荣誉的证明材料（图片）

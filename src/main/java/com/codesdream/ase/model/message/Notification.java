@@ -1,4 +1,4 @@
-package com.codesdream.ase.model.student;
+package com.codesdream.ase.model.message;
 
 import com.codesdream.ase.model.file.File;
 import lombok.Data;

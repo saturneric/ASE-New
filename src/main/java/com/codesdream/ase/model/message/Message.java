@@ -1,13 +1,12 @@
-package com.codesdream.ase.model.parent;
+package com.codesdream.ase.model.message;
 
-import com.codesdream.ase.model.file.File;
-import com.codesdream.ase.model.mark.Tag;
 import com.codesdream.ase.model.permission.User;
 import lombok.Data;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
@@ -18,8 +17,10 @@ public class Message {
     int id;
 
     String title;
+
     String text;
-    Boolean have_read;
+
+    boolean isRead = false;
 
     // 重要性  值为0-1
     int type;

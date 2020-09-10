@@ -2,7 +2,6 @@ package com.codesdream.ase.model.activity;
 
 import com.codesdream.ase.model.file.File;
 import com.codesdream.ase.model.mark.Tag;
-import com.codesdream.ase.model.permission.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,11 +18,10 @@ public class Activity {
 
     String title;
 
-    @ManyToOne
-    User creator;
+    int creatorId;
 
-    @ManyToMany
-    List<User> manager;
+    @ElementCollection
+    List<Integer> managerIds = new ArrayList<>();
 
     @ElementCollection
     List<Integer> participantIds = new ArrayList<>();
