@@ -31,7 +31,7 @@ public class CalculationService {
      * @return 计算好的学分绩
      */
     public float calculateGPA(int studentId){
-        if(checkStudentExistence(studentId)){
+        if(!checkStudentExistence(studentId)){
             throw new NotFoundException("No such student.");
         }
         List<StudentCourse> studentCourses = studentCourseRepository.findByStudentId(studentId);

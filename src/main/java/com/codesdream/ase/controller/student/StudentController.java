@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("student")
 public class StudentController {
 
-    public 
+    //public
 }
