@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,10 @@ public class Notification {
     String context;
 
     String title;
+
+    Date creationDate = new Date();
+
+    Date announcementDate;
 
     @ManyToMany
     List<File> files;

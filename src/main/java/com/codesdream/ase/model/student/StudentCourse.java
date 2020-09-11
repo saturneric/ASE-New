@@ -12,9 +12,9 @@ public class StudentCourse {
     @Id
     int id;
 
-    String studentId;
+    int studentId;
 
-    String courseId;
+    int courseId;
 
     @Column(nullable = false)
     float score;

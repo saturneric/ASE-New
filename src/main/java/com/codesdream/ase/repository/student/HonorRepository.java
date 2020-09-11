@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface HonorRepository extends JpaRepository<Honor, Integer> {
-    List<Honor> findByStudentId(String studentId, Sort sort);
+
+    List<Honor> findByStudentId(int studentId);
+    List<Honor> findByStudentId(int studentId, Sort sort);
 }

@@ -1,21 +1,21 @@
 package com.codesdream.ase.model.parent;
 
-import com.codesdream.ase.model.file.Image;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table
 @Data
-public class Excercise {
+public class Exercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
+
+    int studentId;
 
     // 开始时间
     Date start;

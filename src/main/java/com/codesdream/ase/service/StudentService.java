@@ -17,6 +17,7 @@ import com.codesdream.ase.validator.GeneralValidator;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -117,9 +118,11 @@ public class StudentService {
         Honor honor = optionalHonor.get();
         if(!description.isEmpty()){
             honor.setDescription(description);
+            honor.setLastModification(new Date());
         }
         if(!images.isEmpty()){
-            honor.setImages(images); 
+            honor.setImages(images);
+            honor.setLastModification(new Date());
         }
         return honorRepository.save(honor);
     }
