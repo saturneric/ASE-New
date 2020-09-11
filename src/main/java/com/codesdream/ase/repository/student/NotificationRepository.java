@@ -11,7 +11,5 @@ import java.util.Optional;
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
     Optional<Notification> findByTitle(String title);
 
-    List<Notification> findAllByOrOrderByAnnouncementDateDesc();
-
-    List<Notification> findAllByOrOrderByCreationDateDesc();
+    List<Notification> findAllByOrderByAnnouncementDateDesc();
 }

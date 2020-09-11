@@ -115,7 +115,7 @@ public class StaticsService {
      * @return 公告列表
      */
     public List<Notification> displayNotification(){
-        return notificationRepository.findAllByOrOrderByAnnouncementDateDesc();
+        return notificationRepository.findAllByOrderByAnnouncementDateDesc();
     }
 
     /**
