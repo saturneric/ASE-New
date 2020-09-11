@@ -7,11 +7,13 @@ import com.codesdream.ase.model.student.StudentCourse;
 import com.codesdream.ase.repository.student.CourseRepository;
 import com.codesdream.ase.repository.student.StudentCourseRepository;
 import com.codesdream.ase.repository.student.StudentRepository;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CalculationService {
     @Resource
     StudentRepository studentRepository;
