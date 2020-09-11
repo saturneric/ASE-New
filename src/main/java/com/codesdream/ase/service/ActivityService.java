@@ -171,7 +171,7 @@ public class ActivityService {
      * @exception NotFoundException 对应activityId在数据库中无记录
      * @see NotFoundException
      * @param activityId
-     * @return
+     * @return 对应活动实例
      */
     private Activity getActivity(int activityId){
         Optional<Activity> optionalActivity = activityRepository.findById(activityId);
