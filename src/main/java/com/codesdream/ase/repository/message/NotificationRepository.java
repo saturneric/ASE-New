@@ -1,4 +1,4 @@
-package com.codesdream.ase.repository.student;
+package com.codesdream.ase.repository.message;
 
 import com.codesdream.ase.model.message.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;

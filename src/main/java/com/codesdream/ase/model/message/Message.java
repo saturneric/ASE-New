@@ -1,13 +1,11 @@
 package com.codesdream.ase.model.message;
 
-import com.codesdream.ase.model.permission.User;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
+import java.util.Date;
 
 @Entity
 @Table
@@ -20,12 +18,9 @@ public class Message {
 
     String text;
 
-    boolean isRead = false;
+    Date creationDate = new Date();;
 
     // 重要性  值为0-1
     int type;
-
-    @OneToMany
-    List<User> Receiver;
 
 }

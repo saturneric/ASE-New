@@ -13,6 +13,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Student extends User {
+    int parentId;
 
     String profilePicture;
 

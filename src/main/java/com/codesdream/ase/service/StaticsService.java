@@ -3,14 +3,16 @@ package com.codesdream.ase.service;
 import com.codesdream.ase.component.student.SubjectScore;
 import com.codesdream.ase.exception.notfound.NotFoundException;
 import com.codesdream.ase.model.message.Notification;
-import com.codesdream.ase.model.parent.Excercise;
+import com.codesdream.ase.model.parent.Exercise;
 import com.codesdream.ase.model.permission.User;
 import com.codesdream.ase.model.permission.UserDetail;
 import com.codesdream.ase.model.student.Course;
 import com.codesdream.ase.model.student.Honor;
 import com.codesdream.ase.model.student.Student;
 import com.codesdream.ase.model.student.StudentCourse;
-import com.codesdream.ase.repository.parent.ExcerciseRepository;
+
+import com.codesdream.ase.repository.message.NotificationRepository;
+import com.codesdream.ase.repository.parent.ExerciseRepository;
 import com.codesdream.ase.repository.permission.UserRepository;
 import com.codesdream.ase.repository.student.*;
 import org.springframework.data.domain.Sort;
@@ -43,7 +45,7 @@ public class StaticsService {
     NotificationRepository notificationRepository;
 
     @Resource
-    ExcerciseRepository exerciseRepository;
+    ExerciseRepository exerciseRepository;
 
 
     /**
@@ -124,7 +126,7 @@ public class StaticsService {
      * @param studentId 学生id
      * @return 锻炼情况列表
      */
-    public List<Excercise> displayExercise(int studentId){
+    public List<Exercise> displayExercise(int studentId){
         if(!checkStudentExistence(studentId)){
             throw new NotFoundException("No such student.");
         }
