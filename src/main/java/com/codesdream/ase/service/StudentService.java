@@ -10,6 +10,7 @@ import com.codesdream.ase.model.permission.UserDetail;
 import com.codesdream.ase.model.student.Honor;
 import com.codesdream.ase.model.message.Notification;
 import com.codesdream.ase.model.student.Student;
+import com.codesdream.ase.repository.parent.ExcerciseRepository;
 import com.codesdream.ase.repository.student.HonorRepository;
 import com.codesdream.ase.repository.student.NotificationRepository;
 import com.codesdream.ase.repository.student.StudentRepository;
@@ -37,6 +38,8 @@ public class StudentService {
     @Resource
     HonorRepository honorRepository;
 
+    @Resource
+    ExcerciseRepository excerciseRepository;
     /**
      * 用于创建一个公告
      * @see Notification

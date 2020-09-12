@@ -15,4 +15,5 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 public class Parent extends User {
 
+    private int studentId;
 }

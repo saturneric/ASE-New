@@ -12,7 +12,6 @@ import java.util.Optional;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 
-        Student findByParentId(String parentId);
-        Student findByParentId(String parentId, Sort sort);
-
+        Student findByParentId(int parentId);
+        Student findByStudentId(int studentId);
 }
