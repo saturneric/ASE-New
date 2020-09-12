@@ -1,4 +1,4 @@
-package com.codesdream.ase.controller.permission;
+package com.codesdream.ase.controller;
 
 import com.codesdream.ase.component.datamanager.JSONParameter;
 import com.codesdream.ase.component.json.model.JsonableUser;

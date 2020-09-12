@@ -10,6 +10,7 @@ import com.codesdream.ase.model.student.Course;
 import com.codesdream.ase.model.student.Honor;
 import com.codesdream.ase.model.student.Student;
 import com.codesdream.ase.model.student.StudentCourse;
+import com.codesdream.ase.repository.message.NotificationRepository;
 import com.codesdream.ase.repository.parent.ExerciseRepository;
 import com.codesdream.ase.repository.permission.UserRepository;
 import com.codesdream.ase.repository.student.*;

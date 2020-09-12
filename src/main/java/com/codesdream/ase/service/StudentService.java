@@ -4,14 +4,11 @@ import com.codesdream.ase.exception.innerservererror.DataInvalidFormatException;
 import com.codesdream.ase.exception.innerservererror.InvalidDataException;
 import com.codesdream.ase.exception.notfound.NotFoundException;
 import com.codesdream.ase.model.activity.Activity;
-import com.codesdream.ase.model.file.File;
 import com.codesdream.ase.model.file.Image;
 import com.codesdream.ase.model.permission.UserDetail;
 import com.codesdream.ase.model.student.Honor;
-import com.codesdream.ase.model.message.Notification;
 import com.codesdream.ase.model.student.Student;
 import com.codesdream.ase.repository.student.HonorRepository;
-import com.codesdream.ase.repository.student.NotificationRepository;
 import com.codesdream.ase.repository.student.StudentRepository;
 import com.codesdream.ase.validator.GeneralValidator;
 import org.springframework.stereotype.Service;
@@ -29,47 +26,12 @@ public class StudentService {
     StudentRepository studentRepository;
 
     @Resource
-    NotificationRepository notificationRepository;
-
-    @Resource
     ActivityService activityService;
 
     @Resource
     HonorRepository honorRepository;
 
-    /**
-     * 用于创建一个公告
-     * @see Notification
-     * @param title 公告标题
-     * @param description 公告内容
-     * @param files 公告所需附件
-     * @return 已经持久化的公告
-     */
-    public Notification createNotification(String title, String description, List<File> files){
-        Notification notification = new Notification();
 
-        notification.setTitle(title);
-        notification.setContext(description);
-        notification.setFiles(files);
-
-        return notificationRepository.save(notification);
-    }
-
-    /**
-     * 在数据库中删除指定公告
-     * @param notificationId 需要删除的公告id，如果此id不存在，则会抛出异常，删除失败
-     * @return 是否删除成功
-     */
-    public boolean cancelNotification(int notificationId){
-        Optional<Notification> notification = notificationRepository.findById(notificationId);
-        if(notification.isPresent()){
-            notificationRepository.delete(notification.get());
-            return true;
-        }
-        else{
-            throw new NotFoundException("No such notification.");
-        }
-    }
 
     /**
      * 指定学生加入指定活动

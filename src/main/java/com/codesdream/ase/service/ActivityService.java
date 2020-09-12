@@ -119,7 +119,7 @@ public class ActivityService {
 
         Message message = messageService.createMessage(
                     String.format("活动%s即将开始", activity.getTitle()),
-                    formatter.format(activity.getRealBeginDate())
+                    formatter.format(activity.getRealBeginDate()), -1
                 );
 
 
