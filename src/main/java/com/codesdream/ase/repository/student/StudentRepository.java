@@ -5,14 +5,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 
-        Student findByParentId(int parentId);
+        Optional<Student> findByParentId(int parentId);
 
-        Student findByStudentId(int studentId);
-
-        Student findByParentId(int parentId, Sort sort);
+        Optional<Student> findByParentId(int parentId, Sort sort);
 
 
 }

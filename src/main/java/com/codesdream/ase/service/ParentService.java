@@ -1,5 +1,6 @@
 package com.codesdream.ase.service;
 
+import com.codesdream.ase.exception.notfound.NotFoundException;
 import com.codesdream.ase.model.message.Notification;
 import com.codesdream.ase.model.parent.Parent;
 import com.codesdream.ase.model.student.Student;
@@ -51,7 +52,11 @@ public class ParentService {
      */
     public Student getStudent(int parentId){
 
-        return studentRepository.findByParentId(parentId);
+        Optional<Student> s0=studentRepository.findByParentId(parentId);
+        if(!s0.isPresent()){
+            throw new NotFoundException("No such student.");
+        }
+        return s0.get();
     }
     /**
      * （用于绑定家长与学生账号）家长输入学生学号与姓名，若都正确，返回真。
@@ -60,13 +65,12 @@ public class ParentService {
      * @return 学号与姓名是否一致
      */
     public boolean startIdentify(int studentId, String studentName){
-        Student s0=studentRepository.findByStudentId(studentId);
-        if(s0!=null){
-            if(s0.getUsername().equals(studentName))
-                return true;
-            else return false;
+        Optional<Student> s0=studentRepository.findById(studentId);
+        if(!s0.isPresent()){
+            throw new NotFoundException("No such student.");
         }
-        else return false;
+        Student student = s0.get();
+        return student.getUsername().equals(studentName);
     }
 
 
