@@ -113,6 +113,22 @@ public class StaticsService {
     }
 
     /**
+     * 获取指定的一条荣誉信息
+     * @author gzq
+     * @exception NotFoundException 如果荣誉id不存在则抛出此异常
+     * @param honorId 荣誉id
+     * @return 荣誉
+     */
+    public Honor getHonor(int honorId) {
+        Optional<Honor> h0 = honorRepository.findById(honorId);
+
+        if (!h0.isPresent()) {
+            throw new NotFoundException("No such honor.");
+        }
+        return h0.get();
+    }
+
+    /**
      * 显示所有公告，默认按照公告发布时间排序
      * @return 公告列表
      */
@@ -132,7 +148,21 @@ public class StaticsService {
         }
         return exerciseRepository.findByStudentId(studentId);
     }
+    /**
+     * 获取指定的一条锻炼信息
+     * @author gzq
+     * @exception NotFoundException 如果锻炼id不存在则抛出此异常
+     * @param exerciseId 锻炼id
+     * @return 锻炼
+     */
+    public Exercise getExercise(int exerciseId) {
+        Optional<Exercise> e0 = exerciseRepository.findById(exerciseId);
 
+        if (!e0.isPresent()) {
+            throw new NotFoundException("No such exercise.");
+        }
+        return e0.get();
+    }
     /**
      * 显示学生详细信息
      * @exception  NotFoundException 如果学生id不存在则抛出此异常
