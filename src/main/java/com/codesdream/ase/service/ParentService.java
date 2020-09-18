@@ -33,7 +33,7 @@ public class ParentService {
      * @param studentId 学生ID
      * @param parentId 家长id，一般为家长的电话
      * @param parentName 家长姓名
-     * @return 创建的家长实体
+     * @return 创建的家长
      */
     public Parent createParent(int studentId, int parentId, String parentName){
 
