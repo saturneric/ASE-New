@@ -94,6 +94,7 @@ public class StaticsService {
             sc.setFinishedDate(studentCourse.getFinishedDate());
             sc.setScore(studentCourse.getScore());
             sc.setStudentId(studentCourse.getStudentId());
+            sc.setFailed(studentCourse.getIsFailed());
 
             subjectScores.add(sc);
         }

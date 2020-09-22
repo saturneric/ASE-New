@@ -11,4 +11,7 @@ import java.util.List;
 public interface StudentCourseRepository extends JpaRepository<StudentCourse, Integer> {
     List<StudentCourse> findByStudentId(int studentId);
     List<StudentCourse> findByStudentId(int studentId, Sort sort);
+    List<StudentCourse> findByStudentIdAndTerm(int studentId,int term);
+    List<StudentCourse> findByStudentIdAndTerm(int studentId,int term,Sort sort);
+
 }

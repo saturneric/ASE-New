@@ -26,4 +26,7 @@ public class StudentCourse {
 
     Date finishedDate;
 
+    public boolean getIsFailed() {
+        return this.isFailed;
+    }
 }

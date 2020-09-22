@@ -17,4 +17,10 @@ public class SubjectScore {
 
     private Date finishedDate;
 
+    private  boolean isFailed;
+
+    public  boolean getIsFailed(){
+        return this.isFailed;
+    }
+
 }
